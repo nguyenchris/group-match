@@ -13,6 +13,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 app.use(routes);
 
+// Run 'mongo' and 'mongod' in Terminal if in dev environment
 mongoose.connect(
   process.env.MONGODB_URI || 'mongodb://localhost/group-match-app'
 );
