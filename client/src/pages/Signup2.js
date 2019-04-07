@@ -25,7 +25,7 @@ class Signup extends React.Component {
   state = {};
   render() {
     return (
-      <div className="section section-signup">
+      <div className="section-signup">
         <Container>
           <Col className="mb-lg-auto" lg="6">
             <Card className="card-register">
@@ -67,14 +67,15 @@ class Signup extends React.Component {
                     </InputGroupAddon>
                     <Input
                       placeholder="Email"
-                      type="text"
+                      type="email"
                       onFocus={e => this.setState({ emailFocus: true })}
                       onBlur={e => this.setState({ emailFocus: false })}
                     />
                   </InputGroup>
                   <InputGroup
                     className={classnames({
-                      'input-group-focus': this.state.passwordFocus
+                      'input-group-focus': this.state.passwordFocus,
+                      hasSuccess: true
                     })}
                   >
                     <InputGroupAddon addonType="prepend">
@@ -84,7 +85,7 @@ class Signup extends React.Component {
                     </InputGroupAddon>
                     <Input
                       placeholder="Password"
-                      type="text"
+                      type="password"
                       onFocus={e => this.setState({ passwordFocus: true })}
                       onBlur={e => this.setState({ passwordFocus: false })}
                     />
@@ -102,7 +103,7 @@ class Signup extends React.Component {
                 </Form>
               </CardBody>
               <CardFooter>
-                <Button className="btn-round" color="primary" size="lg">
+                <Button className="btn-round" color="success" size="lg">
                   Get Started
                 </Button>
               </CardFooter>
@@ -115,7 +116,7 @@ class Signup extends React.Component {
           <Row className="row-grid justify-content-between align-items-center">
             <Col lg="6">
               <div className="btn-wrapper">
-                <Button color="primary" to="register-page">
+                <Button color="success" to="register-page">
                   Register Page
                 </Button>
               </div>
