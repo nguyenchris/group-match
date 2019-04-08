@@ -92,29 +92,34 @@ class Auth extends Component {
   // Depending on which input field is selected, determine the characters inputed and update state for its value
   inputHandler = (e, key) => {
     const updatedForm = {
-      ...this.state.controls
+      ...this.state.controls,
+      [key]: {
+        ...this.state.controls[key],
+        value: e.target.value,
+        touched: true
+      }
     };
-    const updatedFormElement = { ...updatedForm[key] };
-    updatedFormElement.value = e.target.value;
-    updatedFormElement.valid = this.checkIfValid(
-      updatedFormElement.value,
-      updatedFormElement.rules
+    updatedForm[key].valid = this.checkIfValid(
+      updatedForm[key].value,
+      updatedForm[key].rules
     );
-    updatedFormElement.touched = true;
-    updatedForm[key] = updatedFormElement;
     this.setState({ controls: updatedForm });
   };
 
-  // Determines if user has clicked an input field. If so, change state for that input to be true
+  // Determines if user has clicked an input field for the first time in order to prevent invalid red input to trigger at page load.
   focusHandler = (isFocus, key) => {
-    const updatedForm = { ...this.state.controls };
-    const updatedFormElement = { ...updatedForm[key] };
-    updatedFormElement.focus = isFocus;
-    updatedForm[key] = updatedFormElement;
+    const updatedForm = {
+      ...this.state.controls,
+      [key]: {
+        ...this.state.controls[key],
+        focus: isFocus
+      }
+    };
     this.setState({ controls: updatedForm });
   };
 
   render() {
+    // Loop through controls object of this.state to create an array of each input type with their configuration types
     const formElementsArray = [];
     for (let key in this.state.controls) {
       formElementsArray.push({
