@@ -1,22 +1,7 @@
 import React, { Component } from 'react';
-import {
-  Button,
-  // Card,
-  // CardHeader,
-  // CardBody,
-  // CardFooter,
-  // CardTitle,
-  // Label,
-  // FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  // Container,
-  Row,
-  Col
-} from 'reactstrap';
+import { Form } from 'reactstrap';
+import InputField from '../../components/Input/InputField';
+import AuthLayout from './AuthLayout';
 
 class Auth extends Component {
   state = {
@@ -26,21 +11,25 @@ class Auth extends Component {
         value: '',
         icon: 'single-02',
         placeholder: 'Name',
-        validation: {
+        rules: {
           required: true,
           isName: true
-        }
+        },
+        valid: false,
+        focus: false,
+        touched: false
       },
       email: {
         type: 'email',
         value: '',
         icon: 'email-85',
         placeholder: 'Email',
-        validation: {
+        rules: {
           required: true,
           isEmail: true
         },
         valid: false,
+        focus: false,
         touched: false
       },
       password: {
@@ -48,15 +37,50 @@ class Auth extends Component {
         value: '',
         icon: 'lock-circle',
         placeholder: 'Password',
-        validation: {
+        rules: {
           required: true,
           minLength: 5
         },
         valid: false,
+        focus: false,
+        touched: false
+      },
+      confirm: {
+        type: 'password',
+        value: '',
+        icon: 'lock-circle',
+        placeholder: 'Confirm password',
+        rules: {
+          required: true,
+          minLength: 5,
+          isConfirm: true
+        },
+        valid: false,
+        focus: false,
         touched: false
       }
     }
   };
+
+  // Pass in values for input and rules property to check if input isValid, true or false
+  checkIfValid(value, rules) {
+    let isValid = true;
+    if (!rules) return true;
+    if (rules && rules.required) {
+      isValid = value.trim() !== '' && value.length >= 2 && isValid;
+    }
+    if (rules && rules.minLength) {
+      isValid = value.length >= rules.minLength && isValid;
+    }
+    if (rules && rules.isEmail) {
+      isValid = value.includes('@') && value.includes('.') && isValid;
+    }
+    if (rules && rules.isConfirm) {
+      const password = this.state.controls.password.value;
+      isValid = value === password && isValid;
+    }
+    return isValid;
+  }
 
   submitHandler = e => {
     const data = {};
@@ -65,6 +89,7 @@ class Auth extends Component {
     }
   };
 
+  // Depending on which input field is selected, determine the characters inputed and update state for its value
   inputHandler = (e, key) => {
     const updatedForm = {
       ...this.state.controls
@@ -73,21 +98,21 @@ class Auth extends Component {
     updatedFormElement.value = e.target.value;
     updatedFormElement.valid = this.checkIfValid(
       updatedFormElement.value,
-      updatedFormElement.validation
+      updatedFormElement.rules
     );
-    console.log(updatedFormElement);
+    updatedFormElement.touched = true;
     updatedForm[key] = updatedFormElement;
     this.setState({ controls: updatedForm });
   };
 
-  // Pass in value of input field and validation property to check
-  checkIfValid(value, rules) {
-    let isValid = false;
-    if (rules.required) {
-      isValid = value.trim() !== '';
-    }
-    if (rules.minLength) return isValid;
-  }
+  // Determines if user has clicked an input field. If so, change state for that input to be true
+  focusHandler = (isFocus, key) => {
+    const updatedForm = { ...this.state.controls };
+    const updatedFormElement = { ...updatedForm[key] };
+    updatedFormElement.focus = isFocus;
+    updatedForm[key] = updatedFormElement;
+    this.setState({ controls: updatedForm });
+  };
 
   render() {
     const formElementsArray = [];
@@ -99,32 +124,28 @@ class Auth extends Component {
     }
 
     const form = formElementsArray.map(formElement => (
-      <InputGroup key={formElement.id}>
-        <InputGroupAddon addonType="prepend">
-          <InputGroupText>
-            <i className={`tim-icons icon-${formElement.config.icon}`} />
-          </InputGroupText>
-        </InputGroupAddon>
-        <Input
-          type={formElement.config.type}
-          value={formElement.config.value}
-          placeholder={formElement.config.placeholder}
-          onChange={e => this.inputHandler(e, formElement.id)}
-        />
-      </InputGroup>
+      <InputField
+        id={formElement.id}
+        key={formElement.id}
+        type={formElement.config.type}
+        value={formElement.config.value}
+        placeholder={formElement.config.placeholder}
+        changed={this.inputHandler}
+        icon={formElement.config.icon}
+        invalid={formElement.config.valid}
+        shouldValidate={formElement.config.rules}
+        focus={formElement.config.focus}
+        focused={this.focusHandler}
+        touched={formElement.config.touched}
+      />
     ));
 
     return (
-      <Form onSubmit={e => this.formSubmitHandler(e)}>
-        {form}
-        <Row className="row-grid justify-content-between align-items-center">
-          <Col lg="6">
-            <div className="btn-wrapper">
-              <Button color="success">Register Page</Button>
-            </div>
-          </Col>
-        </Row>
-      </Form>
+      <AuthLayout title="Signup">
+        <Form className="form" onSubmit={e => this.formSubmitHandler(e)}>
+          {form}
+        </Form>
+      </AuthLayout>
     );
   }
 }
