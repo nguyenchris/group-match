@@ -1,0 +1,5 @@
+@media (min-width: 992px) {
+  .mb-lg-auto.col-lg-6 {
+    margin: 0 auto;
+  }
+}
