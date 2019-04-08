@@ -83,6 +83,7 @@ class Auth extends Component {
   }
 
   submitHandler = e => {
+    e.preventDefault();
     const data = {};
     for (let element in this.state.controls) {
       data[element] = this.state.controls[element].value;
