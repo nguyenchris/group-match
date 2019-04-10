@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
-import 'assets/css/nucleo-icons.css';
-import 'assets/scss/blk-design-system-react.scss?v=1.0.0';
+import './assets/css/nucleo-icons.css';
+import './assets/scss/blk-design-system-react.scss?v=1.0.0';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
