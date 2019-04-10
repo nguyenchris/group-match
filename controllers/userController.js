@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require(' = bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../models/index');
 const validateUSer = require('../middleware/validateUser');
@@ -7,7 +7,6 @@ const { validationResult } = require('express-validator/check');
 
 exports.signUp = (req, res, next) => {
   req.getValidationResult()
-  
   bcrypt
     .hash(password, 10)
     .then(hashedPw => {
