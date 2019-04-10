@@ -1,23 +1,22 @@
 const mongoose = require('mongoose');
 const db = require('../models');
 
-// This file empties the * collection and inserts the *
+// This file empties all collections
 
 mongoose.connect(
-  process.env.MONGODB_URI || 'mongodb://localhost/group-match-app'
+  process.env.MONGODB_URI || 'mongodb://localhost/group-match-app', { useNewUrlParser: true }
 );
 
 // Data here
 // const data = [{}, {}]
 
-// db.(*)
-// .remove({})
-// .then(() => db.Book.collection.insertMany(bookSeed))
-// .then(data => {
-//   console.log(data.result.n + " records inserted!");
-//   process.exit(0);
-// })
-// .catch(err => {
-//   console.error(err);
-//   process.exit(1);
-// });
+db.User
+.deleteMany()
+.then(data => {
+  console.log('All users deleted!', data)
+  process.exit(0);
+})
+.catch(err => {
+  console.error(err);
+  process.exit(1);
+});
