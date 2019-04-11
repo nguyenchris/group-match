@@ -1,18 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 import { Container, Button } from 'reactstrap';
 
 class Home extends Component {
-
-  state = {}
+  state = {};
 
   render() {
     return (
       <div>
-  
-
+        <Container>
+        </Container>
       </div>
-    )
+
+      // </div>
+    );
   }
 }
 
