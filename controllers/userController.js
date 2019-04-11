@@ -5,6 +5,7 @@ const { validationHandler } = require('../middleware/validationHandler');
 const moment = require('moment')
 
 // Route: '/api/user/signup'
+// Controller for when user signs up
 exports.signUp = (req, res, next) => {
   req
     .getValidationResult()
@@ -16,7 +17,8 @@ exports.signUp = (req, res, next) => {
           const user = new db.User({
             email: req.body.email,
             password: hashedPw,
-            name: req.body.name
+            name: req.body.name,
+            status: true
           });
           return user.save();
         })
@@ -26,7 +28,8 @@ exports.signUp = (req, res, next) => {
             .json({
               userId: result._id,
               email: result.email,
-              name: result.name
+              name: result.name,
+              status: result.status
             });
         });
     })

@@ -1,3 +1,3 @@
 import axios from "axios";
 
-// export axios.post('/user/signup')
+export const signup = axios.post('/user/signup')

@@ -10,7 +10,6 @@ class Home extends Component {
     return (
       <div>
   
-      <Button>Homepage</Button>
 
       </div>
     )
