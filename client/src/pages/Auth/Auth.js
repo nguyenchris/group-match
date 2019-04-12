@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { Form } from 'reactstrap';
+import { Form, Button } from 'reactstrap';
+import { connect } from 'react-redux';
 import InputField from '../../components/Input/InputField';
 import AuthLayout from './AuthLayout';
+import * as actions from '../../store/actions/index';
+import Spinner from '../../components/UI/Spinner'
 
 class Auth extends Component {
   state = {
@@ -59,7 +62,8 @@ class Auth extends Component {
         focus: false,
         touched: false
       }
-    }
+    },
+    isLogin: true
   };
 
   // Pass in values for input and rules property to check if input isValid, true or false
@@ -88,6 +92,7 @@ class Auth extends Component {
     for (let element in this.state.controls) {
       data[element] = this.state.controls[element].value;
     }
+    this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value)
   };
 
   // Depending on which input field is selected, determine the characters inputed and update state for its value
@@ -100,10 +105,7 @@ class Auth extends Component {
         touched: true
       }
     };
-    updatedForm[key].valid = this.checkIfValid(
-      updatedForm[key].value,
-      updatedForm[key].rules
-    );
+    updatedForm[key].valid = this.checkIfValid(updatedForm[key].value, updatedForm[key].rules);
     this.setState({ controls: updatedForm });
   };
 
@@ -129,7 +131,14 @@ class Auth extends Component {
       });
     }
 
-    const form = formElementsArray.map(formElement => (
+    const form = formElementsArray.map(formElement => {
+      // Check whether to render login form or signup form
+      if (this.state.isLogin) {
+        if (formElement.id === 'name' || formElement.id === 'confirm') {
+          return null;
+        }
+      }
+      return (
       <InputField
         id={formElement.id}
         key={formElement.id}
@@ -144,16 +153,29 @@ class Auth extends Component {
         focused={this.focusHandler}
         touched={formElement.config.touched}
       />
-    ));
+    )})
 
     return (
-      <AuthLayout title="Signup">
-        <Form className="form" onSubmit={e => this.formSubmitHandler(e)}>
+      <AuthLayout title={this.state.isLogin ? 'Login' : 'Register'}>
+        <Form className="form" onSubmit={this.submitHandler} noValidate>
           {form}
+          <Button className="btn-round" color="success" block>
+          {this.props.loading ? <Spinner/> : 'Submit'}
+            </Button>
+
         </Form>
       </AuthLayout>
     );
   }
 }
 
-export default Auth;
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (email, password) => dispatch(actions.auth(email, password))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Auth);
