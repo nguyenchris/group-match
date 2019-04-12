@@ -4,16 +4,16 @@ exports.validationHandler = next => error => {
     throw new Error(
       error
         .array()
-        .map(i => `'${i.param}' has ${i.msg}`)
-        .join(' ')
-    );
+        .map(i => i.msg)
+        // .join(' ')
+    )
   else
     return next(
       new Error(
         error
           .array()
-          // .map(i => `'${i.param}' has ${i.msg}`)
-          .join('')
+          .map(i =>i.msg)
+          // .join('')
       )
-    );
+    )
 };

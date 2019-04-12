@@ -24,9 +24,6 @@ const AuthLayout = props => (
           </CardHeader>
           <CardBody>{props.children}</CardBody>
           <CardFooter>
-          {/* <Button className="btn-round" color="success" size="lg">
-              Signup
-            </Button> */}
           </CardFooter>
         </Card>
       </Col>

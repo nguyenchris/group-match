@@ -1,9 +1,11 @@
 import React from 'react';
-import './Spinner.css'
+import './Spinner.css';
+// import svg from '../../assets/img/oval.svg'
 
 const Spinner = () => {
   return (
     <div className="svg">
+    {/* <img src={require('../../assets/img/oval.svg')} alt=""/> */}
       <svg viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
         <g fill="none" fill-rule="evenodd">
           <g transform="translate(1 1)" stroke-width="3">
