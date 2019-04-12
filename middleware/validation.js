@@ -6,28 +6,41 @@ exports.validateUser = method => {
   switch (method) {
     case 'createUser': {
       return [
+        body('name')
+          .trim()
+          .not()
+          .isEmpty()
+          .withMessage('Name cannot be empty.')
+          .escape()
+          .isLength({ min: 2 })
+          .withMessage('Name must be at least 2 characters long.'),
         body('email')
           .isEmail()
           .withMessage('Enter a valid email.')
+          .normalizeEmail()
           .custom((value, { req }) => {
             return db.User.findOne({ email: value }).then(user => {
               if (user) {
                 return Promise.reject('Email address already exists.');
               }
             });
-          })
+          }),
+        body('password')
+          .trim()
+          .isLength({ min: 5 })
+          .withMessage('Password must be at least 5 characters long.')
+      ];
+    }
+    case 'loginUser': {
+      return [
+        body('email')
+          .isEmail()
+          .withMessage('Enter a valid email.')
           .normalizeEmail(),
         body('password')
           .trim()
           .isLength({ min: 5 })
-          .withMessage('Password must be at least 5 characters long.'),
-        body('name')
-          .trim()
-          .not()
-          .isEmpty()
-          .withMessage('Name cannot be empty.')
-          .isLength({ min: 2})
-          .withMessage('Name must be at least 2 characters long.')
+          .withMessage('Password must be at least 5 characters long.')
       ];
     }
   }

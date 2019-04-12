@@ -25,12 +25,13 @@ export const authFail = error => {
 export const auth = (data, isLogin) => {
   return dispatch => {
     dispatch(authStart());
-    if (isLogin) {
+    // if (isLogin) {
+      console.log(data)
       axios.post('/api/user/signup', data).then(response => {
-        console.log(response.data);
+        console.log(response.data)
       }).catch((err) => {
         dispatch(authFail(err.response.data.message))
       })
-    }
+    // }
   };
 };

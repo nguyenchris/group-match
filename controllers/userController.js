@@ -22,14 +22,23 @@ exports.signUp = (req, res, next) => {
           });
           return user.save();
         })
-        .then(result => {
+        .then(newUser => {
+          const token = jwt.sign(
+            {
+              email: newUser.email,
+              userId: newUser._id.toString()
+            },
+            'somesupersecretsecret',
+            { expiresIn: '1h' }
+          );
           res
             .status(201)
             .json({
-              userId: result._id,
-              email: result.email,
-              name: result.name,
-              status: result.status
+              userId: newUser._id,
+              email: newUser.email,
+              name: newUser.name,
+              status: newUser.status,
+              token: token
             });
         });
     })
@@ -37,3 +46,11 @@ exports.signUp = (req, res, next) => {
       next(err);
     });
 };
+
+exports.login = (req, res, next) => {
+  // req.getValidationResult()
+  // .then(validationHandler())
+  // .then(() => {
+  //   bcrypt.compare()
+  // })
+}

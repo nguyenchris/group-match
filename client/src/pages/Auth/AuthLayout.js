@@ -10,10 +10,13 @@ import {
   CardFooter,
   CardImg
 } from 'reactstrap';
+// import NotificationAlert from '../../components/NotificationAlert/NotificaitonAlert'
+import { Link, withRouter } from 'react-router-dom'
 
 import './Auth.css';
 
-const AuthLayout = props => (
+const AuthLayout = props => { 
+  return (
   <div className="section-signup">
     <Container>
       <Col className="mb-lg-auto" lg="6">
@@ -23,12 +26,12 @@ const AuthLayout = props => (
             <CardTitle tag="h4">{props.title}</CardTitle>
           </CardHeader>
           <CardBody>{props.children}</CardBody>
-          <CardFooter>
-          </CardFooter>
+          <Link to={props.isLogin} replace>{props.title}</Link>
         </Card>
+        {props.alert}
       </Col>
     </Container>
   </div>
-);
+)};
 
 export default AuthLayout;

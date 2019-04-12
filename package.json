@@ -31,11 +31,11 @@
     "install": "^0.12.2",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
-    "mongoose": "^5.4.22",
-    "npm": "^6.9.0"
+    "mongoose": "^5.4.22"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
+    "dotenv": "^7.0.0",
     "nodemon": "^1.18.10"
   }
 }

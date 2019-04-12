@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Form, Button, UncontrolledAlert } from 'reactstrap';
 import { connect } from 'react-redux';
+import { Redirect, Route } from 'react-router-dom';
+
 import InputField from '../../components/Input/InputField';
 import AuthLayout from './AuthLayout';
 import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner';
+import NotificationAlert from '../../components/NotificationAlert/NotificationAlert';
 
 class Auth extends Component {
   state = {
@@ -63,9 +66,22 @@ class Auth extends Component {
         touched: false
       }
     },
-    isLogin: true,
+    isLogin: false,
     formisValid: false
   };
+
+  componentDidMount() {
+    // if (this.props.location.pathname === '/auth/signup') {
+    //   this.setState({
+    //     isLogin: false
+    //   })
+    // }
+    // if (this.state.isLogin) {
+    //   if (this.props.location.pathname !== '/auth/login') {
+    //     this.props.history.push('/auth/login')
+    //   }
+    // }
+  }
 
   // Pass in values for input and rules property to check if input isValid, true or false
   checkIfValid(value, rules) {
@@ -95,6 +111,11 @@ class Auth extends Component {
       if (this.state.isLogin) {
         if (element === 'name' || element === 'confirm') continue;
       }
+      // if (!this.state.element.valid) {
+      //   switch (element) {
+      //     case 'name': return 'Name must be more than '
+      //   }
+      // }
       data[element] = this.state.controls[element].value;
     }
     this.props.onAuth(data, this.state.isLogin);
@@ -125,6 +146,12 @@ class Auth extends Component {
     };
     this.setState({ controls: updatedForm });
   };
+
+  switchAuthHandler = () => {
+    // this.setState(prevState => {
+    //     return {isLogin: !prevState.isLogin};
+    // });
+}
 
   render() {
     // Loop through controls object of this.state to create an array of each input type with their configuration types
@@ -160,21 +187,17 @@ class Auth extends Component {
     });
 
     return (
-      <AuthLayout title={this.state.isLogin ? 'Login' : 'Register'}>
+      <AuthLayout
+        title={this.state.isLogin ? 'Login' : 'Sign Up'}
+        alert={this.props.error ? <NotificationAlert alert={this.props.error} /> : null}
+        isLogin={this.state.isLogin ? '/auth/signup' : '/auth/login'}
+      >
         <Form className="form" onSubmit={this.submitHandler} noValidate>
           {form}
           <Button className="btn-round" color="success" block>
-            {this.props.loading ? null : 'Submit'}
+            {this.props.loading ? <Spinner /> : 'Submit'}
           </Button>
-          {this.props.error ? this.props.error : null}
         </Form>
-        {/* <UncontrolledAlert className="alert-with-icon" color="danger">
-            <span data-notify="icon" className="tim-icons icon-support-17" />
-            <span>
-              <b>Oh snap! -</b>
-              This is a regular notification made with ".alert-danger"
-            </span>
-          </UncontrolledAlert> */}
       </AuthLayout>
     );
   }

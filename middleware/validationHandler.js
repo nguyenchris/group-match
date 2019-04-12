@@ -8,8 +8,7 @@ exports.validationHandler = next => error => {
   else
     return next(
       new Error(
-        error
-          .array()[0].msg
+        error.array()[0].msg
       )
     )
 };
