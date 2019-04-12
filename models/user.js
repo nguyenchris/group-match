@@ -4,11 +4,14 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
-  password: String,
+  password: {type: String, required: true},
   date: { type: Date, default: Date.now },
+  status: { type: Boolean },
   lastSignIn: { type: Date }
 });
 
-const User = mongoose.model('User', userSchema);
+// userSchema.methods.checkPassword = function(password) {
 
-module.exports = User;
+// }
+
+module.exports = mongoose.model('User', userSchema);

@@ -1,0 +1,10 @@
+.svg {
+  /* width: 100%; */
+  width: inherit;
+}
+
+.svg img {
+  /* width: 100%; */
+  width: 4%;
+  height: auto;
+}

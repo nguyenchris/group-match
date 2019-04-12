@@ -1,19 +1,19 @@
-const validationHandler = next => result => {
-  if (result.isEmpty()) return;
+exports.validationHandler = next => error => {
+  if (error.isEmpty()) return;
   if (!next)
     throw new Error(
-      result
+      error
         .array()
-        .map(i => `'${i.param}' has ${i.msg}`)
-        .join(' ')
-    );
+        .map(i => i.msg)
+        // .join(' ')
+    )
   else
     return next(
       new Error(
-        result
+        error
           .array()
-          .map(i => `'${i.param}' has ${i.msg}`)
-          .join('')
+          .map(i =>i.msg)
+          // .join('')
       )
-    );
+    )
 };
