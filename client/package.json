@@ -15,6 +15,7 @@
     "react-chartjs-2": "^2.7.6",
     "react-datetime": "^2.16.3",
     "react-dom": "^16.8.6",
+    "react-notification-alert": "0.0.12",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",

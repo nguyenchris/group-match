@@ -13,9 +13,10 @@ export const authSuccess = authData => {
   };
 };
 
-export const authFail = err => {
+export const authFail = error => {
   return {
-    type: actionTypes.AUTH_FAIL
+    type: actionTypes.AUTH_FAIL,
+    error: error
   };
 };
 
@@ -28,9 +29,8 @@ export const auth = (data, isLogin) => {
       axios.post('/api/user/signup', data).then(response => {
         console.log(response.data);
       }).catch((err) => {
-        console.log(err.response)
+        dispatch(authFail(err.response.data.message))
       })
-
     }
   };
 };

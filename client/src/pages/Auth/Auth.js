@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button } from 'reactstrap';
+import { Form, Button, UncontrolledAlert } from 'reactstrap';
 import { connect } from 'react-redux';
 import InputField from '../../components/Input/InputField';
 import AuthLayout from './AuthLayout';
@@ -166,7 +166,15 @@ class Auth extends Component {
           <Button className="btn-round" color="success" block>
             {this.props.loading ? null : 'Submit'}
           </Button>
+          {this.props.error ? this.props.error : null}
         </Form>
+        {/* <UncontrolledAlert className="alert-with-icon" color="danger">
+            <span data-notify="icon" className="tim-icons icon-support-17" />
+            <span>
+              <b>Oh snap! -</b>
+              This is a regular notification made with ".alert-danger"
+            </span>
+          </UncontrolledAlert> */}
       </AuthLayout>
     );
   }

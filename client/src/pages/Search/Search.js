@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Container, Button } from 'reactstrap';
+import InputField from '../../components/Input/InputField';
 
 class Search extends Component {
-
-  state = {}
+  state = {};
 
   render() {
     return (
       <div>
-  
-      <Button>Search Page</Button>
-
+        <Container>
+          
+        </Container>
       </div>
-    )
+    );
   }
 }
 
