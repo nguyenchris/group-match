@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { Form } from 'reactstrap';
+import { Form, Button } from 'reactstrap';
+import { connect } from 'react-redux';
 import InputField from '../../components/Input/InputField';
 import AuthLayout from './AuthLayout';
+import * as actions from '../../store/actions/index';
+import Spinner from '../../components/UI/Spinner';
 
 class Auth extends Component {
   state = {
@@ -59,7 +62,9 @@ class Auth extends Component {
         focus: false,
         touched: false
       }
-    }
+    },
+    isLogin: true,
+    formisValid: false
   };
 
   // Pass in values for input and rules property to check if input isValid, true or false
@@ -86,8 +91,13 @@ class Auth extends Component {
     e.preventDefault();
     const data = {};
     for (let element in this.state.controls) {
+      // assign only the element properties for either login or signup
+      if (this.state.isLogin) {
+        if (element === 'name' || element === 'confirm') continue;
+      }
       data[element] = this.state.controls[element].value;
     }
+    this.props.onAuth(data, this.state.isLogin);
   };
 
   // Depending on which input field is selected, determine the characters inputed and update state for its value
@@ -100,10 +110,7 @@ class Auth extends Component {
         touched: true
       }
     };
-    updatedForm[key].valid = this.checkIfValid(
-      updatedForm[key].value,
-      updatedForm[key].rules
-    );
+    updatedForm[key].valid = this.checkIfValid(updatedForm[key].value, updatedForm[key].rules);
     this.setState({ controls: updatedForm });
   };
 
@@ -123,37 +130,62 @@ class Auth extends Component {
     // Loop through controls object of this.state to create an array of each input type with their configuration types
     const formElementsArray = [];
     for (let key in this.state.controls) {
+      // Check whether to render login form or signup form
+      if (this.state.isLogin) {
+        if (key === 'name' || key === 'confirm') continue;
+      }
       formElementsArray.push({
         id: key,
         config: this.state.controls[key]
       });
     }
 
-    const form = formElementsArray.map(formElement => (
-      <InputField
-        id={formElement.id}
-        key={formElement.id}
-        type={formElement.config.type}
-        value={formElement.config.value}
-        placeholder={formElement.config.placeholder}
-        changed={this.inputHandler}
-        icon={formElement.config.icon}
-        invalid={formElement.config.valid}
-        shouldValidate={formElement.config.rules}
-        focus={formElement.config.focus}
-        focused={this.focusHandler}
-        touched={formElement.config.touched}
-      />
-    ));
+    const form = formElementsArray.map(formElement => {
+      return (
+        <InputField
+          id={formElement.id}
+          key={formElement.id}
+          type={formElement.config.type}
+          value={formElement.config.value}
+          placeholder={formElement.config.placeholder}
+          changed={this.inputHandler}
+          icon={formElement.config.icon}
+          invalid={formElement.config.valid}
+          shouldValidate={formElement.config.rules}
+          focus={formElement.config.focus}
+          focused={this.focusHandler}
+          touched={formElement.config.touched}
+        />
+      );
+    });
 
     return (
-      <AuthLayout title="Signup">
-        <Form className="form" onSubmit={e => this.formSubmitHandler(e)}>
+      <AuthLayout title={this.state.isLogin ? 'Login' : 'Register'}>
+        <Form className="form" onSubmit={this.submitHandler} noValidate>
           {form}
+          <Button className="btn-round" color="success" block>
+            {this.props.loading ? null : 'Submit'}
+          </Button>
         </Form>
       </AuthLayout>
     );
   }
 }
 
-export default Auth;
+const mapStateToProps = state => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error,
+    isLoggedIn: state.auth.token !== null
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (data, isLogin) => dispatch(actions.auth(data, isLogin))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Auth);
