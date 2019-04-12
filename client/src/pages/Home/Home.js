@@ -1,19 +1,28 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
-import { Container, Button } from 'reactstrap';
+import { Container, Row, Col, Button } from "reactstrap";
+import ExamplesNavbar from "components/Navbars/ExamplesNavbar.jsx";
+import "../../assets/css/homepage.css";
 
 class Home extends Component {
-
-  state = {}
+  state = {};
 
   render() {
     return (
       <div>
-  
-      <Button>Homepage</Button>
-
+        <ExamplesNavbar />
+        <Container>
+          {/* <Button>Homepage</Button> */}
+          <Row />
+        </Container>
+        <img
+          alt="..."
+          className="img-background"
+          src={require("assets/img/snow.jpg")}
+          // style={{ width: "100%", height: "100%" }}
+        />
       </div>
-    )
+    );
   }
 }
 
