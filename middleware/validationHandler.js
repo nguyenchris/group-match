@@ -3,17 +3,12 @@ exports.validationHandler = next => error => {
   if (!next)
     throw new Error(
       error
-        .array()
-        .map(i => i.msg)
-        // .join(' ')
+        .array()[0].msg
     )
   else
     return next(
       new Error(
-        error
-          .array()
-          .map(i =>i.msg)
-          // .join('')
+        error.array()[0].msg
       )
     )
 };

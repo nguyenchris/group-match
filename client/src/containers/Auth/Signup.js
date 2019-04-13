@@ -1,12 +1,29 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'reactstrap';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+
 import InputField from '../../components/Input/InputField';
-import AuthLayout from './AuthLayout';
+import AuthLayout from '../../components/Layout/AuthLayout';
 import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner';
+import NotificationAlert from '../../components/NotificationAlert/NotificationAlert';
 
-class Auth extends Component {
+const mapStateToProps = state => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error,
+    isLoggedIn: state.auth.token !== null
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (data, isLogin) => dispatch(actions.auth(data, isLogin))
+  };
+};
+
+class Signup extends Component {
   state = {
     controls: {
       name: {
@@ -63,8 +80,8 @@ class Auth extends Component {
         touched: false
       }
     },
-    isLogin: true,
-    formisValid: false
+    isLogin: false,
+    error: null
   };
 
   // Pass in values for input and rules property to check if input isValid, true or false
@@ -91,10 +108,6 @@ class Auth extends Component {
     e.preventDefault();
     const data = {};
     for (let element in this.state.controls) {
-      // assign only the element properties for either login or signup
-      if (this.state.isLogin) {
-        if (element === 'name' || element === 'confirm') continue;
-      }
       data[element] = this.state.controls[element].value;
     }
     this.props.onAuth(data, this.state.isLogin);
@@ -130,10 +143,6 @@ class Auth extends Component {
     // Loop through controls object of this.state to create an array of each input type with their configuration types
     const formElementsArray = [];
     for (let key in this.state.controls) {
-      // Check whether to render login form or signup form
-      if (this.state.isLogin) {
-        if (key === 'name' || key === 'confirm') continue;
-      }
       formElementsArray.push({
         id: key,
         config: this.state.controls[key]
@@ -159,33 +168,29 @@ class Auth extends Component {
       );
     });
 
+    let loginRedirect = null;
+    if (this.props.isLoggedIn) {
+      loginRedirect = <Redirect to="/" />;
+    }
+
     return (
-      <AuthLayout title={this.state.isLogin ? 'Login' : 'Register'}>
+      <AuthLayout
+        title="Signup"
+        alert={this.props.error ? <NotificationAlert alert={this.props.error} /> : null}
+      >
         <Form className="form" onSubmit={this.submitHandler} noValidate>
           {form}
           <Button className="btn-round" color="success" block>
-            {this.props.loading ? null : 'Submit'}
+            {this.props.loading ? <Spinner /> : 'Submit'}
           </Button>
         </Form>
+        {loginRedirect}
       </AuthLayout>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    loading: state.auth.loading,
-    error: state.auth.error,
-    isLoggedIn: state.auth.token !== null
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    onAuth: (data, isLogin) => dispatch(actions.auth(data, isLogin))
-  };
-};
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Auth);
+)(Signup);
