@@ -12,6 +12,9 @@ app.use(express.json());
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 }
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 app.use(expressValidator())
 app.use(routes);
 
@@ -23,7 +26,6 @@ mongoose.connect(
 
 // Middleware to return all errors in json response
 app.use((error, req, res, next) => {
-  console.log(error)
   const status = error.statusCode || 500;
   res.status(status).json({ message: error.message, data: error.data });
   // res.status(status).json(error)

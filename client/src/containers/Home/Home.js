@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Container, Button } from 'reactstrap';
+import { Container } from 'reactstrap';
 
 class Home extends Component {
   state = {};
@@ -8,8 +8,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <Container>
-        </Container>
+        <Container />
       </div>
 
       // </div>
