@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Button } from 'reactstrap';
-import InputField from '../../components/Input/InputField';
+import { Container } from 'reactstrap';
+// import InputField from '../../components/Input/InputField';
 
 class Search extends Component {
   state = {};
@@ -8,9 +8,7 @@ class Search extends Component {
   render() {
     return (
       <div>
-        <Container>
-          
-        </Container>
+        <Container />
       </div>
     );
   }

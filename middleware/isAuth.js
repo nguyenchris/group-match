@@ -11,6 +11,7 @@ module.exports = (req, res, next) => {
   const token = authHeader.split(' ')[1];
   let decodedToken;
   try {
+    // Verify if jwt token with secret
     decodedToken = jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
     err.statusCode = 500;
@@ -21,6 +22,8 @@ module.exports = (req, res, next) => {
     error.statusCode = 401;
     throw error;
   }
+  // Assign token userID and expiration in millisec to req
   req.userId = decodedToken.userId;
+  req.jwtExpiry = decodedToken.exp * 1000 - new Date().getTime();
   next();
 };

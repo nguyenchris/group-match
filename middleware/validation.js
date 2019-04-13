@@ -29,6 +29,14 @@ exports.validateUser = method => {
           .trim()
           .isLength({ min: 5 })
           .withMessage('Password must be at least 5 characters long.')
+          .custom((value, { req }) => {
+            if (value !== req.body.confirm) {
+              return false;
+            } else {
+              return value;
+            }
+          })
+          .withMessage("Passwords don't match.")
       ];
     }
     case 'loginUser': {
