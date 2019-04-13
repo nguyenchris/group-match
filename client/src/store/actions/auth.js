@@ -36,12 +36,15 @@ export const authCheckTimeout = expiration => {
   };
 };
 
+// Return dispatches for auth flow and user signup / login
 export const auth = (data, isLogin) => {
   return dispatch => {
+    console.log(data);
     dispatch(authStart());
-    // if (isLogin) {
+    let path = null;
+    isLogin ? (path = 'login') : (path = 'signup');
     axios
-      .post('/api/user/signup', data)
+      .post(`/api/user/${path}`, data)
       .then(response => {
         console.log(response.data);
         const expiration = new Date(new Date().getTime() + 3600000);
@@ -55,6 +58,23 @@ export const auth = (data, isLogin) => {
         console.log(err);
         dispatch(authFail(err.response.data.message));
       });
-    // }
   };
 };
+
+// export const authCheckState = () => {
+//   return dispatch => {
+//     const token = localStorage.getItem('token');
+//     if (!token) {
+//       dispatch(logout());
+//     } else {
+//       const expirationDate = new Date(localStorage.getItem('expirationDate'));
+//       if (expirationDate <= new Date()) {
+//         dispatch(logout());
+//       } else {
+//         const userId = localStorage.getItem('userId');
+//         dispatch(authSuccess(token, userId));
+//         dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
+//       }
+//     }
+//   };
+// };

@@ -26,14 +26,13 @@ exports.validateUser = method => {
             });
           }),
         body('password')
-          .trim()
           .isLength({ min: 5 })
           .withMessage('Password must be at least 5 characters long.')
           .custom((value, { req }) => {
             if (value !== req.body.confirm) {
               return false;
             } else {
-              return value;
+              return true;
             }
           })
           .withMessage("Passwords don't match.")
@@ -46,7 +45,6 @@ exports.validateUser = method => {
           .withMessage('Enter a valid email.')
           .normalizeEmail(),
         body('password')
-          .trim()
           .isLength({ min: 5 })
           .withMessage('Password must be at least 5 characters long.')
       ];
