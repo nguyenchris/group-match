@@ -5,12 +5,12 @@ import Signup from './containers/Auth/Signup';
 import Home from './containers/Home/Home';
 import Search from './containers/Search/Search';
 import IndexNavBar from './components/Navbars/IndexNavbar';
+import Layout from './components/Layout/Layout';
 
 class App extends Component {
   render() {
-    return (
+    let app = (
       <div>
-        <IndexNavBar />
         <Switch>
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
@@ -20,6 +20,7 @@ class App extends Component {
         </Switch>
       </div>
     );
+    return <Layout>{app}</Layout>;
   }
 }
 

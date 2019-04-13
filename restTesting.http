@@ -9,6 +9,6 @@ POST http://{{host}}/api/user/login HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-  "password": "stupid32",
+  "password": "",
   "email": "chrisnguyenaz@gmail.com"
 }
