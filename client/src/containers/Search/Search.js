@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Container } from 'reactstrap';
+import React, { Component, Fragment } from 'react';
+import { Row, Col, Input } from 'reactstrap';
 // import InputField from '../../components/Input/InputField';
 
 class Search extends Component {
@@ -7,9 +7,15 @@ class Search extends Component {
 
   render() {
     return (
-      <div>
-        <Container />
-      </div>
+      <Fragment>
+        <div className="content">
+          <Row>
+            <Col>
+              <Input />
+            </Col>
+          </Row>
+        </div>
+      </Fragment>
     );
   }
 }

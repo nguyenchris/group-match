@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import InputField from '../../components/Input/InputField';
-import AuthLayout from '../../components/Layout/AuthLayout';
+import AuthLayout from '../../containers/Layouts/AuthLayout';
 import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner';
 import NotificationAlert from '../../components/NotificationAlert/NotificationAlert';
@@ -145,7 +145,6 @@ class Login extends Component {
         />
       );
     });
-
     return (
       <AuthLayout
         title="Login"

@@ -7,8 +7,8 @@ import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
 import './assets/css/nucleo-icons.css';
-import './assets/scss/blk-design-system-react.scss?v=1.0.0';
-import './assets/demo/demo.css';
+// import './assets/scss/blk-design-system-react.scss?v=1.0.0';
+// import './assets/demo/demo.css';
 
 import * as serviceWorker from './serviceWorker';
 import App from './App';

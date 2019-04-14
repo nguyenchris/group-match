@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'reactstrap';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 import InputField from '../../components/Input/InputField';
-import AuthLayout from '../../components/Layout/AuthLayout';
+import AuthLayout from '../../containers/Layouts/AuthLayout';
 import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner';
 import NotificationAlert from '../../components/NotificationAlert/NotificationAlert';
@@ -190,7 +190,9 @@ class Signup extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Signup);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Signup)
+);
