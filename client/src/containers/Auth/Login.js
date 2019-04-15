@@ -9,6 +9,8 @@ import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner';
 import NotificationAlert from '../../components/NotificationAlert/NotificationAlert';
 
+import { checkIfValid } from '../../utils/helpers';
+
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.auth.token !== null,
@@ -54,24 +56,8 @@ class Login extends Component {
       }
     },
     isLogin: true,
-    formIsValid: false
+    formSubmitted: false
   };
-
-  // Pass in values for input and rules property to check if input isValid, true or false
-  checkIfValid(value, rules) {
-    let isValid = true;
-    if (!rules) return true;
-    if (rules && rules.required) {
-      isValid = value.trim() !== '' && value.length >= 2 && isValid;
-    }
-    if (rules && rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-    if (rules && rules.isEmail) {
-      isValid = value.includes('@') && value.includes('.') && isValid;
-    }
-    return isValid;
-  }
 
   submitHandler = e => {
     e.preventDefault();
@@ -92,12 +78,9 @@ class Login extends Component {
         touched: true
       }
     };
-    updatedForm[key].valid = this.checkIfValid(updatedForm[key].value, updatedForm[key].rules);
-    let formIsValid = true;
-    for (let key in updatedForm) {
-      formIsValid = formIsValid && updatedForm[key].valid;
-    }
-    this.setState({ controls: updatedForm, formIsValid: formIsValid });
+    updatedForm[key].valid = checkIfValid(updatedForm[key].value, updatedForm[key].rules);
+
+    this.setState({ controls: updatedForm });
   };
 
   // Determines if user has clicked an input field for the first time in order to prevent invalid red input to trigger at page load.
@@ -152,7 +135,7 @@ class Login extends Component {
       >
         <Form className="form" onSubmit={this.submitHandler} noValidate>
           {form}
-          <Button className="btn-round" color="success" block>
+          <Button className="btn-round" color="success" disabled={this.props.loading} block>
             {this.props.loading ? <Spinner /> : 'Submit'}
           </Button>
         </Form>
