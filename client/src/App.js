@@ -13,8 +13,11 @@ import AdminLayout from './containers/Layouts/AdminLayout';
 import './assets/scss/black-dashboard-react.scss';
 
 class App extends Component {
+  componentDidMount() {
+    // When app opens, dispatch auto login if token expiration is available
+    this.props.onTryAutoLogin();
+  }
   render() {
-    console.log('render');
     let app;
     if (!this.props.isLoggedIn) {
       app = (
@@ -54,7 +57,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    // onTryAutoSignup: () => dispatch(actions.authCheckState())
+    onTryAutoLogin: () => dispatch(actions.authCheckState())
   };
 };
 export default withRouter(
