@@ -14,5 +14,5 @@ Content-Type: {{contentType}}
 }
 
 ###
-GET http://{{host}}/api/user/5cb4651fd6b4cca5c2affcb2 HTTP/1.1
+GET http://{{host}}/api/user/5cb46c4c408effa7cf16d70f HTTP/1.1
 Content-Type: {{contentType}}

@@ -7,6 +7,7 @@ import Login from '../../containers/Auth/Login';
 import AdminFooter from '../../components/Footer/AdminFooter';
 import Search from '../../containers/Search/Search';
 import { connect } from 'react-redux';
+import * as actions from '../../store/actions/index';
 
 const routes = [
   {
@@ -32,7 +33,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {  };
 };
 
 let ps;

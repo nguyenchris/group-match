@@ -2,7 +2,8 @@ import React from 'react';
 // nodejs library that concatenates classes
 import classNames from 'classnames';
 // import '../../assets/css/black-dashboard-react.css';
-
+import * as actions from '../../store/actions/index';
+import { connect } from 'react-redux';
 // reactstrap components
 import {
   Button,
@@ -158,7 +159,7 @@ class AdminNavbar extends React.Component {
                       {/* <img alt="..." src={require('assets/img/anime3.png')} /> */}
                     </div>
                     <b className="caret d-none d-lg-block d-xl-block" />
-                    <p className="d-lg-none">Log out</p>
+                    <p className="d-lg-none">Account</p>
                   </DropdownToggle>
                   <DropdownMenu className="dropdown-navbar" right tag="ul">
                     <NavLink tag="li">
@@ -169,7 +170,9 @@ class AdminNavbar extends React.Component {
                     </NavLink>
                     <DropdownItem divider tag="li" />
                     <NavLink tag="li">
-                      <DropdownItem className="nav-item">Log out</DropdownItem>
+                      <DropdownItem onClick={this.props.onLogout} className="nav-item">
+                        Log out
+                      </DropdownItem>
                     </NavLink>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -201,4 +204,11 @@ class AdminNavbar extends React.Component {
   }
 }
 
-export default AdminNavbar;
+const mapDispatchToProps = dispatch => {
+  return { onLogout: dispatch(actions.logout) };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(AdminNavbar);

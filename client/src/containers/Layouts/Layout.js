@@ -17,7 +17,7 @@ class Layout extends Component {
     return (
       <Fragment>
         <div className="index-navbar">
-          <IndexNavbar />
+          <IndexNavbar {...this.props} />
           <div className="wrapper">
             <div className="main">{this.props.children}</div>
           </div>
