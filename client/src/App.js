@@ -15,7 +15,7 @@ import './assets/scss/black-dashboard-react.scss';
 class App extends Component {
   componentDidMount() {
     // When app opens, dispatch auto login if token expiration is available
-    this.props.onTryAutoLogin();
+    // this.props.onTryAutoLogin();
   }
   render() {
     let app;
