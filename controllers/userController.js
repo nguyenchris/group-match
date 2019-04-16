@@ -26,13 +26,13 @@ exports.signUp = (req, res, next) => {
           const token = jwt.sign(
             {
               email: newUser.email,
-              userId: newUser._id.toString()
+              userId: newUser._id
             },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
           );
           res.status(201).json({
-            userId: newUser._id.toString(),
+            userId: newUser._id,
             email: newUser.email,
             name: newUser.name,
             status: newUser.status,
@@ -94,13 +94,19 @@ exports.login = (req, res, next) => {
 // GET /api/user/:id
 // Controller to get a specific user data
 exports.getUser = (req, res, next) => {
-  db.User.findById(req.params.id).then(user => {
-    res.status(200).json({
-      userId: user._id,
-      name: user.name,
-      status: user.status,
-      lastSignIn: fromNow(user.lastSignIn),
-      createdOn: user.createdOn
+  db.User.findById(req.params.id)
+    .then(user => {
+      if (!user) {
+      }
+      res.status(200).json({
+        userId: user._id,
+        name: user.name,
+        status: user.status,
+        lastSignIn: fromNow(user.lastSignIn),
+        createdOn: user.createdOn
+      });
+    })
+    .catch(err => {
+      next(err);
     });
-  });
 };

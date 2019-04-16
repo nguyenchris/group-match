@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 // reactstrap components
 import {
-  Button,
+
   Collapse,
   DropdownToggle,
   DropdownMenu,
@@ -10,8 +10,8 @@ import {
   UncontrolledDropdown,
   NavbarBrand,
   Navbar,
-  NavItem,
-  NavLink,
+
+
   Nav,
   Container,
   Row,
@@ -28,7 +28,6 @@ class ComponentsNavbar extends React.Component {
   }
   componentDidMount() {
     window.addEventListener('scroll', this.changeColor);
-    console.log(this.props);
   }
   componentWillUnmount() {
     window.removeEventListener('scroll', this.changeColor);
@@ -72,7 +71,7 @@ class ComponentsNavbar extends React.Component {
               data-placement="bottom"
               to="/"
               rel="noopener noreferrer"
-              title="Designed and Coded by Creative Tim"
+              title="Group Match"
               tag={Link}
             >
               <span>Group </span>

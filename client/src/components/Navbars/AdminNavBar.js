@@ -1,9 +1,6 @@
 import React from 'react';
 // nodejs library that concatenates classes
 import classNames from 'classnames';
-// import '../../assets/css/black-dashboard-react.css';
-import * as actions from '../../store/actions/index';
-import { connect } from 'react-redux';
 // reactstrap components
 import {
   Button,
@@ -21,6 +18,8 @@ import {
   Container,
   Modal
 } from 'reactstrap';
+
+import { Link } from 'react-router-dom';
 
 class AdminNavbar extends React.Component {
   constructor(props) {
@@ -122,7 +121,8 @@ class AdminNavbar extends React.Component {
                 <UncontrolledDropdown nav>
                   <DropdownToggle caret color="default" data-toggle="dropdown" nav>
                     <div className="notification d-none d-lg-block d-xl-block" />
-                    <i className="tim-icons icon-sound-wave" />
+                    {/* <i className="tim-icons icon-sound-wave" /> */}
+                    <i className="tim-icons icon-bell-55" />
                     <p className="d-lg-none">Notifications</p>
                   </DropdownToggle>
                   <DropdownMenu className="dropdown-navbar" right tag="ul">
@@ -156,7 +156,8 @@ class AdminNavbar extends React.Component {
                     onClick={e => e.preventDefault()}
                   >
                     <div className="photo">
-                      {/* <img alt="..." src={require('assets/img/anime3.png')} /> */}
+                      {/* <img alt="..." src={require('../../assets/img/anime3.png')} /> */}
+                      <i className="tim-icons icon-single-02" />
                     </div>
                     <b className="caret d-none d-lg-block d-xl-block" />
                     <p className="d-lg-none">Account</p>
@@ -169,10 +170,8 @@ class AdminNavbar extends React.Component {
                       <DropdownItem className="nav-item">Settings</DropdownItem>
                     </NavLink>
                     <DropdownItem divider tag="li" />
-                    <NavLink tag="li">
-                      <DropdownItem onClick={this.props.onLogout} className="nav-item">
-                        Log out
-                      </DropdownItem>
+                    <NavLink tag={Link} to="/user/logout">
+                      <DropdownItem className="nav-item">Log out</DropdownItem>
                     </NavLink>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -204,11 +203,4 @@ class AdminNavbar extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return { onLogout: dispatch(actions.logout) };
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(AdminNavbar);
+export default AdminNavbar;

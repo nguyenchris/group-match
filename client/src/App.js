@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-// eslint-disable-next-line
 import * as actions from './store/actions/index';
 
 import Login from './containers/Auth/Login';
@@ -10,6 +9,7 @@ import Home from './containers/Home/Home';
 import Search from './containers/Search/Search';
 import Layout from './containers/Layouts/Layout';
 import AdminLayout from './containers/Layouts/AdminLayout';
+// import Logout from './containers/Auth/Logout';
 import './assets/scss/black-dashboard-react.scss';
 
 class App extends Component {
@@ -19,16 +19,15 @@ class App extends Component {
   }
   render() {
     let app;
+    // Determine available routes depending if user is authenticated
     if (!this.props.isLoggedIn) {
       app = (
         <div>
           <Layout>
             <Switch>
-              {/* <Route path="/user" render={props => <AdminLayout {...props} />} /> */}
               <Route path="/login" exact component={Login} />
               <Route path="/signup" exact component={Signup} />
               <Route path="/search" component={Search} />
-              {/* <Route path="/user" render={props => <AdminLayout {...props} />} /> */}
               <Route path="/" exact component={Home} />
               <Redirect to="/" />
             </Switch>
@@ -45,7 +44,6 @@ class App extends Component {
         </div>
       );
     }
-
     return app;
   }
 }

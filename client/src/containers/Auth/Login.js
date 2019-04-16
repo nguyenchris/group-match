@@ -5,10 +5,10 @@ import { Redirect } from 'react-router-dom';
 
 import InputField from '../../components/Input/InputField';
 import AuthLayout from '../../containers/Layouts/AuthLayout';
-import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner';
 import NotificationAlert from '../../components/NotificationAlert/NotificationAlert';
 
+import * as actions from '../../store/actions/index';
 import { checkIfValid } from '../../utils/helpers';
 
 const mapStateToProps = state => {
@@ -79,7 +79,6 @@ class Login extends Component {
       }
     };
     updatedForm[key].valid = checkIfValid(updatedForm[key].value, updatedForm[key].rules);
-
     this.setState({ controls: updatedForm });
   };
 

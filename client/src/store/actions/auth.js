@@ -43,7 +43,6 @@ export const authCheckTimeout = expiration => {
 // Return dispatches for auth flow and user signup / login
 export const auth = (data, isLogin) => {
   return dispatch => {
-    console.log(data);
     dispatch(authStart());
     let path = null;
     isLogin ? (path = 'login') : (path = 'signup');
@@ -59,7 +58,6 @@ export const auth = (data, isLogin) => {
         dispatch(authCheckTimeout(3600000));
       })
       .catch(err => {
-        console.log(err);
         dispatch(authFail(err.response.data.message));
       });
   };

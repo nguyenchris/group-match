@@ -27,7 +27,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/group-match-app
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
   res.status(status).json({ message: error.message, data: error.data });
-  // res.status(status).json(error)
 });
 
 app.listen(PORT, () => {

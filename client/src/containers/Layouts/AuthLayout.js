@@ -1,19 +1,9 @@
 import React from 'react';
-import {
-  Container,
-  Col,
-  Card,
-  CardHeader,
-  CardTitle,
-  // Button,
-  CardBody
-  // CardFooter,
-} from 'reactstrap';
+import { Container, Col, Card, CardHeader, CardTitle, CardBody } from 'reactstrap';
 
 import './Auth.css';
 
 const AuthLayout = props => {
-  console.log(props);
   return (
     <div className="section-signup">
       <Container>

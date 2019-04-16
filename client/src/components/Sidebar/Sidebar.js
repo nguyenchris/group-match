@@ -52,7 +52,7 @@ class Sidebar extends React.Component {
             onClick={this.props.toggleSidebar}
           >
             <div className="logo-img">
-              <img src={logo.imgSrc} alt="react-logo" />
+              <i className="icon-atom" />
             </div>
           </a>
         );
@@ -74,7 +74,7 @@ class Sidebar extends React.Component {
             onClick={this.props.toggleSidebar}
           >
             <div className="logo-img">
-              <img src={logo.imgSrc} alt="react-logo" />
+              <i className="tim-icons icon-atom" />
             </div>
           </Link>
         );
@@ -99,9 +99,6 @@ class Sidebar extends React.Component {
             </div>
           ) : null}
           <Nav>
-            {/* <li key="1">
-              <NavLink className="nav-link">Test</NavLink>
-            </li> */}
             {routes.map((prop, key) => {
               if (prop.redirect) return null;
               return (
@@ -116,7 +113,7 @@ class Sidebar extends React.Component {
                     onClick={this.props.toggleSidebar}
                   >
                     <i className={prop.icon} />
-                    <p>{rtlActive ? prop.rtlName : prop.name}</p>
+                    <p>{prop.name}</p>
                   </NavLink>
                 </li>
               );
