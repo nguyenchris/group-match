@@ -76,8 +76,8 @@ class PagesNavbar extends React.Component {
               title="Designed and Coded by Creative Tim"
               tag={Link}
             >
-              <span>BLK• </span>
-              Design System React
+              <span>GM • </span>
+              Group-Match!
             </NavbarBrand>
             <button
               aria-expanded={this.state.collapseOpen}
@@ -153,12 +153,12 @@ class PagesNavbar extends React.Component {
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} to="/">
-                  Back to Kit
+                  Sign Up
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="https://github.com/creativetimofficial/blk-design-system-react/issues">
-                  Have an issue?
+                  Sign In
                 </NavLink>
               </NavItem>
             </Nav>
