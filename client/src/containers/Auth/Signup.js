@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'reactstrap';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 import InputField from '../../components/Input/InputField';
-import AuthLayout from '../../components/Layout/AuthLayout';
+import AuthLayout from '../../containers/Layouts/AuthLayout';
 import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner';
 import NotificationAlert from '../../components/NotificationAlert/NotificationAlert';
+
+import { checkIfValid } from '../../utils/helpers';
 
 const mapStateToProps = state => {
   return {
@@ -84,26 +86,6 @@ class Signup extends Component {
     error: null
   };
 
-  // Pass in values for input and rules property to check if input isValid, true or false
-  checkIfValid(value, rules) {
-    let isValid = true;
-    if (!rules) return true;
-    if (rules && rules.required) {
-      isValid = value.trim() !== '' && value.length >= 2 && isValid;
-    }
-    if (rules && rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-    if (rules && rules.isEmail) {
-      isValid = value.includes('@') && value.includes('.') && isValid;
-    }
-    if (rules && rules.isConfirm) {
-      const password = this.state.controls.password.value;
-      isValid = value === password && isValid;
-    }
-    return isValid;
-  }
-
   submitHandler = e => {
     e.preventDefault();
     const data = {};
@@ -123,7 +105,11 @@ class Signup extends Component {
         touched: true
       }
     };
-    updatedForm[key].valid = this.checkIfValid(updatedForm[key].value, updatedForm[key].rules);
+    if (key === 'confirm') {
+      updatedForm[key].valid = this.state.controls.password.value === e.target.value;
+    } else {
+      updatedForm[key].valid = checkIfValid(updatedForm[key].value, updatedForm[key].rules);
+    }
     this.setState({ controls: updatedForm });
   };
 
@@ -180,7 +166,7 @@ class Signup extends Component {
       >
         <Form className="form" onSubmit={this.submitHandler} noValidate>
           {form}
-          <Button className="btn-round" color="success" block>
+          <Button className="btn-round" color="success" disabled={this.props.loading} block>
             {this.props.loading ? <Spinner /> : 'Submit'}
           </Button>
         </Form>
@@ -190,7 +176,9 @@ class Signup extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Signup);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Signup)
+);

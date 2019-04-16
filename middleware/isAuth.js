@@ -24,6 +24,5 @@ module.exports = (req, res, next) => {
   }
   // Assign token userID and expiration in millisec to req
   req.userId = decodedToken.userId;
-  req.jwtExpiry = decodedToken.exp * 1000 - new Date().getTime();
   next();
 };

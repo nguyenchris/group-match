@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 // reactstrap components
 import {
   Button,
@@ -10,7 +10,7 @@ import {
   Row,
   Col,
   UncontrolledTooltip
-} from "reactstrap";
+} from 'reactstrap';
 
 class Footer extends React.Component {
   render() {
@@ -58,14 +58,10 @@ class Footer extends React.Component {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="https://creative-tim.com/blog?ref=blkdsr-footer">
-                    Blog
-                  </NavLink>
+                  <NavLink href="https://creative-tim.com/blog?ref=blkdsr-footer">Blog</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="https://opensource.org/licenses/MIT">
-                    License
-                  </NavLink>
+                  <NavLink href="https://opensource.org/licenses/MIT">License</NavLink>
                 </NavItem>
               </Nav>
             </Col>

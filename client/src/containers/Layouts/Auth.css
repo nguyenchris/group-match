@@ -7,3 +7,8 @@
     margin: 0 auto;
   }
 }
+
+.section-signup {
+  padding-top: 20vh;
+  overflow: hidden;
+}

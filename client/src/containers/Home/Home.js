@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row } from 'reactstrap';
 
-import "../../assets/css/homepage.css";
+import './Home.css';
 
 class Home extends Component {
   state = {};
@@ -10,16 +10,10 @@ class Home extends Component {
   render() {
     return (
       <div>
-        {/* <ExamplesNavbar /> */}
         <Container>
           <Row />
         </Container>
-        <img
-          alt="..."
-          className="img-background"
-          src={require("../../assets/img/snow.jpg")}
-          // style={{ width: "100%", height: "100%" }}
-        />
+        <img alt="..." className="img-background" src={require('../../assets/img/snow.jpg')} />
       </div>
     );
   }
