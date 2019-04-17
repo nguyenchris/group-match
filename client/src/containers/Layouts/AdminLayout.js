@@ -4,30 +4,13 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import { Route, Switch } from 'react-router-dom';
 import PerfectScrollbar from 'perfect-scrollbar';
 import AdminFooter from '../../components/Footer/AdminFooter';
-import Search from '../../containers/Search/Search';
 import { connect } from 'react-redux';
 import Logout from '../Auth/Logout';
 // import * as actions from '../../store/actions/index';
 import axios from 'axios';
+import routes from './userRoutes';
 
 // Contains array of routes, icones, and which component to render for Sidebar
-const routes = [
-  // {
-  //   path: '/dashboard',
-  //   name: 'Dashboard',
-  //   icon: 'tim-icons icon-chart-pie-36',
-  //   component: Login,
-  //   layout: '/user'
-  // },
-  {
-    path: '/search',
-    name: 'Search',
-    icon: 'tim-icons icon-chart-pie-36',
-    component: Search,
-    layout: '/user'
-  }
-];
-
 const mapStateToProps = state => {
   return {
     userId: state.auth.userId,
