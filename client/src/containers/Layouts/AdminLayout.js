@@ -6,9 +6,8 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import AdminFooter from '../../components/Footer/AdminFooter';
 import { connect } from 'react-redux';
 import Logout from '../Auth/Logout';
-// import * as actions from '../../store/actions/index';
-import axios from 'axios';
 import routes from './adminRoutes';
+import { getUser } from '../../utils/api';
 
 // Contains array of routes, icones, and which component to render for Sidebar
 const mapStateToProps = state => {
@@ -18,9 +17,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {};
-};
+// const mapDispatchToProps = dispatch => {
+//   return {};
+// };
 
 let ps;
 
@@ -35,13 +34,9 @@ class AdminLayout extends Component {
   }
   componentDidMount() {
     // Get user profile
-    axios
-      .get(`/api/user/${this.props.userId}`, {
-        headers: { Authorization: `Bearer ${this.props.token}` }
-      })
-      .then(result => {
-        this.setState({ userName: result.data.name });
-      });
+    getUser(this.props.userId, this.props.token).then(result => {
+      this.setState({ userName: result.data.name });
+    });
 
     if (navigator.platform.indexOf('Win') > -1) {
       document.documentElement.className += ' perfect-scrollbar-on';
@@ -132,5 +127,5 @@ class AdminLayout extends Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(AdminLayout);
