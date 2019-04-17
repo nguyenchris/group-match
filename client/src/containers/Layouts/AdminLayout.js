@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import Logout from '../Auth/Logout';
 // import * as actions from '../../store/actions/index';
 import axios from 'axios';
-import routes from './userRoutes';
+import routes from './adminRoutes';
 
 // Contains array of routes, icones, and which component to render for Sidebar
 const mapStateToProps = state => {
