@@ -9,4 +9,4 @@ const tokenConfig = token => {
 export const getUser = (userId, token) => axios.get(`/api/user/${userId}`, tokenConfig(token));
 
 // Get google key at /api/google/key
-export const getGoogleKey = () => axios.get('/api/google/key');
+export const getGoogleKey = token => axios.get('/api/google/key', tokenConfig(token));

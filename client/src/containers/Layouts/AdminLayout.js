@@ -29,7 +29,8 @@ class AdminLayout extends Component {
     super(props);
     this.state = {
       sidebarOpened: document.documentElement.className.indexOf('nav-open') !== -1,
-      userName: null
+      userName: null,
+      token: this.props.token
     };
   }
   componentDidMount() {
@@ -91,6 +92,7 @@ class AdminLayout extends Component {
     return 'Dashboard';
   };
   render() {
+    console.log('adminlayout render');
     return (
       <>
         <div className="wrapper">

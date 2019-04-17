@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import { Card, CardHeader, CardBody, Row, Col } from 'reactstrap';
 import { getGoogleKey } from '../../utils/api';
-
-// Styling for Map view and markers shown on map
+import { connect } from 'react-redux';
+// Styling for Map view and markers to show
 const MapWrapper = withScriptjs(
   withGoogleMap(props => (
     <GoogleMap
@@ -261,13 +261,20 @@ const MapWrapper = withScriptjs(
   ))
 );
 
+const mapStateToProps = state => {
+  return {
+    userId: state.auth.userId,
+    token: state.auth.token
+  };
+};
+
 class Map extends Component {
   state = {
     GOOGLE_KEY: null
   };
   componentDidMount() {
     // Call /api/google/key to get google key from server
-    getGoogleKey().then(res => {
+    getGoogleKey(this.props.token).then(res => {
       this.setState({
         GOOGLE_KEY: res.data.googleKey
       });
@@ -307,4 +314,7 @@ class Map extends Component {
   }
 }
 
-export default Map;
+export default connect(
+  mapStateToProps,
+  null
+)(Map);
