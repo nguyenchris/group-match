@@ -1,6 +1,19 @@
 import React, { Component, Fragment } from 'react';
-import { Row, Col, Card, CardImg, CardBody, CardTitle, CardText, Button } from 'reactstrap';
+import {
+  Row,
+  Col,
+  Input,
+  Card,
+  Button,
+  CardHeader,
+  CardBody,
+  FormGroup,
+  CardTitle
+} from 'reactstrap';
 // import InputField from '../../components/Input/InputField';
+import EventCard from '../../components/EventCard/EventCard';
+import Datetime from 'react-datetime';
+import './Search.css';
 
 class Search extends Component {
   state = {};
@@ -10,16 +23,18 @@ class Search extends Component {
       <Fragment>
         <div className="content">
           <Row>
-            <Col>
-              <Card style={{ width: '20rem' }}>
-                <CardImg top src="img-src" alt="..." />
+            <Col xs={12} md={4}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Date Picker</CardTitle>
+                </CardHeader>
                 <CardBody>
-                  <CardTitle>Card title</CardTitle>
-                  <CardText>
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </CardText>
-                  <Button color="primary">Go somewhere</Button>
+                  <FormGroup>
+                    <Datetime
+                      timeFormat={false}
+                      inputProps={{ placeholder: 'Datetime Picker Here' }}
+                    />
+                  </FormGroup>
                 </CardBody>
               </Card>
             </Col>

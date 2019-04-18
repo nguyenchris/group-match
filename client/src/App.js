@@ -10,6 +10,7 @@ import Search from './containers/Search/Search';
 import Layout from './containers/Layouts/Index/Layout';
 import AdminLayout from './containers/Layouts/Admin/AdminLayout';
 // import Logout from './containers/Auth/Logout';
+// import './assets/css/blk-design-system-react.css';
 import './assets/scss/black-dashboard-react.scss';
 
 class App extends Component {
