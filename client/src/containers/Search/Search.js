@@ -13,6 +13,7 @@ import {
 import EventCard from '../../components/EventCard/EventCard';
 import Datetime from 'react-datetime';
 import './Search.css';
+
 class Search extends Component {
   state = {};
 

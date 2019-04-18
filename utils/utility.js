@@ -1,10 +1,18 @@
 const locations = require('../data/locations.json');
 
-// Returns an array of all the cities and states array depending on what string value is passed in
-exports.getSuggestions = value => {
+// Returns an array of elements that match to the value passed in
+exports.getSuggestions = (value, query, prop) => {
+  let arrayToFilter;
+  if (query === 'location') {
+    arrayToFilter = locations;
+  } else {
+    return;
+  }
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
   return inputLength === 0
     ? []
-    : locations.filter(loc => loc.city.toLowerCase().slice(0, inputLength) === inputValue);
+    : arrayToFilter.filter(
+        element => element[prop].toLowerCase().slice(0, inputLength) === inputValue
+      );
 };
