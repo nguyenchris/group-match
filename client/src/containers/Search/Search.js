@@ -10,11 +10,9 @@ import {
   FormGroup,
   CardTitle
 } from 'reactstrap';
-// import InputField from '../../components/Input/InputField';
 import EventCard from '../../components/EventCard/EventCard';
 import Datetime from 'react-datetime';
 import './Search.css';
-
 class Search extends Component {
   state = {};
 
@@ -23,7 +21,7 @@ class Search extends Component {
       <Fragment>
         <div className="content">
           <Row>
-            <Col xs={12} md={4}>
+            <Col xs={12} sm={4}>
               <Card>
                 <CardHeader>
                   <CardTitle>Date Picker</CardTitle>
