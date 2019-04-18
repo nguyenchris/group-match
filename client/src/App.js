@@ -7,14 +7,14 @@ import Login from './containers/Auth/Login';
 import Signup from './containers/Auth/Signup';
 import Home from './containers/Home/Home';
 import Search from './containers/Search/Search';
-import Layout from './containers/Layouts/Layout';
-import AdminLayout from './containers/Layouts/AdminLayout';
+import Layout from './containers/Layouts/Index/Layout';
+import AdminLayout from './containers/Layouts/Admin/AdminLayout';
 // import Logout from './containers/Auth/Logout';
 import './assets/scss/black-dashboard-react.scss';
 
 class App extends Component {
   componentDidMount() {
-    // When app opens, dispatch auto login if token expiration is available
+    // When app mounts, dispatch auto login if token expiration is available
     this.props.onTryAutoLogin();
   }
   render() {

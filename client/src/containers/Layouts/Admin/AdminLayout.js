@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import AdminNavbar from '../../components/Navbars/AdminNavBar';
-import Sidebar from '../../components/Sidebar/Sidebar';
+import AdminNavbar from '../../../components/Navbars/AdminNavBar';
+import Sidebar from '../../../components/Sidebar/Sidebar';
 import { Route, Switch } from 'react-router-dom';
 import PerfectScrollbar from 'perfect-scrollbar';
-import AdminFooter from '../../components/Footer/AdminFooter';
+import AdminFooter from '../../../components/Footer/AdminFooter';
 import { connect } from 'react-redux';
-import Logout from '../Auth/Logout';
+import Logout from '../../Auth/Logout';
 import routes from './adminRoutes';
-import { getUser } from '../../utils/api';
+import { getUser } from '../../../utils/api';
 
 // Contains array of routes, icones, and which component to render for Sidebar
 const mapStateToProps = state => {

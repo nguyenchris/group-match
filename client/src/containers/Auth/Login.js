@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import InputField from '../../components/Input/InputField';
-import AuthLayout from '../../containers/Layouts/AuthLayout';
+import AuthLayout from '../Layouts/Auth/AuthLayout';
 import Spinner from '../../components/UI/Spinner';
 import NotificationAlert from '../../components/NotificationAlert/NotificationAlert';
 
