@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import IndexNavbar from '../../components/Navbars/IndexNavbar.jsx';
+import IndexNavbar from '../../../components/Navbars/IndexNavbar.jsx';
 import { connect } from 'react-redux';
 import './Layout.css';
 
