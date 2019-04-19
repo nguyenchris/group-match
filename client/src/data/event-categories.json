@@ -1,0 +1,23 @@
+[
+  { "id": "103", "name": "Music" },
+  { "id": "101", "name": "Business & Professional" },
+  { "id": "110", "name": "Food & Drink" },
+  { "id": "113", "name": "Community & Culture" },
+  { "id": "105", "name": "Performing & Visual Arts" },
+  { "id": "104", "name": "Film, Media & Entertainment" },
+  { "id": "108", "name": "Sports & Fitness" },
+  { "id": "107", "name": "Health & Wellness" },
+  { "id": "102", "name": "Science & Technology" },
+  { "id": "109", "name": "Travel & Outdoor" },
+  { "id": "111", "name": "Charity & Causes" },
+  { "id": "114", "name": "Religion & Spirituality" },
+  { "id": "115", "name": "Family & Education" },
+  { "id": "116", "name": "Seasonal & Holiday" },
+  { "id": "112", "name": "Government & Politics" },
+  { "id": "106", "name": "Fashion & Beauty" },
+  { "id": "117", "name": "Home & Lifestyle" },
+  { "id": "118", "name": "Auto, Boat & Air" },
+  { "id": "119", "name": "Hobbies & Special Interest" },
+  { "id": "199", "name": "Other" },
+  { "id": "120", "name": "School Activities" }
+]

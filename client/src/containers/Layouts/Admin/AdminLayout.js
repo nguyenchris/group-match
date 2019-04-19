@@ -34,6 +34,7 @@ class AdminLayout extends Component {
     };
   }
   componentDidMount() {
+    console.log('component mounted ADMINLAYOUT');
     // Get user profile
     getUser(this.props.userId, this.props.token).then(result => {
       this.setState({ userName: result.data.name });
@@ -92,10 +93,10 @@ class AdminLayout extends Component {
     return 'Dashboard';
   };
   render() {
-    console.log('adminlayout render');
     return (
       <>
         <div className="wrapper">
+          {console.log('adminlayout render')}
           <Sidebar
             {...this.props}
             routes={routes}
@@ -106,6 +107,7 @@ class AdminLayout extends Component {
             }}
             toggleSidebar={this.toggleSidebar}
           />
+
           <div className="main-panel" ref="mainPanel" data="blue">
             <AdminNavbar
               {...this.props}
