@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import AdminNavbar from '../../components/Navbars/AdminNavBar';
-import Sidebar from '../../components/Sidebar/Sidebar';
+import AdminNavbar from '../../../components/Navbars/AdminNavBar';
+import Sidebar from '../../../components/Sidebar/Sidebar';
 import { Route, Switch } from 'react-router-dom';
 import PerfectScrollbar from 'perfect-scrollbar';
-import AdminFooter from '../../components/Footer/AdminFooter';
+import AdminFooter from '../../../components/Footer/AdminFooter';
 import { connect } from 'react-redux';
-import Logout from '../Auth/Logout';
-// import * as actions from '../../store/actions/index';
-import axios from 'axios';
-import routes from './userRoutes';
+import Logout from '../../Auth/Logout';
+import routes from './adminRoutes';
+import { getUser } from '../../../utils/api';
 
 // Contains array of routes, icones, and which component to render for Sidebar
 const mapStateToProps = state => {
@@ -18,9 +17,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {};
-};
+// const mapDispatchToProps = dispatch => {
+//   return {};
+// };
 
 let ps;
 
@@ -30,18 +29,15 @@ class AdminLayout extends Component {
     super(props);
     this.state = {
       sidebarOpened: document.documentElement.className.indexOf('nav-open') !== -1,
-      userName: null
+      userName: null,
+      token: this.props.token
     };
   }
   componentDidMount() {
     // Get user profile
-    axios
-      .get(`/api/user/${this.props.userId}`, {
-        headers: { Authorization: `Bearer ${this.props.token}` }
-      })
-      .then(result => {
-        this.setState({ userName: result.data.name });
-      });
+    getUser(this.props.userId, this.props.token).then(result => {
+      this.setState({ userName: result.data.name });
+    });
 
     if (navigator.platform.indexOf('Win') > -1) {
       document.documentElement.className += ' perfect-scrollbar-on';
@@ -96,6 +92,7 @@ class AdminLayout extends Component {
     return 'Dashboard';
   };
   render() {
+    console.log('adminlayout render');
     return (
       <>
         <div className="wrapper">
@@ -132,5 +129,5 @@ class AdminLayout extends Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(AdminLayout);
