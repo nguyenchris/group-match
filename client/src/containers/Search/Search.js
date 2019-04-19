@@ -1,17 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import {
-  Row,
-  Col,
-  Input,
-  Card,
-  Button,
-  CardHeader,
-  CardBody,
-  FormGroup,
-  CardTitle
-} from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
+
 import EventCard from '../../components/EventCard/EventCard';
-import Datetime from 'react-datetime';
+import EventSearch from '../../components/Input/SearchInput/EventSearch';
+import LocationSearch from '../../components/Input/SearchInput/LocationSearch';
+import DateSearch from '../../components/Input/SearchInput/DateSearch';
+
 import './Search.css';
 
 class Search extends Component {
@@ -19,27 +13,18 @@ class Search extends Component {
 
   render() {
     return (
-      <Fragment>
-        <div className="content">
-          <Row>
-            <Col xs={12} sm={4}>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Date Picker</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <FormGroup>
-                    <Datetime
-                      timeFormat={false}
-                      inputProps={{ placeholder: 'Datetime Picker Here' }}
-                    />
-                  </FormGroup>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-      </Fragment>
+      <div className="content">
+        <Row className="search-cards">
+          <EventSearch />
+          <LocationSearch />
+          <DateSearch />
+          <Col xs={12} sm={2} className="btn-search">
+            <Button>
+              <i className="tim-icons icon-zoom-split" />
+            </Button>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

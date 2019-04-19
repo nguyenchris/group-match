@@ -72,9 +72,6 @@ class Login extends Component {
 
   // Depending on which input field is selected, determine the characters inputed and update state for its value
   inputHandler = (e, key) => {
-    axios.get(`/api/event/search/city?q=${e.target.value}`).then(res => {
-      console.log(res.data);
-    });
     const updatedForm = {
       ...this.state.controls,
       [key]: {

@@ -5,8 +5,13 @@ const tokenConfig = token => {
   return { headers: { Authorization: `Bearer ${token}` } };
 };
 
-// Get user data at /api/user/:id
+// GET user data at /api/user/:id
 export const getUser = (userId, token) => axios.get(`/api/user/${userId}`, tokenConfig(token));
 
-// Get google key at /api/google/key
+// GET google key at /api/google/key
 export const getGoogleKey = token => axios.get('/api/google/key', tokenConfig(token));
+
+// GET location arrays for autocompletion
+export const getLocations = (value, token) => {
+  axios.get(`/api/event/search?location=${encodeURI(value)}`, tokenConfig(token));
+};

@@ -1,3 +1,63 @@
+.search-cards .card-header div.card-title {
+  font-weight: 700;
+  /* text-align: center; */
+  font-size: 18px;
+}
+.search-cards .card div.card-body {
+  padding-top: 6px;
+}
+.date-picker-search p {
+  /* text-align: center; */
+  font-weight: 600;
+}
+
+.date-picker-search [value] {
+  /* text-align: center; */
+}
+
+/* .btn-search {
+  text-align: center;
+} */
+
+.btn-search button {
+  margin-top: 40px;
+}
+
+@media only screen and (min-width: 1115px) {
+  .date-picker-search:first-child {
+    padding-right: 5px;
+  }
+  .date-picker-search:last-child {
+    padding-left: 5px;
+  }
+}
+
+@media only screen and (max-width: 1114px) {
+  .date-picker-search:first-child {
+    padding-right: 0px;
+  }
+  .date-picker-search:last-child {
+    padding-left: 0px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .date-picker-search:first-child {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .date-picker-search:last-child {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .btn-search button {
+    margin-top: 0px;
+  }
+}
+
 /*!
 * https://github.com/YouCanBookMe/react-datetime
 */

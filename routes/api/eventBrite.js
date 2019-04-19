@@ -4,6 +4,6 @@ const isAuth = require('../../middleware/isAuth');
 const eventBriteController = require('../../controllers/eventBriteController');
 
 // All routes match with '/api/event
-router.route('/search/city').get(eventBriteController.getCityAutocomplete);
+router.route('/search').get(isAuth, eventBriteController.getCityAutocomplete);
 
 module.exports = router;
