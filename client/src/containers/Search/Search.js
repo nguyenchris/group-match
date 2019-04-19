@@ -1,5 +1,13 @@
 import React, { Component, Fragment } from 'react';
-import { Row, Col, Button } from 'reactstrap';
+import {
+  Row,
+  Col,
+  Button,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap';
 
 import EventCard from '../../components/EventCard/EventCard';
 import EventSearch from '../../components/Input/SearchInput/EventSearch';
@@ -22,6 +30,26 @@ class Search extends Component {
             <Button>
               <i className="tim-icons icon-zoom-split" />
             </Button>
+          </Col>
+        </Row>
+        <Row>
+          <UncontrolledDropdown group>
+            <DropdownToggle caret color="neutral" data-toggle="dropdown">
+              Categories
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem>Action</DropdownItem>
+              <DropdownItem>Another Action</DropdownItem>
+              <DropdownItem>Something else here</DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </Row>
+        <Row>
+          <Col sm={4}>
+            <EventCard />
+          </Col>
+          <Col sm={4}>
+            <EventCard />
           </Col>
         </Row>
       </div>

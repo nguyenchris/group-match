@@ -5,5 +5,6 @@ const { getSuggestions } = require('../utils/utility');
 exports.getCityAutocomplete = (req, res, next) => {
   if (req.query.location) {
     res.json({ locations: getSuggestions(decodeURI(req.query.location), 'location', 'city') });
+  } else {
   }
 };
