@@ -3,23 +3,39 @@ import {
   Row,
   Col,
   Button,
-  UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  FormGroup,
+  Label,
+  Input,
+  Dropdown
 } from 'reactstrap';
 
 import EventCard from '../../components/EventCard/EventCard';
 import EventSearch from '../../components/Input/SearchInput/EventSearch';
 import LocationSearch from '../../components/Input/SearchInput/LocationSearch';
 import DateSearch from '../../components/Input/SearchInput/DateSearch';
+import Checkbox from '../../components/Input/SearchInput/Checkbox';
 
+import categories from '../../data/event-categories.json';
 import './Search.css';
+import CustomizableSelect from '../../components/Input/SearchInput/test';
 
 class Search extends Component {
-  state = {};
+  state = { categories: categories, categoriesIsOpen: false };
+
+  toggleCategories = () => {
+    this.setState(prevState => ({
+      categoriesIsOpen: !prevState.categoriesIsOpen
+    }));
+  };
 
   render() {
+    const checkboxes = this.state.categories.map((category, index) => {
+      return <Checkbox key={category.id} name={category.name} />;
+    });
+
     return (
       <div className="content">
         <Row className="search-cards">
@@ -32,17 +48,18 @@ class Search extends Component {
             </Button>
           </Col>
         </Row>
-        <Row>
-          <UncontrolledDropdown group>
-            <DropdownToggle caret color="neutral" data-toggle="dropdown">
+        <Row className="filter-search-row">
+          <Dropdown isOpen={this.state.categoriesIsOpen} toggle={this.toggleCategories}>
+            <DropdownToggle caret color="neutral">
               Categories
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem>Action</DropdownItem>
-              <DropdownItem>Another Action</DropdownItem>
-              <DropdownItem>Something else here</DropdownItem>
+              {/* <DropdownItem> */}
+
+              <Row> {checkboxes}</Row>
+              {/* </DropdownItem> */}
             </DropdownMenu>
-          </UncontrolledDropdown>
+          </Dropdown>
         </Row>
         <Row>
           <Col sm={4}>
@@ -50,6 +67,11 @@ class Search extends Component {
           </Col>
           <Col sm={4}>
             <EventCard />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <CustomizableSelect />
           </Col>
         </Row>
       </div>

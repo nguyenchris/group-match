@@ -11,7 +11,7 @@ import Layout from './containers/Layouts/Index/Layout';
 import AdminLayout from './containers/Layouts/Admin/AdminLayout';
 // import Logout from './containers/Auth/Logout';
 // import './assets/css/blk-design-system-react.css';
-import './assets/scss/black-dashboard-react.scss';
+import './assets/scss/black-dashboard-pro-react.scss';
 
 class App extends Component {
   componentDidMount() {
