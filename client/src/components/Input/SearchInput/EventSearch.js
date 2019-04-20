@@ -10,7 +10,7 @@ const EventSearch = props => {
         </CardHeader>
         <CardBody>
           <FormGroup>
-            <Input placeholder="Event" />
+            <Input placeholder="Event" onKeyPress={props.keyPressed} />
           </FormGroup>
         </CardBody>
       </Card>

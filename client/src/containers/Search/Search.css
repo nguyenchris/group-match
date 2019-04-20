@@ -7,10 +7,6 @@ div.filter-search-row.row > div > div.dropdown-menu.show {
   min-width: 30rem;
 }
 
-div.filter-search-row.row button.dropdown-toggle {
-  /* color: black; */
-}
-
 .rdtPicker .dow,
 .rdtPicker th.rdtSwitch,
 .rdtPicker th.rdtNext,

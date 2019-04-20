@@ -5,8 +5,9 @@ const Checkbox = props => {
   return (
     <Col xs={6}>
       <FormGroup check key={props.id}>
-        <Label check>
-          <Input type="checkbox" id={props.id} /> {props.name}
+        <Label check for={props.id}>
+          <Input type="checkbox" id={props.id} onChange={props.changed} checked={props.checked} />{' '}
+          {props.name}
           <span className="form-check-sign">
             <span className="check" />
           </span>
