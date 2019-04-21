@@ -21,31 +21,32 @@ class App extends Component {
   }
   render() {
     let app;
-    // Determine available routes depending if user is authenticated
-    if (!this.props.isLoggedIn) {
-      app = (
-        <div>
-          <Layout>
-            <Switch>
-              <Route path="/login" exact component={Login} />
-              <Route path="/signup" exact component={Signup} />
-              <Route path="/search" component={Search} />
-              <Route path="/" exact component={Home} />
-              <Redirect to="/" />
-            </Switch>
-          </Layout>
-        </div>
-      );
-    } else {
+
+    app = (
+      <div>
+        <Layout>
+          <Switch>
+            <Route path="/login" exact component={Login} />
+            <Route path="/signup" exact component={Signup} />
+            <Route path="/search" component={Search} />
+            <Route path="/" exact component={Home} />
+            <Redirect to="/" />
+          </Switch>
+        </Layout>
+      </div>
+    );
+    if (this.props.isLoggedIn) {
       app = (
         <div>
           <Switch>
             <Route path="/user" render={props => <AdminLayout {...props} />} />
-            <Redirect from="/" to="/user/search" />
+            <Redirect from="/" to="/user" />
+            {/* <Route path="/" exact render={props => <Redirect {...props} to="/user" />} /> */}
           </Switch>
         </div>
       );
     }
+
     return app;
   }
 }

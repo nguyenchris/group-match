@@ -34,7 +34,6 @@ class AdminLayout extends Component {
     };
   }
   componentDidMount() {
-    console.log('component mounted ADMINLAYOUT');
     // Get user profile
     getUser(this.props.userId, this.props.token).then(result => {
       this.setState({ userName: result.data.name });
@@ -96,7 +95,6 @@ class AdminLayout extends Component {
     return (
       <>
         <div className="wrapper">
-          {console.log('adminlayout render')}
           <Sidebar
             {...this.props}
             routes={routes}

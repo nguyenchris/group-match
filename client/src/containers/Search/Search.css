@@ -2,6 +2,10 @@
   width: 100px;
 }
 
+.filter-search-row .dropdown .btn.dropdown-toggle:after {
+  margin-left: 10px !important;
+}
+
 div.filter-search-row.row > div > div.dropdown-menu.show {
   padding: 1.5rem 0.7rem;
   min-width: 30rem;
@@ -14,10 +18,6 @@ div.filter-search-row.row > div > div.dropdown-menu.show {
 .rdtPicker .rdtTimeToggle {
   color: #1d8cf8;
 }
-
-/* div.filter-search-row.row button.dropdown-toggle:hover {
-  color: 
-} */
 
 .search-cards .card-header div.card-title {
   font-weight: 700;

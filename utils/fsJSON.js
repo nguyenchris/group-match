@@ -1,7 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 
-const authHeader = { headers: { Authorization: `Bearer JX4BKNGZWRNFIQIU6GSO` } };
+const authHeader = { headers: { Authorization: `Bearer ${process.env.EVENTBRITE_TOKEN}` } };
 
 axios.get('https://www.eventbriteapi.com/v3/categories/', authHeader).then(result => {
   const { categories } = result.data;

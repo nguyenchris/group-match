@@ -31035,7 +31035,7 @@ fieldset[disabled] .rbc-toolbar button.active {
 .rdtDay.rdtToday.rdtActive,
 .rdtDay.rdtActive,
 .rdtDay.rdtActive:hover {
-  background-color: #e14eca !important;
+  background-color: #1d8cf8 !important;
   color: #ffffff !important;
 }
 
@@ -31052,11 +31052,11 @@ fieldset[disabled] .rbc-toolbar button.active {
 }
 
 .rdtDays tr .rdtDay {
-  color: #9a9a9a;
+  color: #121c35;
 }
 .rdtDays tr .rdtDay.rdtOld,
 .rdtDays tr .rdtDay.rdtNew {
-  color: #344675;
+  color: #999999;
   font-weight: 300;
 }
 
@@ -31142,7 +31142,7 @@ fieldset[disabled] .rbc-toolbar button.active {
 .rdtPicker th.rdtNext,
 .rdtPicker th.rdtPrev,
 .rdtPicker .rdtTimeToggle {
-  color: #e14eca;
+  color: #2f50a4;
 }
 
 .rdtPicker th.rdtNext:before {

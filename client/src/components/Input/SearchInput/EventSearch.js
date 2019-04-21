@@ -10,7 +10,13 @@ const EventSearch = props => {
         </CardHeader>
         <CardBody>
           <FormGroup>
-            <Input placeholder="Event" onKeyPress={props.keyPressed} />
+            <Input
+              placeholder="Event"
+              onKeyPress={props.keyPressed}
+              value={props.value}
+              name={props.name}
+              onChange={props.changed}
+            />
           </FormGroup>
         </CardBody>
       </Card>

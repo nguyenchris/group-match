@@ -10,9 +10,16 @@ import {
   Label,
   Input,
   Dropdown,
-  Form
+  Form,
+  Badge,
+  UncontrolledDropdown,
+  UncontrolledCollapse,
+  Card,
+  CardBody
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import queryString from 'query-string';
+import { connect } from 'react-redux';
 
 import EventCard from '../../components/EventCard/EventCard';
 import EventSearch from '../../components/Input/SearchInput/EventSearch';
@@ -24,29 +31,29 @@ import './Search.css';
 import CustomizableSelect from '../../components/Input/SearchInput/test';
 import categories from '../../data/event-categories.json';
 
-// create an object where each category id is the key to initiate the checkbox state
+import { getEventSearch } from '../../utils/api';
+import axios from 'axios';
+
+// create an object where each category id is the key with an inital value of false for checkboxes
 const categoriesWithCheckedState = categories.reduce((categoriesObj, categoryObj) => {
   return { ...categoriesObj, [categoryObj.id]: false };
 }, {});
+
+// console.log(queryString.stringify(testobj, { arrayFormat: 'comma' }));
 
 class Search extends Component {
   state = {
     categories: categoriesWithCheckedState,
     categoriesIsOpen: false,
-    eventInput: {
-      value: ''
+    event: {
+      value: '',
+      name: 'Event'
     },
-    locationInput: {
-      value: ''
+    location: {
+      value: '',
+      name: 'Location'
     }
   };
-
-  componentDidUpdate(prevProps, prevState) {
-    // if (prevState.categories !== this.state.categories) {
-    //   console.log('changed state');
-    // }
-    console.log(prevState);
-  }
 
   toggleCategories = () => {
     if (this.state.categoriesIsOpen) {
@@ -71,12 +78,44 @@ class Search extends Component {
     }));
   };
 
-  handleEventInputKeySearch = e => {
+  handleKeypress = e => {
     if (e.key === 'Enter') {
+      const name = e.target.name.toLowerCase();
       console.log('Enter Key Pressed for Event Input');
+      this.getEvents();
     }
   };
 
+  handleInput = e => {
+    const name = e.target.name.toLowerCase();
+    const updatedInput = {
+      ...this.state,
+      [name]: {
+        ...this.state[name],
+        value: e.target.value
+      }
+    };
+    this.setState(updatedInput);
+  };
+
+  getEvents = () => {
+    let categoryArray = [];
+    const selectedCategories = Object.entries(this.state.categories).filter(el => {
+      return el[1] !== false;
+    });
+
+    categoryArray = selectedCategories.map(el => {
+      return el[0];
+    });
+    const queryObject = {
+      categories: categoryArray,
+      q: this.state.event.value
+    };
+    const query = queryString.stringify(queryObject, { arrayFormat: 'comma' });
+    getEventSearch(query, this.props.token).then(result => {
+      console.log(result.data);
+    });
+  };
   render() {
     const checkboxes = categories.map(category => {
       return (
@@ -95,11 +134,16 @@ class Search extends Component {
     return (
       <div className="content">
         <Row className="search-cards">
-          <EventSearch keyPressed={this.handleEventInputKeySearch} />
+          <EventSearch
+            keyPressed={this.handleKeypress}
+            value={this.state.event.value}
+            changed={this.handleInput}
+            name={this.state.event.name}
+          />
           <LocationSearch />
           <DateSearch />
           <Col xs={12} sm={2} className="btn-search">
-            <Button color="primary">
+            <Button color="primary" className="animation-on-hover">
               <i className="tim-icons icon-zoom-split" />
             </Button>
           </Col>
@@ -108,6 +152,8 @@ class Search extends Component {
           <Dropdown isOpen={this.state.categoriesIsOpen} toggle={this.toggleCategories}>
             <DropdownToggle
               caret
+              data-toggle="dropdown"
+              className="animation-on-hover"
               color={this.state.categoriesIsOpen || isCategoriesSelected ? 'primary' : 'neutral'}
             >
               Categories
@@ -121,6 +167,10 @@ class Search extends Component {
               </Form>
             </DropdownMenu>
           </Dropdown>
+
+          <Badge pill color="primary">
+            Hi
+          </Badge>
         </Row>
         <Row>
           <Col sm={4}>
@@ -140,4 +190,13 @@ class Search extends Component {
   }
 }
 
-export default Search;
+const mapStateToProps = state => {
+  return {
+    token: state.auth.token
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(Search);
