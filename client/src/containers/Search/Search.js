@@ -12,7 +12,6 @@ import DateSearch from '../../components/Input/SearchInput/DateSearch';
 import Checkbox from '../../components/Input/SearchInput/Checkbox';
 
 import './Search.css';
-import CustomizableSelect from '../../components/Input/SearchInput/test';
 import categories from '../../data/event-categories.json';
 
 import { getEventSearch } from '../../utils/api';
@@ -44,7 +43,9 @@ class Search extends Component {
     range_end: {
       value: '',
       name: 'range_end'
-    }
+    },
+    searchResults: [],
+    page: null
   };
 
   toggleCategories = () => {
@@ -76,7 +77,6 @@ class Search extends Component {
 
   handleInput = (e, date) => {
     let name, value;
-    console.log(e);
     if (date) {
       value = e._d ? moment(e._d).format('YYYY-MM-DDThh:mm:ss') : '';
       name = date;
@@ -99,6 +99,7 @@ class Search extends Component {
 
   // Convert input and filters to a query string to call API and return the results
   getEvents = () => {
+    const events = [];
     const selectedCategories = Object.entries(this.state.categories).filter(el => {
       return el[1] !== false;
     });
@@ -115,7 +116,8 @@ class Search extends Component {
     const query = queryString.stringify(queryObject, { arrayFormat: 'comma', encode: false });
     console.log(queryObject);
     getEventSearch(query, this.props.token).then(result => {
-      console.log(result.data);
+      console.log(result.data.events);
+      this.setState({ searchResults: result.data.events });
     });
   };
   render() {
@@ -129,6 +131,30 @@ class Search extends Component {
           id={category.id}
         />
       );
+    });
+
+    const searchedEvents = this.state.searchResults.map(event => {
+      if (event.logo) {
+        return (
+          <Col>
+            <EventCard
+              key={event.id}
+              id={event.id}
+              isFree={event.is_free}
+              name={event.name.text.toUpperCase()}
+              start={moment(event.start.utc).format('MMM Do, hh:mm a')}
+              end={moment(event.end.utc).format('MMM Do, hh:mm a')}
+              summary={event.summary}
+              url={event.url}
+              highDefImage={event.logo.original.url}
+              image={event.logo.url}
+              category={event.category_id}
+              venue={event.venue_id}
+              event={event.description.text}
+            />
+          </Col>
+        );
+      }
     });
 
     let isCategoriesSelected = Object.values(this.state.categories).some(value => value === true);
@@ -189,19 +215,8 @@ class Search extends Component {
               </Form>
             </DropdownMenu>
           </Dropdown>
-          <Badge pill color="primary">
-            Hi
-          </Badge>
         </Row>
-        <Row>
-          <Col sm={4}>
-            <EventCard />
-          </Col>
-          <Col sm={4}>
-            <EventCard />
-          </Col>
-          <Col />
-        </Row>
+        <Row>{searchedEvents}</Row>
       </div>
     );
   }
