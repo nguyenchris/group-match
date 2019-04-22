@@ -9,12 +9,14 @@ import Logout from '../../Auth/Logout';
 import routes from './adminRoutes';
 import { getUser } from '../../../utils/api';
 import * as actions from '../../../store/actions/index';
+import NotificationAlertPopUp from '../../../components/NotificationAlert/NotificationAlertPopUp';
 
 // Contains array of routes, icones, and which component to render for Sidebar
 const mapStateToProps = state => {
   return {
     userId: state.auth.userId,
-    token: state.auth.token
+    token: state.auth.token,
+    locationError: state.geo.error
   };
 };
 
@@ -41,7 +43,7 @@ class AdminLayout extends Component {
     getUser(this.props.userId, this.props.token).then(result => {
       this.setState({ userName: result.data.name });
     });
-
+    // Get location for user
     this.props.onGetCurrentLocation();
 
     if (navigator.platform.indexOf('Win') > -1) {
@@ -118,6 +120,9 @@ class AdminLayout extends Component {
               toggleSidebar={this.toggleSidebar}
               sidebarOpened={this.state.sidebarOpened}
             />
+            {this.props.locationError ? (
+              <NotificationAlertPopUp message={this.props.locationError} />
+            ) : null}
 
             <Switch>
               {this.getRoutes(routes)}

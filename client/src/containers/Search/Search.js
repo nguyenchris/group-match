@@ -1,25 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import {
-  Row,
-  Col,
-  Button,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  FormGroup,
-  Label,
-  Input,
-  Dropdown,
-  Form,
-  Badge,
-  UncontrolledDropdown,
-  UncontrolledCollapse,
-  Card,
-  CardBody
-} from 'reactstrap';
+import { Row, Col, Button, DropdownToggle, DropdownMenu, Dropdown, Form, Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import EventCard from '../../components/EventCard/EventCard';
 import EventSearch from '../../components/Input/SearchInput/EventSearch';
@@ -32,7 +16,9 @@ import CustomizableSelect from '../../components/Input/SearchInput/test';
 import categories from '../../data/event-categories.json';
 
 import { getEventSearch } from '../../utils/api';
-import axios from 'axios';
+import Maps from '../Maps/Maps';
+// import axios from 'axios';
+import DateSearchLayout from '../Layouts/Search/DateSearchLayout';
 
 // create an object where each category id is the key with an inital value of false for checkboxes
 const categoriesWithCheckedState = categories.reduce((categoriesObj, categoryObj) => {
@@ -50,15 +36,15 @@ class Search extends Component {
     location: {
       value: '',
       name: 'Location'
+    },
+    range_start: {
+      value: '',
+      name: 'range_start'
+    },
+    range_end: {
+      value: '',
+      name: 'range_end'
     }
-  };
-
-  getCurrentLocation = () => {
-    // if (navigator.geolocation) {
-    //   navigator.geolocation.getCurrentPosition(position => {
-    //     console.log(position);
-    //   });
-    // }
   };
 
   toggleCategories = () => {
@@ -68,10 +54,6 @@ class Search extends Component {
     this.setState(prevState => ({
       categoriesIsOpen: !prevState.categoriesIsOpen
     }));
-  };
-
-  createCategoryCheckbox = category => {
-    return <Checkbox>key={}</Checkbox>;
   };
 
   handleCheckboxChange = e => {
@@ -92,32 +74,46 @@ class Search extends Component {
     }
   };
 
-  handleInput = e => {
-    const name = e.target.name.toLowerCase();
+  handleInput = (e, date) => {
+    let name, value;
+    console.log(e);
+    if (date) {
+      value = e._d ? moment(e._d).format('YYYY-MM-DDThh:mm:ss') : '';
+      name = date;
+      if (date === 'range_end') {
+        value = value >= this.state.range_start.value ? value : '';
+      }
+    } else {
+      value = e.target.value;
+      name = e.target.name.toLowerCase();
+    }
     const updatedInput = {
       ...this.state,
       [name]: {
         ...this.state[name],
-        value: e.target.value
+        value: value
       }
     };
     this.setState(updatedInput);
   };
 
+  // Convert input and filters to a query string to call API and return the results
   getEvents = () => {
-    let categoryArray = [];
     const selectedCategories = Object.entries(this.state.categories).filter(el => {
       return el[1] !== false;
     });
-
-    categoryArray = selectedCategories.map(el => {
+    const categoryArray = selectedCategories.map(el => {
       return el[0];
     });
     const queryObject = {
       categories: categoryArray,
-      q: this.state.event.value
+      q: encodeURI(this.state.event.value),
+      'start_date.range_start': [this.state.range_start.value],
+      'start_date.range_end': [this.state.range_end.value]
     };
-    const query = queryString.stringify(queryObject, { arrayFormat: 'comma' });
+
+    const query = queryString.stringify(queryObject, { arrayFormat: 'comma', encode: false });
+    console.log(queryObject);
     getEventSearch(query, this.props.token).then(result => {
       console.log(result.data);
     });
@@ -136,7 +132,7 @@ class Search extends Component {
     });
 
     let isCategoriesSelected = Object.values(this.state.categories).some(value => value === true);
-
+    console.log(this.state);
     return (
       <div className="content">
         <Row className="search-cards">
@@ -147,7 +143,27 @@ class Search extends Component {
             name={this.state.event.name}
           />
           <LocationSearch />
-          <DateSearch />
+          <DateSearchLayout>
+            <Col sm={12} md={6} className="date-picker-search">
+              <DateSearch
+                inputProps={{ placeholder: 'Start' }}
+                changed={this.handleInput}
+                value={this.state.range_start.value}
+                name={this.state.range_start.name}
+              />
+            </Col>
+            <Col sm={12} md={6} className="date-picker-search">
+              <DateSearch
+                inputProps={{
+                  placeholder: 'End',
+                  disabled: this.state.range_start.value ? false : true
+                }}
+                changed={this.handleInput}
+                value={this.state.range_end.value}
+                name={this.state.range_end.name}
+              />
+            </Col>
+          </DateSearchLayout>
           <Col xs={12} sm={2} className="btn-search">
             <Button color="primary" className="animation-on-hover">
               <i className="tim-icons icon-zoom-split" />
@@ -173,7 +189,6 @@ class Search extends Component {
               </Form>
             </DropdownMenu>
           </Dropdown>
-          <button onClick={this.getCurrentLocation} />
           <Badge pill color="primary">
             Hi
           </Badge>
@@ -185,11 +200,7 @@ class Search extends Component {
           <Col sm={4}>
             <EventCard />
           </Col>
-        </Row>
-        <Row>
-          <Col>
-            <CustomizableSelect />
-          </Col>
+          <Col />
         </Row>
       </div>
     );

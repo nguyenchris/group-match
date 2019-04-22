@@ -42,6 +42,7 @@ class CustomizableSelect extends React.Component {
               closeMenuOnSelect={false}
               isMulti
               value={this.state.multipleSelect}
+              menuShouldBlockScroll={true}
               onChange={value => this.setState({ multipleSelect: value })}
               options={[
                 {

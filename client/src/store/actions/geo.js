@@ -1,54 +1,34 @@
 import * as actionTypes from './actionTypes';
 
-// export const geoStart = () => {
-//   return {
-//     type: actionTypes.GEO_START
-//   };
-// };
+const options = {
+  enableHighAccuracy: false,
+  timeout: 8000,
+  maximumAge: 0
+};
 
-// export const geoSuccess = position => {
-//   return {
-//     type: actionTypes.GEO_SUCCESS,
-//     latitude: position.coords.latitude,
-//     longitude: position.coords.longitude
-//   };
-// };
-
-// export const geoFail = () => {
-//   return {
-//     type: actionTypes.GEO_FAIL
-//   };
-// };
-
+// Action to get current location which then dispatches an action depending on result of gelocation acceptance or block
 export const getCurrentLocation = () => {
   return dispatch => {
-    const options = {
-      enableHighAccuracy: false,
-      timeout: 5000,
-      maximumAge: 0
-    };
-
     const geoFail = err => {
       if (err) {
         console.log(err);
-        // dispatch({
-        //   type: actionTypes.GEO_FAIL,
-        //   error: err
-        // });
+        dispatch({
+          type: actionTypes.GEO_FAIL,
+          error: err.message
+        });
       }
     };
 
     const geoSuccess = position => {
       if (position) {
         console.log(position);
-        // dispatch({
-        //   type: actionTypes.GEO_SUCCESS,
-        //   latitude: position.coords.latitude,
-        //   longitude: position.coords.longitude
-        // });
+        dispatch({
+          type: actionTypes.GEO_SUCCESS,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        });
       }
     };
-
     navigator.geolocation.getCurrentPosition(geoSuccess, geoFail, options);
   };
 };

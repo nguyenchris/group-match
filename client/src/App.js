@@ -40,7 +40,7 @@ class App extends Component {
         <div>
           <Switch>
             <Route path="/user" render={props => <AdminLayout {...props} />} />
-            <Redirect from="/" to="/user" />
+            <Redirect from="/" to="/user/search" />
             {/* <Route path="/" exact render={props => <Redirect {...props} to="/user" />} /> */}
           </Switch>
         </div>

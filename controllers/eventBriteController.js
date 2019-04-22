@@ -8,6 +8,8 @@ exports.getCityAutocomplete = (req, res, next) => {
   if (req.query.location) {
     res.json({ locations: getSuggestions(decodeURI(req.query.location), 'location', 'city') });
   } else {
+    console.log(req.query);
+    console.log(querystring.stringify(req.query));
     axios
       .get(
         `https://www.eventbriteapi.com/v3/events/search?${querystring.stringify(req.query)}`,
@@ -20,8 +22,5 @@ exports.getCityAutocomplete = (req, res, next) => {
         console.log(err);
         next(err);
       });
-    // console.log(querystring.stringify(req.query));
-    // console.log(querystring(req.query.location.latitude));
-    // res.end();
   }
 };
