@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import Logout from '../../Auth/Logout';
 import routes from './adminRoutes';
 import { getUser } from '../../../utils/api';
+import * as actions from '../../../store/actions/index';
 
 // Contains array of routes, icones, and which component to render for Sidebar
 const mapStateToProps = state => {
@@ -17,9 +18,11 @@ const mapStateToProps = state => {
   };
 };
 
-// const mapDispatchToProps = dispatch => {
-//   return {};
-// };
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetCurrentLocation: () => dispatch(actions.getCurrentLocation())
+  };
+};
 
 let ps;
 
@@ -38,6 +41,8 @@ class AdminLayout extends Component {
     getUser(this.props.userId, this.props.token).then(result => {
       this.setState({ userName: result.data.name });
     });
+
+    this.props.onGetCurrentLocation();
 
     if (navigator.platform.indexOf('Win') > -1) {
       document.documentElement.className += ' perfect-scrollbar-on';
@@ -129,5 +134,5 @@ class AdminLayout extends Component {
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(AdminLayout);

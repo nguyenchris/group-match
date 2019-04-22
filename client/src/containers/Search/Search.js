@@ -39,8 +39,6 @@ const categoriesWithCheckedState = categories.reduce((categoriesObj, categoryObj
   return { ...categoriesObj, [categoryObj.id]: false };
 }, {});
 
-// console.log(queryString.stringify(testobj, { arrayFormat: 'comma' }));
-
 class Search extends Component {
   state = {
     categories: categoriesWithCheckedState,
@@ -53,6 +51,14 @@ class Search extends Component {
       value: '',
       name: 'Location'
     }
+  };
+
+  getCurrentLocation = () => {
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(position => {
+    //     console.log(position);
+    //   });
+    // }
   };
 
   toggleCategories = () => {
@@ -79,9 +85,9 @@ class Search extends Component {
   };
 
   handleKeypress = e => {
-    if (e.key === 'Enter') {
-      const name = e.target.name.toLowerCase();
-      console.log('Enter Key Pressed for Event Input');
+    const value = e.target.value.trim();
+    // const name = e.target.name.toLowerCase();
+    if (e.key === 'Enter' && value.length !== 0) {
       this.getEvents();
     }
   };
@@ -167,7 +173,7 @@ class Search extends Component {
               </Form>
             </DropdownMenu>
           </Dropdown>
-
+          <button onClick={this.getCurrentLocation} />
           <Badge pill color="primary">
             Hi
           </Badge>
