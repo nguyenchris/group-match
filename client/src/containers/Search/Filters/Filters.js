@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, Form, Row } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Dropdown, DropdownToggle, DropdownMenu, Form, Row, Button } from 'reactstrap';
 
 const Filters = props => {
   return (
@@ -18,7 +17,7 @@ const Filters = props => {
           <Form>
             <Row>{props.checkboxes}</Row>
             <Row>
-              <Link>Apply</Link>
+              <button>Apply</button>
             </Row>
           </Form>
         </DropdownMenu>

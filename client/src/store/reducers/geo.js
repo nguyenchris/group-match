@@ -17,7 +17,7 @@ const reducer = (state = intialState, action) => {
     case actionTypes.GEO_SUCCESS:
       return {
         ...state,
-        longtitude: action.longitude,
+        longitude: action.longitude,
         latitude: action.latitude
       };
     case actionTypes.GEO_FAIL:

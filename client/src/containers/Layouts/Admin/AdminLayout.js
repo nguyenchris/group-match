@@ -44,7 +44,7 @@ class AdminLayout extends Component {
       this.setState({ userName: result.data.name });
     });
     // Get location for user
-    this.props.onGetCurrentLocation();
+    // this.props.onGetCurrentLocation();
 
     if (navigator.platform.indexOf('Win') > -1) {
       document.documentElement.className += ' perfect-scrollbar-on';

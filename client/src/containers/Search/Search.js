@@ -15,7 +15,8 @@ import Filters from './Filters/Filters';
 import './Search.css';
 import categories from '../../data/event-categories.json';
 import { getEventSearch } from '../../utils/api';
-
+import * as actions from '../../store/actions/index';
+import { getCurrentLocation } from '../../store/actions/geo';
 // create an object where each category id is the key with an inital value of false for checkboxes
 const categoriesWithCheckedState = categories.reduce((categoriesObj, categoryObj) => {
   return { ...categoriesObj, [categoryObj.id]: false };
@@ -43,7 +44,8 @@ class Search extends Component {
     },
     searchResults: [],
     page: null,
-    loading: false
+    loading: false,
+    selectedEvent: null
   };
 
   toggle = type => {
@@ -69,9 +71,13 @@ class Search extends Component {
     }
   };
 
-  handleEvent = (e, { type }, ...rest) => {
+  getCurrentLocation = () => {};
+
+  handleEventButtonClick = ({ type, target }, props) => {
     console.log(type);
-    console.log(rest);
+    console.log(target);
+    console.log(props);
+    this.setState({ selectedEvent: props });
   };
 
   handleCheckboxChange = e => {
@@ -86,7 +92,6 @@ class Search extends Component {
 
   handleKeypress = e => {
     const value = e.target.value.trim();
-    // const name = e.target.name.toLowerCase();
     if (e.key === 'Enter' && value.length !== 0) {
       this.getEvents();
     }
@@ -130,7 +135,6 @@ class Search extends Component {
       'start_date.range_start': [this.state.range_start.value],
       'start_date.range_end': [this.state.range_end.value]
     };
-
     const query = queryString.stringify(queryObject, { arrayFormat: 'comma', encode: false });
     getEventSearch(query, this.props.token).then(result => {
       this.toggle('spinner');
@@ -139,6 +143,10 @@ class Search extends Component {
   };
 
   render() {
+    let geolocation;
+    if (this.props.latitude || this.props.longitude) {
+      geolocation = `${(this.props.latitude, this.props.longitude)}`;
+    }
     const checkboxes = categories.map(category => {
       return (
         <Checkbox
@@ -168,7 +176,7 @@ class Search extends Component {
             category={event.category_id}
             venue={event.venue_id}
             event={event.description.text}
-            clicked={this.handleEvent}
+            clicked={this.handleEventButtonClick}
           />
         );
       }
@@ -186,6 +194,8 @@ class Search extends Component {
             dateStartName={this.state.range_start.name}
             dateEndValue={this.state.range_end.value}
             dateEndName={this.state.range_end.name}
+            onCurrentLocation={this.props.onCurrentLocation}
+            locationValue={this.state.location.value}
           />
         </Row>
         <Row className="filter-search-row">
@@ -205,7 +215,9 @@ class Search extends Component {
             </div>
           ) : null}
           {searchedEvents}
-          {/* <ModalForm {...this.props} /> */}
+          {this.state.selectedEvent ? (
+            <ModalForm event={this.state.selectedEvent} {...this.props} />
+          ) : null}
         </Row>
       </div>
     );
@@ -214,11 +226,19 @@ class Search extends Component {
 
 const mapStateToProps = state => {
   return {
-    token: state.auth.token
+    token: state.auth.token,
+    latitude: state.geo.latitude,
+    longitude: state.geo.longitude
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onCurrentLocation: () => dispatch(actions.getCurrentLocation())
   };
 };
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Search);

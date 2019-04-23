@@ -4,8 +4,12 @@ import WizardExample from '../../containers/test/test';
 
 class ModalForm extends Component {
   state = {
-    isOpen: true
+    isOpen: false
   };
+
+  componentDidMount() {
+    this.toggleModal();
+  }
 
   toggleModal = () => {
     this.setState(prevState => ({
@@ -14,6 +18,7 @@ class ModalForm extends Component {
   };
 
   render() {
+    console.log('modal');
     return (
       <Modal
         isOpen={this.state.isOpen}
@@ -27,7 +32,7 @@ class ModalForm extends Component {
             className="close"
             data-dismiss="modal"
             aria-label="Close"
-            onClick={this.toggleModalDemo}
+            onClick={this.toggleModal}
           >
             <i className="tim-icons icon-simple-remove" />
           </button>

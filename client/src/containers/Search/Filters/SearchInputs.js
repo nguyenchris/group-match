@@ -14,7 +14,11 @@ const SearchInputs = props => {
         changed={props.changed}
         name={props.eventName}
       />
-      <LocationSearch />
+      <LocationSearch
+        onCurrentLocation={props.onCurrentLocation}
+        changed={props.changed}
+        value={props.locationValue}
+      />
       <DateSearchLayout>
         <Col sm={12} md={6} className="date-picker-search">
           <DateSearch
