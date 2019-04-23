@@ -1,27 +1,20 @@
-import React, { Component, Fragment } from 'react';
-import { Row, Col, Button, DropdownToggle, DropdownMenu, Dropdown, Form, Badge } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Row } from 'reactstrap';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
 import EventCard from '../../components/EventCard/EventCard';
-import EventSearch from '../../components/Input/SearchInput/EventSearch';
-import LocationSearch from '../../components/Input/SearchInput/LocationSearch';
-import DateSearch from '../../components/Input/SearchInput/DateSearch';
 import Checkbox from '../../components/Input/SearchInput/Checkbox';
+import Spinner from '../../components/UI/Spinner';
+import ModalForm from '../../components/Modal/ModalForm';
+import Maps from '../Maps/Maps';
+import SearchInputs from './Filters/SearchInputs';
+import Filters from './Filters/Filters';
 
 import './Search.css';
 import categories from '../../data/event-categories.json';
-
 import { getEventSearch } from '../../utils/api';
-import Maps from '../Maps/Maps';
-// import axios from 'axios';
-import DateSearchLayout from '../Layouts/Search/DateSearchLayout';
-import Spinner from '../../components/UI/Spinner';
-import ModalForm from '../../components/Modal/ModalForm';
-import SearchInputs from './Filters/SearchInputs';
-import Filters from './Filters/Filters';
 
 // create an object where each category id is the key with an inital value of false for checkboxes
 const categoriesWithCheckedState = categories.reduce((categoriesObj, categoryObj) => {
@@ -53,18 +46,27 @@ class Search extends Component {
     loading: false
   };
 
-  handleSubmit = () => {
-    // for (let value in this.state) {
-    // }
-  };
-
-  toggleCategories = () => {
-    if (this.state.categoriesIsOpen) {
-      console.log('call API');
+  toggle = type => {
+    switch (type) {
+      case 'eventSearch':
+        return this.setState(prevState => ({
+          searchResults: []
+        }));
+      case 'spinner':
+        return this.setState(prevState => ({
+          loading: !prevState.loading
+        }));
+      case 'categories':
+        if (this.state.categoriesIsOpen) {
+          console.log('call API');
+        }
+        this.setState(prevState => ({
+          categoriesIsOpen: !prevState.categoriesIsOpen
+        }));
+        break;
+      default:
+        return;
     }
-    this.setState(prevState => ({
-      categoriesIsOpen: !prevState.categoriesIsOpen
-    }));
   };
 
   handleEvent = (e, { type }, ...rest) => {
@@ -114,9 +116,8 @@ class Search extends Component {
 
   // Convert input and filters to a query string to call API and return the results
   getEvents = () => {
-    this.toggleSpinner();
-    this.toggleEventSearch();
-    const events = [];
+    this.toggle('spinner');
+    this.toggle('eventSearch');
     const selectedCategories = Object.entries(this.state.categories).filter(el => {
       return el[1] !== false;
     });
@@ -132,22 +133,9 @@ class Search extends Component {
 
     const query = queryString.stringify(queryObject, { arrayFormat: 'comma', encode: false });
     getEventSearch(query, this.props.token).then(result => {
-      console.log(result.data.events);
-      this.toggleSpinner();
+      this.toggle('spinner');
       this.setState({ searchResults: result.data.events });
     });
-  };
-
-  toggleEventSearch = () => {
-    this.setState(prevState => ({
-      searchResults: []
-    }));
-  };
-
-  toggleSpinner = () => {
-    this.setState(prevState => ({
-      loading: !prevState.loading
-    }));
   };
 
   render() {
@@ -162,11 +150,9 @@ class Search extends Component {
         />
       );
     });
-    const testArray = [];
 
     const searchedEvents = this.state.searchResults.map((event, index) => {
       if (event.logo) {
-        testArray.push(event.id);
         return (
           <EventCard
             key={event.id}
@@ -187,18 +173,7 @@ class Search extends Component {
         );
       }
     });
-    let spinner = null;
 
-    if (this.state.loading) {
-      spinner = (
-        <div className="event-search-spinner">
-          <Spinner />
-        </div>
-      );
-    }
-
-    let isCategoriesSelected = Object.values(this.state.categories).some(value => value === true);
-    console.log(this.state);
     return (
       <div className="content">
         <Row className="search-cards">
@@ -216,13 +191,19 @@ class Search extends Component {
         <Row className="filter-search-row">
           <Filters
             categoriesIsOpen={this.state.categoriesIsOpen}
-            toggleCategories={this.toggleCategories}
+            toggleCategories={this.toggle}
             checkboxes={checkboxes}
-            isCategoriesSelected={isCategoriesSelected}
+            isCategoriesSelected={Object.values(this.state.categories).some(
+              value => value === true
+            )}
           />
         </Row>
         <Row>
-          {spinner}
+          {this.state.loading ? (
+            <div className="event-search-spinner">
+              <Spinner />
+            </div>
+          ) : null}
           {searchedEvents}
           {/* <ModalForm {...this.props} /> */}
         </Row>

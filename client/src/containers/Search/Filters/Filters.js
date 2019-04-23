@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Filters = props => {
   return (
     <Fragment>
-      <Dropdown isOpen={props.categoriesIsOpen} toggle={props.toggleCategories}>
+      <Dropdown isOpen={props.categoriesIsOpen} toggle={() => props.toggleCategories('categories')}>
         <DropdownToggle
           caret
           data-toggle="dropdown"
