@@ -19,6 +19,9 @@ import Maps from '../Maps/Maps';
 // import axios from 'axios';
 import DateSearchLayout from '../Layouts/Search/DateSearchLayout';
 import Spinner from '../../components/UI/Spinner';
+import ModalForm from '../../components/Modal/ModalForm';
+import SearchInputs from './Filters/SearchInputs';
+import Filters from './Filters/Filters';
 
 // create an object where each category id is the key with an inital value of false for checkboxes
 const categoriesWithCheckedState = categories.reduce((categoriesObj, categoryObj) => {
@@ -62,6 +65,11 @@ class Search extends Component {
     this.setState(prevState => ({
       categoriesIsOpen: !prevState.categoriesIsOpen
     }));
+  };
+
+  handleEvent = (e, { type }, ...rest) => {
+    console.log(type);
+    console.log(rest);
   };
 
   handleCheckboxChange = e => {
@@ -122,7 +130,7 @@ class Search extends Component {
       'start_date.range_end': [this.state.range_end.value]
     };
 
-    const query = queryString.stringify(queryObject, { arrayFormat: 'comma' });
+    const query = queryString.stringify(queryObject, { arrayFormat: 'comma', encode: false });
     getEventSearch(query, this.props.token).then(result => {
       console.log(result.data.events);
       this.toggleSpinner();
@@ -141,6 +149,7 @@ class Search extends Component {
       loading: !prevState.loading
     }));
   };
+
   render() {
     const checkboxes = categories.map(category => {
       return (
@@ -173,6 +182,7 @@ class Search extends Component {
             category={event.category_id}
             venue={event.venue_id}
             event={event.description.text}
+            clicked={this.handleEvent}
           />
         );
       }
@@ -192,63 +202,29 @@ class Search extends Component {
     return (
       <div className="content">
         <Row className="search-cards">
-          <EventSearch
+          <SearchInputs
             keyPressed={this.handleKeypress}
-            value={this.state.event.value}
+            eventValue={this.state.event.value}
             changed={this.handleInput}
-            name={this.state.event.name}
+            eventName={this.state.event.name}
+            dateStartValue={this.state.range_start.value}
+            dateStartName={this.state.range_start.name}
+            dateEndValue={this.state.range_end.value}
+            dateEndName={this.state.range_end.name}
           />
-          <LocationSearch />
-          <DateSearchLayout>
-            <Col sm={12} md={6} className="date-picker-search">
-              <DateSearch
-                inputProps={{ placeholder: 'Start' }}
-                changed={this.handleInput}
-                value={this.state.range_start.value}
-                name={this.state.range_start.name}
-              />
-            </Col>
-            <Col sm={12} md={6} className="date-picker-search">
-              <DateSearch
-                inputProps={{
-                  placeholder: 'End',
-                  disabled: this.state.range_start.value ? false : true
-                }}
-                changed={this.handleInput}
-                value={this.state.range_end.value}
-                name={this.state.range_end.name}
-              />
-            </Col>
-          </DateSearchLayout>
-          <Col xs={12} sm={2} className="btn-search">
-            <Button color="primary" className="animation-on-hover">
-              <i className="tim-icons icon-zoom-split" />
-            </Button>
-          </Col>
         </Row>
         <Row className="filter-search-row">
-          <Dropdown isOpen={this.state.categoriesIsOpen} toggle={this.toggleCategories}>
-            <DropdownToggle
-              caret
-              data-toggle="dropdown"
-              className="animation-on-hover"
-              color={this.state.categoriesIsOpen || isCategoriesSelected ? 'primary' : 'neutral'}
-            >
-              Categories
-            </DropdownToggle>
-            <DropdownMenu>
-              <Form>
-                <Row>{checkboxes}</Row>
-                <Row>
-                  <Link>Apply</Link>
-                </Row>
-              </Form>
-            </DropdownMenu>
-          </Dropdown>
+          <Filters
+            categoriesIsOpen={this.state.categoriesIsOpen}
+            toggleCategories={this.toggleCategories}
+            checkboxes={checkboxes}
+            isCategoriesSelected={isCategoriesSelected}
+          />
         </Row>
         <Row>
           {spinner}
           {searchedEvents}
+          {/* <ModalForm {...this.props} /> */}
         </Row>
       </div>
     );

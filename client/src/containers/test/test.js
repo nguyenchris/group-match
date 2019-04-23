@@ -1,9 +1,8 @@
 import React from 'react';
-
 import ReactWizard from 'react-bootstrap-wizard';
-import { Container, Row, Col } from 'reactstrap';
-
-import 'bootstrap/dist/css/bootstrap.css';
+import { Container, Row, Col, Input } from 'reactstrap';
+// import 'bootstrap/dist/css/bootstrap.css';
+// import 'react-bootstrap-wizard/dist/react-wizard.scss';
 
 class FirstStep extends React.Component {
   constructor(props) {
@@ -13,7 +12,11 @@ class FirstStep extends React.Component {
     };
   }
   render() {
-    return <div>Hey from First</div>;
+    return (
+      <div>
+        <Input />
+      </div>
+    );
   }
 }
 class SecondStep extends React.Component {
@@ -48,7 +51,7 @@ class ThirdStep extends React.Component {
 
 var steps = [
   // this step hasn't got a isValidated() function, so it will be considered to be true
-  { stepName: 'First', component: FirstStep },
+  { stepName: 'First', stepIcon: 'tim-icons icon-single-02', component: FirstStep },
   // this step will be validated to false
   { stepName: 'Second', component: SecondStep },
   // this step will never be reachable because of the seconds isValidated() steps function that will always return false
@@ -56,14 +59,17 @@ var steps = [
 ];
 
 class WizardExample extends React.Component {
-  finishButtonClick(allStates) {
+  finishButtonClick = (allStates, callback) => {
     console.log(allStates);
-  }
+    // Callback is the paramter to close the modal
+    callback();
+  };
   render() {
+    console.log(this.props);
     return (
-      <Container fluid style={{ marginTop: '15px' }}>
+      <Container fluid>
         <Row>
-          <Col xs={12} md={6} className="mr-auto ml-auto">
+          <Col xs={12} md={8} className="mr-auto ml-auto">
             <ReactWizard
               steps={steps}
               navSteps
@@ -72,7 +78,8 @@ class WizardExample extends React.Component {
               headerTextCenter
               validate
               color="primary"
-              finishButtonClick={this.finishButtonClick}
+              progressbar={true}
+              finishButtonClick={e => this.finishButtonClick(e, this.props.closeModal)}
             />
           </Col>
         </Row>
