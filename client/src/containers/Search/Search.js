@@ -18,6 +18,7 @@ import { getEventSearch } from '../../utils/api';
 import Maps from '../Maps/Maps';
 // import axios from 'axios';
 import DateSearchLayout from '../Layouts/Search/DateSearchLayout';
+import Spinner from '../../components/UI/Spinner';
 
 // create an object where each category id is the key with an inital value of false for checkboxes
 const categoriesWithCheckedState = categories.reduce((categoriesObj, categoryObj) => {
@@ -45,7 +46,13 @@ class Search extends Component {
       name: 'range_end'
     },
     searchResults: [],
-    page: null
+    page: null,
+    loading: false
+  };
+
+  handleSubmit = () => {
+    // for (let value in this.state) {
+    // }
   };
 
   toggleCategories = () => {
@@ -99,6 +106,8 @@ class Search extends Component {
 
   // Convert input and filters to a query string to call API and return the results
   getEvents = () => {
+    this.toggleSpinner();
+    this.toggleEventSearch();
     const events = [];
     const selectedCategories = Object.entries(this.state.categories).filter(el => {
       return el[1] !== false;
@@ -113,12 +122,24 @@ class Search extends Component {
       'start_date.range_end': [this.state.range_end.value]
     };
 
-    const query = queryString.stringify(queryObject, { arrayFormat: 'comma', encode: false });
-    console.log(queryObject);
+    const query = queryString.stringify(queryObject, { arrayFormat: 'comma' });
     getEventSearch(query, this.props.token).then(result => {
       console.log(result.data.events);
+      this.toggleSpinner();
       this.setState({ searchResults: result.data.events });
     });
+  };
+
+  toggleEventSearch = () => {
+    this.setState(prevState => ({
+      searchResults: []
+    }));
+  };
+
+  toggleSpinner = () => {
+    this.setState(prevState => ({
+      loading: !prevState.loading
+    }));
   };
   render() {
     const checkboxes = categories.map(category => {
@@ -132,30 +153,39 @@ class Search extends Component {
         />
       );
     });
+    const testArray = [];
 
-    const searchedEvents = this.state.searchResults.map(event => {
+    const searchedEvents = this.state.searchResults.map((event, index) => {
       if (event.logo) {
+        testArray.push(event.id);
         return (
-          <Col>
-            <EventCard
-              key={event.id}
-              id={event.id}
-              isFree={event.is_free}
-              name={event.name.text.toUpperCase()}
-              start={moment(event.start.utc).format('MMM Do, hh:mm a')}
-              end={moment(event.end.utc).format('MMM Do, hh:mm a')}
-              summary={event.summary}
-              url={event.url}
-              highDefImage={event.logo.original.url}
-              image={event.logo.url}
-              category={event.category_id}
-              venue={event.venue_id}
-              event={event.description.text}
-            />
-          </Col>
+          <EventCard
+            key={event.id}
+            id={event.id}
+            isFree={event.is_free}
+            name={event.name.text.toUpperCase()}
+            start={moment(event.start.utc).format('MMM Do, hh:mm a')}
+            end={moment(event.end.utc).format('MMM Do, hh:mm a')}
+            summary={event.summary}
+            url={event.url}
+            highDefImage={event.logo.original.url}
+            image={event.logo.url}
+            category={event.category_id}
+            venue={event.venue_id}
+            event={event.description.text}
+          />
         );
       }
     });
+    let spinner = null;
+
+    if (this.state.loading) {
+      spinner = (
+        <div className="event-search-spinner">
+          <Spinner />
+        </div>
+      );
+    }
 
     let isCategoriesSelected = Object.values(this.state.categories).some(value => value === true);
     console.log(this.state);
@@ -216,7 +246,10 @@ class Search extends Component {
             </DropdownMenu>
           </Dropdown>
         </Row>
-        <Row>{searchedEvents}</Row>
+        <Row>
+          {spinner}
+          {searchedEvents}
+        </Row>
       </div>
     );
   }

@@ -1,13 +1,13 @@
-import React, { Component, Fragment } from 'react';
-import { Row, Col, Card, CardImg, CardBody, CardTitle, CardText, Button } from 'reactstrap';
+import React, { Component } from 'react';
+import { Card, CardImg, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
-
+import './EventCard.css';
 class EventCard extends Component {
   state = {};
   render() {
     console.log(this.props);
     return (
-      <Fragment>
+      <div className="event-card">
         <Card style={{ width: '20rem' }}>
           <CardImg top src={this.props.image} alt="..." />
           <CardBody>
@@ -17,10 +17,11 @@ class EventCard extends Component {
             <Link to={this.props.url}>
               <Button color="secondary">Go to Event</Button>
             </Link>
+            {console.log(this.props.match)}
             <Button color="secondary">Create Event</Button>
           </CardBody>
         </Card>
-      </Fragment>
+      </div>
     );
   }
 }
