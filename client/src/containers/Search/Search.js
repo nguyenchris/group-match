@@ -8,7 +8,7 @@ import EventCard from '../../components/EventCard/EventCard';
 import Checkbox from '../../components/Input/SearchInput/Checkbox';
 import Spinner from '../../components/UI/Spinner';
 import ModalForm from '../../components/Modal/ModalForm';
-import Maps from '../Maps/Maps';
+// import Maps from '../Maps/Maps';
 import SearchInputs from './Filters/SearchInputs';
 import Filters from './Filters/Filters';
 
@@ -17,6 +17,7 @@ import categories from '../../data/event-categories.json';
 import { getEventSearch } from '../../utils/api';
 import * as actions from '../../store/actions/index';
 import NotificationAlertPopUp from '../../components/NotificationAlert/NotificationAlertPopUp';
+
 // create an object where each category id is the key with an inital value of false for checkboxes
 const categoriesWithCheckedState = categories.reduce((categoriesObj, categoryObj) => {
   return { ...categoriesObj, [categoryObj.id]: false };
@@ -34,6 +35,14 @@ class Search extends Component {
       value: '',
       name: 'Location'
     },
+    locationLat: {
+      value: '',
+      name: 'LocationLat'
+    },
+    locationLong: {
+      value: '',
+      name: 'LocationLong'
+    },
     range_start: {
       value: '',
       name: 'range_start'
@@ -46,13 +55,46 @@ class Search extends Component {
     page: null,
     loading: false,
     selectedEvent: null,
-    error: null
+    error: null,
+    isCurrentLocationSelected: false
   };
 
-  static getDerivedStateFromProps(props, state) {
-    console.log('===============');
-    console.log(props, state);
-    console.log('===============');
+  componentDidUpdate(prevProps, prevState) {
+    const { latitude, longitude } = this.props;
+    const { isCurrentLocationSelected, locationLat, locationLong, location } = this.state;
+    if (
+      latitude &&
+      longitude &&
+      !prevProps.latitude &&
+      !prevProps.longitude &&
+      isCurrentLocationSelected
+    ) {
+      console.log('============');
+      console.log(prevProps, prevState);
+      this.setState({
+        locationLat: {
+          value: latitude
+        },
+        locationLong: {
+          value: longitude
+        },
+        location: {
+          value: 'Current Location'
+        }
+      });
+      const locationInput = document.getElementById('location');
+      locationInput.value = 'Current Location';
+    }
+
+    if (
+      locationLat.value &&
+      locationLong.value &&
+      isCurrentLocationSelected &&
+      location.value !== 'Current Location'
+    ) {
+      console.log('======input for location====');
+      console.log(prevProps, prevState);
+    }
   }
 
   toggle = type => {
@@ -66,19 +108,20 @@ class Search extends Component {
           loading: !prevState.loading
         }));
       case 'categories':
-        // if (this.state.categoriesIsOpen) {
-        //   this.getEvents();
-        // }
-        this.setState(prevState => ({
+        return this.setState(prevState => ({
           categoriesIsOpen: !prevState.categoriesIsOpen
         }));
-        break;
       default:
         return;
     }
   };
 
-  getCurrentLocation = () => {};
+  getCurrentLocation = () => {
+    this.setState({
+      isCurrentLocationSelected: true
+    });
+    this.props.onCurrentLocation();
+  };
 
   handleEventButtonClick = ({ type, target }, props) => {
     console.log(type);
@@ -116,6 +159,7 @@ class Search extends Component {
       value = e.target.value;
       name = e.target.name.toLowerCase();
     }
+
     const updatedInput = {
       ...this.state,
       [name]: {
@@ -134,15 +178,20 @@ class Search extends Component {
   };
   // Convert input and filters to a query string to call API and return the results
   getEvents = () => {
-    const { range_start, range_end, location, event } = this.state;
+    const { range_start, range_end, location, event, locationLat, locationLong } = this.state;
     const selectedCategories = this.getSelectedCategories();
+    let locationAddress;
     if (
       range_start.value ||
       range_end.value ||
       location.value ||
       event.value ||
-      selectedCategories
+      selectedCategories.length !== 0 ||
+      locationLat ||
+      locationLong
     ) {
+      locationAddress = locationLat.value && locationLong.value ? '' : location.value;
+
       this.toggle('spinner');
       this.toggle('eventSearch');
       const categoryArray = selectedCategories.map(el => {
@@ -150,9 +199,12 @@ class Search extends Component {
       });
       const queryObject = {
         categories: categoryArray,
-        q: encodeURI(this.state.event.value),
-        'start_date.range_start': [this.state.range_start.value],
-        'start_date.range_end': [this.state.range_end.value]
+        q: [encodeURI(event.value)],
+        'start_date.range_start': [range_start.value],
+        'start_date.range_end': [range_end.value],
+        'location.latitude': [locationLat.value],
+        'location.longitude': [locationLong.value],
+        'location.address': [locationAddress]
       };
       const query = queryString.stringify(queryObject, { arrayFormat: 'comma', encode: false });
       getEventSearch(query, this.props.token).then(result => {
@@ -160,22 +212,22 @@ class Search extends Component {
         this.setState({ searchResults: result.data.events });
       });
     } else {
-      this.setState({
-        error: 'You must enter a search!'
-      });
-      setTimeout(() => {
-        this.setState({
-          error: null
-        });
-      }, 5000);
+      this.getError('Please enter a search!');
     }
   };
 
+  getError = message => {
+    this.setState({
+      error: message
+    });
+    setTimeout(() => {
+      this.setState({
+        error: null
+      });
+    }, 5000);
+  };
+
   render() {
-    let geolocation;
-    if (this.props.latitude || this.props.longitude) {
-      geolocation = `${(this.props.latitude, this.props.longitude)}`;
-    }
     const checkboxes = categories.map(category => {
       return (
         <Checkbox
@@ -223,7 +275,7 @@ class Search extends Component {
             dateStartName={this.state.range_start.name}
             dateEndValue={this.state.range_end.value}
             dateEndName={this.state.range_end.name}
-            onCurrentLocation={this.props.onCurrentLocation}
+            onCurrentLocation={this.getCurrentLocation}
             locationValue={this.state.location.value}
           />
           <Col xs={12} sm={2} className="btn-search">
@@ -263,7 +315,9 @@ const mapStateToProps = state => {
   return {
     token: state.auth.token,
     latitude: state.geo.latitude,
-    longitude: state.geo.longitude
+    longitude: state.geo.longitude,
+    locationError: state.geo.error
+    // locationSuccess: state.geo
   };
 };
 

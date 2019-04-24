@@ -1,0 +1,17 @@
+.current-temp-nav {
+  position: absolute;
+  right: 215px;
+  top: 10px;
+  font-size: 11px;
+}
+
+.time-zone-nav {
+  position: relative;
+  text-align: center;
+}
+
+.temp-nav {
+  position: relative;
+  font-size: 14px;
+  text-align: center;
+}

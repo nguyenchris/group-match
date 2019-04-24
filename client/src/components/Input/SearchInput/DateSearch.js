@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { Row, Col, Card, CardHeader, CardBody, FormGroup, CardTitle } from 'reactstrap';
+import React, { Component } from 'react';
+// import { Row, Col, Card, CardHeader, CardBody, FormGroup, CardTitle } from 'reactstrap';
 import Datetime from 'react-datetime';
 class DateSearch extends Component {
   render() {

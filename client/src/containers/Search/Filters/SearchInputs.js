@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Row, Col, Button } from 'reactstrap';
+import { Col } from 'reactstrap';
 import EventSearch from '../../../components/Input/SearchInput/EventSearch';
 import LocationSearch from '../../../components/Input/SearchInput/LocationSearch';
 import DateSearchLayout from '../../Layouts/Search/DateSearchLayout';

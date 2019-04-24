@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-
+import axios from 'axios';
 const options = {
   enableHighAccuracy: false,
   timeout: 8000,

@@ -10,11 +10,13 @@ exports.getCityAutocomplete = (req, res, next) => {
   } else {
     console.log(req.query);
     console.log(querystring.stringify(req.query));
+    let apiQuery = querystring.stringify(req.query);
+
+    if (req.query.hasOwnProperty('location.longitude')) {
+      apiQuery += '&location.within=18mi';
+    }
     axios
-      .get(
-        `https://www.eventbriteapi.com/v3/events/search?${querystring.stringify(req.query)}`,
-        authHeader
-      )
+      .get(`https://www.eventbriteapi.com/v3/events/search?${apiQuery}`, authHeader)
       .then(result => {
         res.json(result.data);
       })

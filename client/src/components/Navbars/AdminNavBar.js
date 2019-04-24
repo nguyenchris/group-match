@@ -1,6 +1,8 @@
 import React from 'react';
 // nodejs library that concatenates classes
 import classNames from 'classnames';
+import './AdminNavBar.css';
+import moment from 'moment';
 // reactstrap components
 import {
   Button,
@@ -27,11 +29,15 @@ class AdminNavbar extends React.Component {
     this.state = {
       collapseOpen: false,
       modalSearch: false,
-      color: 'navbar-transparent'
+      color: 'navbar-transparent',
+      time: moment().format('h:mm A'),
+      timer: null
     };
   }
   componentDidMount() {
     window.addEventListener('resize', this.updateColor);
+    const timeInterval = setInterval(this.getTime, 20000);
+    this.setState({ timer: timeInterval });
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateColor);
@@ -67,6 +73,12 @@ class AdminNavbar extends React.Component {
   toggleModalSearch = () => {
     this.setState({
       modalSearch: !this.state.modalSearch
+    });
+  };
+
+  getTime = () => {
+    this.setState({
+      time: moment().format('h:mm A')
     });
   };
   render() {
@@ -106,6 +118,12 @@ class AdminNavbar extends React.Component {
             </button>
             <Collapse navbar isOpen={this.state.collapseOpen}>
               <Nav className="ml-auto" navbar>
+                <div className="current-temp-nav">
+                  <div className="time-zone-nav">America/Phoenix</div>
+                  <div className="temp-nav">
+                    75° High <span clasName="time-nav">{this.state.time}</span>
+                  </div>
+                </div>
                 <InputGroup className="search-bar">
                   <Button
                     color="link"

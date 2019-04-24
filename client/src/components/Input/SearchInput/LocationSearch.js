@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Col, Input, Card, CardHeader, CardBody, FormGroup, CardTitle } from 'reactstrap';
-import * as actions from '../../../store/actions/index';
-import { connect } from 'react-redux';
+// import * as actions from '../../../store/actions/index';
+// import { connect } from 'react-redux';
 
 const LocationSearch = props => {
   return (
@@ -12,7 +12,13 @@ const LocationSearch = props => {
         </CardHeader>
         <CardBody>
           <FormGroup>
-            <Input placeholder="Location" value={props.locationValue} onChange={props.changed} />
+            <Input
+              placeholder="Location"
+              name="location"
+              id="location"
+              value={props.locationValue}
+              onChange={props.changed}
+            />
             <button onClick={props.onCurrentLocation}>Current Location</button>
           </FormGroup>
         </CardBody>
