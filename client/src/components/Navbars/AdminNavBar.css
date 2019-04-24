@@ -1,7 +1,7 @@
 .current-temp-nav {
   position: absolute;
   right: 215px;
-  top: 10px;
+  top: 15px;
   font-size: 11px;
 }
 
@@ -14,4 +14,8 @@
   position: relative;
   font-size: 14px;
   text-align: center;
+}
+
+.time-nav {
+  margin-left: 5px;
 }

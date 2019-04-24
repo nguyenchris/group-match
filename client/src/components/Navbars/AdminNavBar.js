@@ -36,7 +36,7 @@ class AdminNavbar extends React.Component {
   }
   componentDidMount() {
     window.addEventListener('resize', this.updateColor);
-    const timeInterval = setInterval(this.getTime, 20000);
+    const timeInterval = setInterval(this.getTime, 10000);
     this.setState({ timer: timeInterval });
   }
   componentWillUnmount() {
@@ -119,9 +119,14 @@ class AdminNavbar extends React.Component {
             <Collapse navbar isOpen={this.state.collapseOpen}>
               <Nav className="ml-auto" navbar>
                 <div className="current-temp-nav">
-                  <div className="time-zone-nav">America/Phoenix</div>
+                  <div className="time-zone-nav">
+                    {this.props.timezone ? this.props.timezone : null}
+                  </div>
                   <div className="temp-nav">
-                    75° High <span clasName="time-nav">{this.state.time}</span>
+                    {this.props.weather
+                      ? `${this.props.weather}° ${this.props.weatherSummary}`
+                      : null}{' '}
+                    <span className="time-nav">{this.state.time}</span>
                   </div>
                 </div>
                 <InputGroup className="search-bar">

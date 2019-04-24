@@ -62,16 +62,11 @@ class Search extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { latitude, longitude } = this.props;
     const { isCurrentLocationSelected, locationLat, locationLong, location } = this.state;
-    if (
-      latitude &&
-      longitude &&
-      !prevProps.latitude &&
-      !prevProps.longitude &&
-      isCurrentLocationSelected
-    ) {
+    if (latitude !== locationLat.value && longitude !== locationLong && isCurrentLocationSelected) {
       console.log('============');
       console.log(prevProps, prevState);
       this.setState({
+        ...this.state,
         locationLat: {
           value: latitude
         },
@@ -92,8 +87,21 @@ class Search extends Component {
       isCurrentLocationSelected &&
       location.value !== 'Current Location'
     ) {
-      console.log('======input for location====');
-      console.log(prevProps, prevState);
+      const locationInput = document.getElementById('location');
+      locationInput.value = '';
+      this.setState({
+        ...this.state,
+        locationLat: {
+          value: ''
+        },
+        locationLong: {
+          value: ''
+        },
+        location: {
+          value: ''
+        },
+        isCurrentLocationSelected: false
+      });
     }
   }
 

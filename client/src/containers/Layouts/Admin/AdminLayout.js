@@ -7,7 +7,7 @@ import AdminFooter from '../../../components/Footer/AdminFooter';
 import { connect } from 'react-redux';
 import Logout from '../../Auth/Logout';
 import routes from './adminRoutes';
-import { getUser } from '../../../utils/api';
+import { getUser, getCurrentWeather } from '../../../utils/api';
 import * as actions from '../../../store/actions/index';
 import NotificationAlertPopUp from '../../../components/NotificationAlert/NotificationAlertPopUp';
 
@@ -16,7 +16,9 @@ const mapStateToProps = state => {
   return {
     userId: state.auth.userId,
     token: state.auth.token,
-    locationError: state.geo.error
+    locationError: state.geo.error,
+    latitude: state.geo.latitude,
+    longitude: state.geo.longitude
   };
 };
 
@@ -35,7 +37,10 @@ class AdminLayout extends Component {
     this.state = {
       sidebarOpened: document.documentElement.className.indexOf('nav-open') !== -1,
       userName: null,
-      token: this.props.token
+      weather: null,
+      timeZone: null,
+      weatherSummary: null,
+      error: ''
     };
   }
   componentDidMount() {
@@ -44,7 +49,7 @@ class AdminLayout extends Component {
       this.setState({ userName: result.data.name });
     });
     // Get location for user
-    // this.props.onGetCurrentLocation();
+    this.props.onGetCurrentLocation();
 
     if (navigator.platform.indexOf('Win') > -1) {
       document.documentElement.className += ' perfect-scrollbar-on';
@@ -64,6 +69,7 @@ class AdminLayout extends Component {
     }
   }
   componentDidUpdate(e) {
+    const { latitude, longitude, token } = this.props;
     if (e.history.action === 'PUSH') {
       if (navigator.platform.indexOf('Win') > -1) {
         let tables = document.querySelectorAll('.table-responsive');
@@ -75,7 +81,32 @@ class AdminLayout extends Component {
       document.scrollingElement.scrollTop = 0;
       this.refs.mainPanel.scrollTop = 0;
     }
+
+    if (!e.latitude && !e.longitude && latitude && longitude) {
+      getCurrentWeather(latitude, longitude, token)
+        .then(result => {
+          this.setState({
+            timeZone: result.data.timezone,
+            weather: result.data.temperature,
+            weatherSummary: result.data.summary
+          });
+        })
+        .catch(err => {
+          this.getError('Unable to get current weather.');
+        });
+    }
   }
+
+  getError = message => {
+    this.setState({
+      error: message
+    });
+    setTimeout(() => {
+      this.setState({
+        error: ''
+      });
+    }, 5000);
+  };
   // this function opens and closes the sidebar on small devices
   toggleSidebar = () => {
     document.documentElement.classList.toggle('nav-open');
@@ -119,10 +150,14 @@ class AdminLayout extends Component {
               brandText={this.getBrandText(this.props.location.pathname)}
               toggleSidebar={this.toggleSidebar}
               sidebarOpened={this.state.sidebarOpened}
+              weather={this.state.weather}
+              weatherSummary={this.state.weatherSummary}
+              timezone={this.state.timeZone}
             />
             {this.props.locationError ? (
               <NotificationAlertPopUp message={this.props.locationError} />
             ) : null}
+            {this.state.error ? <NotificationAlertPopUp message={this.state.error} /> : null}
 
             <Switch>
               {this.getRoutes(routes)}

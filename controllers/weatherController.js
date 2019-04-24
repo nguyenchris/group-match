@@ -12,10 +12,11 @@ exports.getCurrentWeather = (req, res, next) => {
     .then(result => {
       const { timezone, currently } = result.data;
       const { summary, temperature } = currently;
+      const roundedTemp = temperature.toFixed(0);
       res.status(200).json({
         timezone,
         summary,
-        temperature
+        temperature: roundedTemp
       });
     })
     .catch(err => {
