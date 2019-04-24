@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, InputGroupAddon, InputGroupText, InputGroup } from 'reactstrap';
+import { Input, InputGroupAddon, InputGroupText, InputGroup, Label } from 'reactstrap';
 import classnames from 'classnames';
 
 const InputField = props => {
@@ -30,7 +30,7 @@ const InputField = props => {
         value={props.value}
         placeholder={props.placeholder}
         onChange={e => props.changed(e, props.id)}
-        invalid={invalid}
+        // invalid={invalid}
         onFocus={e => props.focused(true, props.id)}
         onBlur={e => props.focused(false, props.id)}
       />
