@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -16,7 +16,7 @@ import './Search.css';
 import categories from '../../data/event-categories.json';
 import { getEventSearch } from '../../utils/api';
 import * as actions from '../../store/actions/index';
-import { getCurrentLocation } from '../../store/actions/geo';
+import NotificationAlertPopUp from '../../components/NotificationAlert/NotificationAlertPopUp';
 // create an object where each category id is the key with an inital value of false for checkboxes
 const categoriesWithCheckedState = categories.reduce((categoriesObj, categoryObj) => {
   return { ...categoriesObj, [categoryObj.id]: false };
@@ -45,8 +45,15 @@ class Search extends Component {
     searchResults: [],
     page: null,
     loading: false,
-    selectedEvent: null
+    selectedEvent: null,
+    error: null
   };
+
+  static getDerivedStateFromProps(props, state) {
+    console.log('===============');
+    console.log(props, state);
+    console.log('===============');
+  }
 
   toggle = type => {
     switch (type) {
@@ -59,9 +66,9 @@ class Search extends Component {
           loading: !prevState.loading
         }));
       case 'categories':
-        if (this.state.categoriesIsOpen) {
-          console.log('call API');
-        }
+        // if (this.state.categoriesIsOpen) {
+        //   this.getEvents();
+        // }
         this.setState(prevState => ({
           categoriesIsOpen: !prevState.categoriesIsOpen
         }));
@@ -119,27 +126,49 @@ class Search extends Component {
     this.setState(updatedInput);
   };
 
-  // Convert input and filters to a query string to call API and return the results
-  getEvents = () => {
-    this.toggle('spinner');
-    this.toggle('eventSearch');
+  getSelectedCategories = () => {
     const selectedCategories = Object.entries(this.state.categories).filter(el => {
       return el[1] !== false;
     });
-    const categoryArray = selectedCategories.map(el => {
-      return el[0];
-    });
-    const queryObject = {
-      categories: categoryArray,
-      q: encodeURI(this.state.event.value),
-      'start_date.range_start': [this.state.range_start.value],
-      'start_date.range_end': [this.state.range_end.value]
-    };
-    const query = queryString.stringify(queryObject, { arrayFormat: 'comma', encode: false });
-    getEventSearch(query, this.props.token).then(result => {
+    return selectedCategories;
+  };
+  // Convert input and filters to a query string to call API and return the results
+  getEvents = () => {
+    const { range_start, range_end, location, event } = this.state;
+    const selectedCategories = this.getSelectedCategories();
+    if (
+      range_start.value ||
+      range_end.value ||
+      location.value ||
+      event.value ||
+      selectedCategories
+    ) {
       this.toggle('spinner');
-      this.setState({ searchResults: result.data.events });
-    });
+      this.toggle('eventSearch');
+      const categoryArray = selectedCategories.map(el => {
+        return el[0];
+      });
+      const queryObject = {
+        categories: categoryArray,
+        q: encodeURI(this.state.event.value),
+        'start_date.range_start': [this.state.range_start.value],
+        'start_date.range_end': [this.state.range_end.value]
+      };
+      const query = queryString.stringify(queryObject, { arrayFormat: 'comma', encode: false });
+      getEventSearch(query, this.props.token).then(result => {
+        this.toggle('spinner');
+        this.setState({ searchResults: result.data.events });
+      });
+    } else {
+      this.setState({
+        error: 'You must enter a search!'
+      });
+      setTimeout(() => {
+        this.setState({
+          error: null
+        });
+      }, 5000);
+    }
   };
 
   render() {
@@ -197,6 +226,11 @@ class Search extends Component {
             onCurrentLocation={this.props.onCurrentLocation}
             locationValue={this.state.location.value}
           />
+          <Col xs={12} sm={2} className="btn-search">
+            <Button color="primary" className="animation-on-hover" onClick={this.getEvents}>
+              <i className="tim-icons icon-zoom-split" />
+            </Button>
+          </Col>
         </Row>
         <Row className="filter-search-row">
           <Filters
@@ -219,6 +253,7 @@ class Search extends Component {
             <ModalForm event={this.state.selectedEvent} {...this.props} />
           ) : null}
         </Row>
+        {this.state.error ? <NotificationAlertPopUp message={this.state.error} /> : null}
       </div>
     );
   }

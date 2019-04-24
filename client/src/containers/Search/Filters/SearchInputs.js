@@ -40,11 +40,6 @@ const SearchInputs = props => {
           />
         </Col>
       </DateSearchLayout>
-      <Col xs={12} sm={2} className="btn-search">
-        <Button color="primary" className="animation-on-hover">
-          <i className="tim-icons icon-zoom-split" />
-        </Button>
-      </Col>
     </Fragment>
   );
 };
