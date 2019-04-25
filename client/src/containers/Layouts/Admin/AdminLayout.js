@@ -35,7 +35,12 @@ class AdminLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sidebarOpened: document.documentElement.className.indexOf('nav-open') !== -1,
+      // sidebarOpened: document.documentElement.className.indexOf('nav-open') !== -1,
+      activeColor: 'blue',
+
+      sidebarOpened: false,
+      sidebarMini: true,
+      opacity: 0,
       userName: null,
       weather: null,
       timeZone: null,
@@ -60,6 +65,7 @@ class AdminLayout extends Component {
         ps = new PerfectScrollbar(tables[i]);
       }
     }
+    window.addEventListener('scroll', this.showNavbarButton);
   }
   componentWillUnmount() {
     if (navigator.platform.indexOf('Win') > -1) {
@@ -67,10 +73,11 @@ class AdminLayout extends Component {
       document.documentElement.className += ' perfect-scrollbar-off';
       document.documentElement.classList.remove('perfect-scrollbar-on');
     }
+    window.removeEventListener('scroll', this.showNavbarButton);
   }
   componentDidUpdate(e) {
     const { latitude, longitude, token } = this.props;
-    if (e.history.action === 'PUSH') {
+    if (e.location.pathname !== e.history.location.pathname) {
       if (navigator.platform.indexOf('Win') > -1) {
         let tables = document.querySelectorAll('.table-responsive');
         for (let i = 0; i < tables.length; i++) {
@@ -97,6 +104,22 @@ class AdminLayout extends Component {
     }
   }
 
+  showNavbarButton = () => {
+    if (
+      document.documentElement.scrollTop > 50 ||
+      document.scrollingElement.scrollTop > 50 ||
+      this.refs.mainPanel.scrollTop > 50
+    ) {
+      this.setState({ opacity: 1 });
+    } else if (
+      document.documentElement.scrollTop <= 50 ||
+      document.scrollingElement.scrollTop <= 50 ||
+      this.refs.mainPanel.scrollTop <= 50
+    ) {
+      this.setState({ opacity: 0 });
+    }
+  };
+
   getError = message => {
     this.setState({
       error: message
@@ -112,6 +135,23 @@ class AdminLayout extends Component {
     document.documentElement.classList.toggle('nav-open');
     this.setState({ sidebarOpened: !this.state.sidebarOpened });
   };
+
+  closeSidebar = () => {
+    this.setState({
+      sidebarOpened: false
+    });
+    document.documentElement.classList.remove('nav-open');
+  };
+
+  handleMiniClick = () => {
+    if (document.body.classList.contains('sidebar-mini')) {
+      this.setState({ sidebarMini: false });
+    } else {
+      this.setState({ sidebarMini: true });
+    }
+    document.body.classList.toggle('sidebar-mini');
+  };
+
   getRoutes = routes => {
     return routes.map((prop, key) => {
       if (prop.layout === '/user') {
@@ -133,15 +173,26 @@ class AdminLayout extends Component {
     return (
       <>
         <div className="wrapper">
+          <div className="navbar-minimize-fixed" style={{ opacity: this.state.opacity }}>
+            <button
+              className="minimize-sidebar btn btn-link btn-just-icon"
+              onClick={this.handleMiniClick}
+            >
+              <i className="tim-icons icon-align-center visible-on-sidebar-regular text-muted" />
+              <i className="tim-icons icon-bullet-list-67 visible-on-sidebar-mini text-muted" />
+            </button>
+          </div>
           <Sidebar
             {...this.props}
+            activeColor={this.state.activeColor}
             routes={routes}
             bgColor="blue"
             logo={{
               text: this.state.userName,
-              innerLink: '/user'
+              innerLink: '/user/feed'
             }}
-            toggleSidebar={this.toggleSidebar}
+            // toggleSidebar={this.toggleSidebar}
+            closeSidebar={this.closeSidebar}
           />
 
           <div className="main-panel" ref="mainPanel" data="blue">
@@ -150,6 +201,7 @@ class AdminLayout extends Component {
               brandText={this.getBrandText(this.props.location.pathname)}
               toggleSidebar={this.toggleSidebar}
               sidebarOpened={this.state.sidebarOpened}
+              handleMiniClick={this.handleMiniClick}
               weather={this.state.weather}
               weatherSummary={this.state.weatherSummary}
               timezone={this.state.timeZone}

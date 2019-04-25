@@ -26,10 +26,16 @@ class App extends Component {
     app = (
       <div>
         <Layout>
-          <Switch>
+          {/* <Switch>
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={Signup} />
             <Route path="/search" component={Search} />
+            <Route path="/" exact component={Home} />
+            <Redirect to="/" />
+          </Switch> */}
+          <Switch>
+            <Route path="/login" exact render={props => <Login {...props} />} />
+            <Route path="/signup" exact render={props => <Signup {...props} />} />
             <Route path="/" exact component={Home} />
             <Redirect to="/" />
           </Switch>

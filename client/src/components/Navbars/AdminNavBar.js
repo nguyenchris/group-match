@@ -81,12 +81,23 @@ class AdminNavbar extends React.Component {
       time: moment().format('h:mm A')
     });
   };
+
   render() {
     return (
       <>
         <Navbar className={classNames('navbar-absolute', this.state.color)} expand="lg">
           <Container fluid>
             <div className="navbar-wrapper">
+              <div className="navbar-minimize d-inline">
+                <Button
+                  className="minimize-sidebar btn-just-icon"
+                  color="link"
+                  onClick={this.props.handleMiniClick}
+                >
+                  <i className="tim-icons icon-align-center visible-on-sidebar-regular" />
+                  <i className="tim-icons icon-bullet-list-67 visible-on-sidebar-mini" />
+                </Button>
+              </div>
               <div
                 className={classNames('navbar-toggle d-inline', {
                   toggled: this.props.sidebarOpened
@@ -98,7 +109,7 @@ class AdminNavbar extends React.Component {
                   <span className="navbar-toggler-bar bar3" />
                 </button>
               </div>
-              <NavbarBrand href="#pablo" onClick={e => e.preventDefault()}>
+              <NavbarBrand href="#" onClick={e => e.preventDefault()}>
                 {this.props.brandText}
               </NavbarBrand>
             </div>
@@ -183,7 +194,7 @@ class AdminNavbar extends React.Component {
                       <i className="tim-icons icon-single-02" />
                     </div>
                     <b className="caret d-none d-lg-block d-xl-block" />
-                    <p className="d-lg-none">Account</p>
+                    {/* <p className="d-lg-none">Account</p> */}
                   </DropdownToggle>
                   <DropdownMenu className="dropdown-navbar" right tag="ul">
                     <NavLink tag="li">
