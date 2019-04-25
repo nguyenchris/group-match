@@ -17,6 +17,7 @@ import categories from '../../data/event-categories.json';
 import { getEventSearch } from '../../utils/api';
 import * as actions from '../../store/actions/index';
 import NotificationAlertPopUp from '../../components/NotificationAlert/NotificationAlertPopUp';
+import AsyncSelect from 'react-select/lib/Async';
 
 // create an object where each category id is the key with an inital value of false for checkboxes
 const categoriesWithCheckedState = categories.reduce((categoriesObj, categoryObj) => {
@@ -61,10 +62,15 @@ class Search extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { latitude, longitude } = this.props;
-    const { isCurrentLocationSelected, locationLat, locationLong, location } = this.state;
+    const {
+      isCurrentLocationSelected,
+      locationLat,
+      locationLong,
+      location,
+      categories,
+      categoriesIsOpen
+    } = this.state;
     if (latitude !== locationLat.value && longitude !== locationLong && isCurrentLocationSelected) {
-      console.log('============');
-      console.log(prevProps, prevState);
       this.setState({
         ...this.state,
         locationLat: {
@@ -103,6 +109,10 @@ class Search extends Component {
         isCurrentLocationSelected: false
       });
     }
+
+    if (prevState.categories !== categories && prevState.categoriesIsOpen !== categoriesIsOpen) {
+      this.getEvents();
+    }
   }
 
   toggle = type => {
@@ -132,9 +142,6 @@ class Search extends Component {
   };
 
   handleEventButtonClick = ({ type, target }, props) => {
-    console.log(type);
-    console.log(target);
-    console.log(props);
     this.setState({ selectedEvent: props });
   };
 
@@ -195,8 +202,8 @@ class Search extends Component {
       location.value ||
       event.value ||
       selectedCategories.length !== 0 ||
-      locationLat ||
-      locationLong
+      locationLat.value ||
+      locationLong.value
     ) {
       locationAddress = locationLat.value && locationLong.value ? '' : location.value;
 
@@ -273,8 +280,9 @@ class Search extends Component {
 
     return (
       <div className="content">
-        <Row className="search-cards">
+        <Row className="search-cards ml-auto mr-auto">
           <SearchInputs
+            {...this.props}
             keyPressed={this.handleKeypress}
             eventValue={this.state.event.value}
             changed={this.handleInput}
@@ -302,6 +310,7 @@ class Search extends Component {
             )}
           />
         </Row>
+        <Row />
         <Row>
           {this.state.loading ? (
             <div className="event-search-spinner">

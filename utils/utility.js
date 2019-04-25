@@ -1,4 +1,4 @@
-const locations = require('../data/locations.json');
+const locations = require('../data/newLocations.json');
 
 // Returns an array of elements that match to the value passed in
 exports.getSuggestions = (value, query, prop) => {

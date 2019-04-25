@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, Form, Row } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, Form, Row, Button } from 'reactstrap';
 
 const Filters = props => {
   return (
@@ -14,10 +14,15 @@ const Filters = props => {
           Categories
         </DropdownToggle>
         <DropdownMenu>
-          <Form>
+          <Form className="category-filter">
             <Row>{props.checkboxes}</Row>
-            <Row>
-              <button>Apply</button>
+            <Row className="category-filter-btn">
+              <div className="col-md-3">
+                <button className="btn-link text-muted reset">Reset</button>
+              </div>
+              <div className="col-md-3 ml-auto">
+                <button className="btn-link apply">Apply</button>
+              </div>
             </Row>
           </Form>
         </DropdownMenu>

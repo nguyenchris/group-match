@@ -9,12 +9,14 @@ const SearchInputs = props => {
   return (
     <Fragment>
       <EventSearch
+        {...props}
         keyPressed={props.keyPressed}
         value={props.eventValue}
         changed={props.changed}
         name={props.eventName}
       />
       <LocationSearch
+        {...props}
         onCurrentLocation={props.onCurrentLocation}
         changed={props.changed}
         value={props.locationValue}
@@ -30,6 +32,7 @@ const SearchInputs = props => {
         </Col>
         <Col sm={12} md={6} className="date-picker-search">
           <DateSearch
+            {...props}
             inputProps={{
               placeholder: 'End',
               disabled: props.dateStartValue ? false : true

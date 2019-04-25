@@ -37,7 +37,6 @@ class AdminLayout extends Component {
     this.state = {
       // sidebarOpened: document.documentElement.className.indexOf('nav-open') !== -1,
       activeColor: 'blue',
-
       sidebarOpened: false,
       sidebarMini: true,
       opacity: 0,
