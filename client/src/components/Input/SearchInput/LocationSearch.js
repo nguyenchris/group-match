@@ -1,19 +1,15 @@
 import React from 'react';
-import { Col, Input, Card, CardHeader, CardBody, FormGroup, CardTitle } from 'reactstrap';
+import { Col, Card, CardHeader, CardBody, FormGroup, CardTitle } from 'reactstrap';
 import AsyncSelect from 'react-select/lib/Async';
-// import * as actions from '../../../store/actions/index';
-// import { connect } from 'react-redux';
+import { getLocations } from '../../../utils/api';
 
 const LocationSearch = props => {
-  // const locationOptions = inputValue => {
-  //   // return new Promise(resolve => {
-  //   return getLocations(inputValue, token).then(result => {
-  //     console.log(result.data.locations);
-  //     return result.data.locations;
-  //   });
-  //   // });
-  // };
-  console.log(props);
+  const locationOptions = inputValue => {
+    return getLocations(inputValue, props.token).then(result => {
+      return result.data.locations;
+    });
+  };
+
   return (
     <Col xs={6} sm={3}>
       <Card>
@@ -22,30 +18,24 @@ const LocationSearch = props => {
         </CardHeader>
         <CardBody>
           <FormGroup className="location-search">
-            {/* <AsyncSelect
+            <AsyncSelect
               className="react-select info"
               classNamePrefix="react-select"
               blurInputOnSelect={true}
-              // isClearable={true}
-              onChange={this.handleValue}
+              isClearable={true}
+              onChange={e => props.changed(e)}
               defaultOptions
               placeholder={'Location'}
               openMenuOnClick={false}
               loadOptions={locationOptions}
-              value={this.state.location}
-              name="location"
+              value={props.value}
+              name={props.name}
               noOptionsMessage={() => 'No locations found'}
-            /> */}
-            <Input
-              placeholder="Location"
-              name="location"
-              id="location"
-              value={props.locationValue}
-              onChange={props.changed}
             />
-            {/* <button onClick={props.onCurrentLocation}>Current Location</button> */}
             <i
-              className="fas fa-location-arrow current-location"
+              className={`fas fa-location-arrow current-location ${
+                props.isCurrentLocationOn ? 'current-location-selected' : ''
+              }`}
               alt="Current Location"
               onClick={props.onCurrentLocation}
             />

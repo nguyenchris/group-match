@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, Form, Row, Button } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, Form, Row } from 'reactstrap';
 
 const Filters = props => {
   return (

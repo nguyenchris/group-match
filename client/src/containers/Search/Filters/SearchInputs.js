@@ -18,8 +18,9 @@ const SearchInputs = props => {
       <LocationSearch
         {...props}
         onCurrentLocation={props.onCurrentLocation}
-        changed={props.changed}
+        changed={e => props.handleLocationValue(e)}
         value={props.locationValue}
+        isCurrentLocationOn={props.isCurrentLocationOn}
       />
       <DateSearchLayout>
         <Col sm={12} md={6} className="date-picker-search">

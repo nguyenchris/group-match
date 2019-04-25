@@ -17,7 +17,6 @@ import categories from '../../data/event-categories.json';
 import { getEventSearch } from '../../utils/api';
 import * as actions from '../../store/actions/index';
 import NotificationAlertPopUp from '../../components/NotificationAlert/NotificationAlertPopUp';
-import AsyncSelect from 'react-select/lib/Async';
 
 // create an object where each category id is the key with an inital value of false for checkboxes
 const categoriesWithCheckedState = categories.reduce((categoriesObj, categoryObj) => {
@@ -32,10 +31,7 @@ class Search extends Component {
       value: '',
       name: 'Event'
     },
-    location: {
-      value: '',
-      name: 'Location'
-    },
+    location: '',
     locationLat: {
       value: '',
       name: 'LocationLat'
@@ -80,21 +76,13 @@ class Search extends Component {
           value: longitude
         },
         location: {
-          value: 'Current Location'
+          value: 'Current Location',
+          label: 'Current Location'
         }
       });
-      const locationInput = document.getElementById('location');
-      locationInput.value = 'Current Location';
     }
 
-    if (
-      locationLat.value &&
-      locationLong.value &&
-      isCurrentLocationSelected &&
-      location.value !== 'Current Location'
-    ) {
-      const locationInput = document.getElementById('location');
-      locationInput.value = '';
+    if (locationLat.value && locationLong.value && isCurrentLocationSelected && location === null) {
       this.setState({
         ...this.state,
         locationLat: {
@@ -108,6 +96,24 @@ class Search extends Component {
         },
         isCurrentLocationSelected: false
       });
+    }
+    if (locationLat.value && locationLong.value && isCurrentLocationSelected) {
+      if (location !== null) {
+        if (location.hasOwnProperty('value')) {
+          if (location.value !== 'Current Location') {
+            this.setState({
+              ...this.state,
+              locationLat: {
+                value: ''
+              },
+              locationLong: {
+                value: ''
+              },
+              isCurrentLocationSelected: false
+            });
+          }
+        }
+      }
     }
 
     if (prevState.categories !== categories && prevState.categoriesIsOpen !== categoriesIsOpen) {
@@ -162,6 +168,13 @@ class Search extends Component {
     }
   };
 
+  handleLocationValue = value => {
+    this.setState({
+      ...this.state,
+      location: value
+    });
+  };
+
   handleInput = (e, date) => {
     let name, value;
     if (date) {
@@ -199,13 +212,15 @@ class Search extends Component {
     if (
       range_start.value ||
       range_end.value ||
-      location.value ||
+      location ||
       event.value ||
       selectedCategories.length !== 0 ||
       locationLat.value ||
       locationLong.value
     ) {
-      locationAddress = locationLat.value && locationLong.value ? '' : location.value;
+      if (location) {
+        locationAddress = locationLat.value && locationLong.value ? '' : location.value;
+      }
 
       this.toggle('spinner');
       this.toggle('eventSearch');
@@ -292,7 +307,10 @@ class Search extends Component {
             dateEndValue={this.state.range_end.value}
             dateEndName={this.state.range_end.name}
             onCurrentLocation={this.getCurrentLocation}
-            locationValue={this.state.location.value}
+            isCurrentLocationOn={this.state.isCurrentLocationSelected}
+            locationValue={this.state.location}
+            handleLocationValue={this.handleLocationValue}
+            locationName="location"
           />
           <Col xs={12} sm={2} className="btn-search">
             <Button color="primary" className="animation-on-hover" onClick={this.getEvents}>
