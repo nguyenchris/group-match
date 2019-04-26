@@ -228,7 +228,7 @@ class Search extends Component {
         return el[0];
       });
       const queryObject = {
-        categories: categoryArray,
+        high_affinity_categories: categoryArray,
         q: [encodeURI(event.value)],
         'start_date.range_start': [range_start.value],
         'start_date.range_end': [range_end.value],
@@ -272,8 +272,24 @@ class Search extends Component {
 
     const searchedEvents = this.state.searchResults.map((event, index) => {
       if (event.logo) {
+        const eventData = {
+          id: event.id,
+          isFree: event.is_free,
+          name: event.name.text,
+          start: event.start.utc,
+          summary: event.summary,
+          url: event.url,
+          hdImage: event.logo.original.url,
+          timezone: event.start.timezone,
+          image: event.logo.url,
+          category: event.category_id,
+          venue: event.venue_id,
+          description: event.description.text
+        };
+        console.log(event);
         return (
           <EventCard
+            eventData={eventData}
             key={event.id}
             id={event.id}
             isFree={event.is_free}

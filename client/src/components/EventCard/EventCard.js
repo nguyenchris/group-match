@@ -3,6 +3,7 @@ import { Card, CardImg, CardBody, CardTitle, CardText, Button } from 'reactstrap
 // import { Link } from 'react-router-dom';
 import './EventCard.css';
 const EventCard = props => {
+  console.log(props);
   return (
     <div className="event-card">
       <Card style={{ width: '20rem' }}>

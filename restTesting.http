@@ -23,9 +23,9 @@ GET http://{{host}}/api/google/key HTTP/1.1
 Content-Type: {{contentType}}
 
 ###
-GET http://{{host}}/api/event/search/?&q=party&location.latitude=33.356273699999996&location.longitude=-111.7922287	 HTTP/1.1
+GET http://{{host}}/api/event/search/?q=sex HTTP/1.1
 Content-Type: {{contentType}}
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNocmlzbmd1eWVuYXpAZ21haWwuY29tIiwidXNlcklkIjoiNWNiNDZjNGM0MDhlZmZhN2NmMTZkNzBmIiwiaWF0IjoxNTU2MDc4MDYxLCJleHAiOjE1NTYwODE2NjF9.NynKQBZgTGqEd3_Llp_LR6vGyQz9GBKmWg2NZUjqL28
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNocmlzbmd1eWVuYXpAZ21haWwuY29tIiwidXNlcklkIjoiNWNiNDZjNGM0MDhlZmZhN2NmMTZkNzBmIiwiaWF0IjoxNTU2MjYwMjYwLCJleHAiOjE1NTYyNjM4NjB9.UBS7javtWtRMljCo1YNYolBWn_GZJpVl5dDDOYn4kC4
 
 ###
 
