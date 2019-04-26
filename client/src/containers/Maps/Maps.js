@@ -286,17 +286,17 @@ class Map extends Component {
   componentDidMount() {
     // Call /api/google/key to get google key from server
     getGoogleKey(this.props.token).then(res => {
+      console.log(res.data);
       this.setState({
         GOOGLE_KEY: res.data.googleKey
       });
     });
   }
+  // this.state.GOOGLE_KEY
   render() {
     const map = (
       <MapWrapper
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${
-          this.state.GOOGLE_KEY
-        }&v=3.exp&libraries=geometry,drawing`}
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=`}
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `100%` }} />}
         mapElement={<div style={{ height: `100%` }} />}
@@ -304,24 +304,20 @@ class Map extends Component {
     );
     return (
       <>
-        <div className="content">
-          <Row>
-            <Col md="5">
-              <Card className="card-plain">
-                <CardHeader>Google Maps</CardHeader>
-                <CardBody>
-                  <div
-                    id="map"
-                    className="map"
-                    style={{ position: 'relative', overflow: 'hidden' }}
-                  >
-                    {this.state.GOOGLE_KEY ? map : null}
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </div>
+        {/* <div className="content"> */}
+        {/* <Row> */}
+        <Col md="5">
+          <Card className="card-plain">
+            <CardHeader>Google Maps</CardHeader>
+            <CardBody>
+              <div id="map" className="map" style={{ position: 'relative', overflow: 'hidden' }}>
+                {this.state.GOOGLE_KEY ? map : null}
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+        {/* </Row> */}
+        {/* </div> */}
       </>
     );
   }

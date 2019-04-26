@@ -8,7 +8,7 @@ import EventCard from '../../components/EventCard/EventCard';
 import Checkbox from '../../components/Input/SearchInput/Checkbox';
 import Spinner from '../../components/UI/Spinner';
 import ModalForm from '../../components/Modal/ModalForm';
-// import Maps from '../Maps/Maps';
+import Maps from '../Maps/Maps';
 import SearchInputs from './Filters/SearchInputs';
 import Filters from './Filters/Filters';
 
@@ -66,6 +66,17 @@ class Search extends Component {
       categories,
       categoriesIsOpen
     } = this.state;
+
+    /*
+     Since current location consists of geolocation values (latitude and longitude)
+     but user input for a location differs in value as well as query parameter with 
+     eventbrite's API, we must check for the user's input and update state to 
+     prevent appending both location queries, which would return an error.
+
+     All below conditionals will check for changes in user location input / current location
+     */
+
+    // Check if current location is selected
     if (latitude !== locationLat.value && longitude !== locationLong && isCurrentLocationSelected) {
       this.setState({
         ...this.state,
@@ -81,7 +92,7 @@ class Search extends Component {
         }
       });
     }
-
+    // Reset all location states if user clears location input
     if (locationLat.value && locationLong.value && isCurrentLocationSelected && location === null) {
       this.setState({
         ...this.state,
@@ -97,6 +108,7 @@ class Search extends Component {
         isCurrentLocationSelected: false
       });
     }
+    // Remove geolocation values if user inputs a location instead of using current location
     if (locationLat.value && locationLong.value && isCurrentLocationSelected) {
       if (location !== null) {
         if (location.hasOwnProperty('value')) {
@@ -115,12 +127,12 @@ class Search extends Component {
         }
       }
     }
-
+    //
     if (prevState.categories !== categories && prevState.categoriesIsOpen !== categoriesIsOpen) {
       this.getEvents();
     }
   }
-
+  // Toggle state depending on which component needs to be updated
   toggle = type => {
     switch (type) {
       case 'eventSearch':
@@ -139,18 +151,18 @@ class Search extends Component {
         return;
     }
   };
-
+  // Method to get current location when current location is clicked
   getCurrentLocation = () => {
     this.setState({
       isCurrentLocationSelected: true
     });
     this.props.onCurrentLocation();
   };
-
+  //
   handleEventButtonClick = ({ type, target }, props) => {
     this.setState({ selectedEvent: props });
   };
-
+  // Update category checkboxes' states
   handleCheckboxChange = e => {
     const categoryId = e.target.id;
     this.setState(prevState => ({
@@ -160,21 +172,21 @@ class Search extends Component {
       }
     }));
   };
-
+  // Get event search if user presses enter on keyboard
   handleKeypress = e => {
     const value = e.target.value.trim();
     if (e.key === 'Enter' && value.length !== 0) {
       this.getEvents();
     }
   };
-
+  // updates locaton state depending on the value inputted
   handleLocationValue = value => {
     this.setState({
       ...this.state,
       location: value
     });
   };
-
+  //
   handleInput = (e, date) => {
     let name, value;
     if (date) {
@@ -197,14 +209,14 @@ class Search extends Component {
     };
     this.setState(updatedInput);
   };
-
+  // Creates an array of the category id's depending on if they are selected
   getSelectedCategories = () => {
     const selectedCategories = Object.entries(this.state.categories).filter(el => {
       return el[1] !== false;
     });
     return selectedCategories;
   };
-  // Convert input and filters to a query string to call API and return the results
+  // Convert input and filters to a query string in order to call API and return the results
   getEvents = () => {
     const { range_start, range_end, location, event, locationLat, locationLong } = this.state;
     const selectedCategories = this.getSelectedCategories();
@@ -221,12 +233,12 @@ class Search extends Component {
       if (location) {
         locationAddress = locationLat.value && locationLong.value ? '' : location.value;
       }
-
       this.toggle('spinner');
       this.toggle('eventSearch');
       const categoryArray = selectedCategories.map(el => {
         return el[0];
       });
+      // Pass in all parameters for eventbrite's api search query however wrap each value as an array
       const queryObject = {
         high_affinity_categories: categoryArray,
         q: [encodeURI(event.value)],
@@ -236,16 +248,21 @@ class Search extends Component {
         'location.longitude': [locationLong.value],
         'location.address': [locationAddress]
       };
+      // queryString package will convert the queryObject into a querystring, separating each element
+      // in the array with commas as well as removing the array brackets. If array is empty, the key
+      // and value of the object will not be included in the query
       const query = queryString.stringify(queryObject, { arrayFormat: 'comma', encode: false });
       getEventSearch(query, this.props.token).then(result => {
         this.toggle('spinner');
+        console.log(result.data);
         this.setState({ searchResults: result.data.events });
       });
     } else {
+      // If there is no search input, display error to user
       this.getError('Please enter a search!');
     }
   };
-
+  // Pass in any string to display a notification alert
   getError = message => {
     this.setState({
       error: message
@@ -269,41 +286,15 @@ class Search extends Component {
         />
       );
     });
-
     const searchedEvents = this.state.searchResults.map((event, index) => {
-      if (event.logo) {
-        const eventData = {
-          id: event.id,
-          isFree: event.is_free,
-          name: event.name.text,
-          start: event.start.utc,
-          summary: event.summary,
-          url: event.url,
-          hdImage: event.logo.original.url,
-          timezone: event.start.timezone,
-          image: event.logo.url,
-          category: event.category_id,
-          venue: event.venue_id,
-          description: event.description.text
-        };
-        console.log(event);
+      if (event) {
         return (
           <EventCard
-            eventData={eventData}
+            eventData={event}
             key={event.id}
-            id={event.id}
-            isFree={event.is_free}
-            name={event.name.text.toUpperCase()}
-            start={moment(event.start.utc).format('MMM Do, hh:mm a')}
-            end={moment(event.end.utc).format('MMM Do, hh:mm a')}
-            summary={event.summary}
-            url={event.url}
-            highDefImage={event.logo.original.url}
-            image={event.logo.url}
-            category={event.category_id}
-            venue={event.venue_id}
-            event={event.description.text}
             clicked={this.handleEventButtonClick}
+            {...event}
+            {...this.props}
           />
         );
       }
@@ -345,16 +336,19 @@ class Search extends Component {
           />
         </Row>
         <Row />
-        <Row>
-          {this.state.loading ? (
-            <div className="event-search-spinner">
-              <Spinner />
-            </div>
-          ) : null}
-          {searchedEvents}
-          {this.state.selectedEvent ? (
+        <Row className="ml-auto mr-auto">
+          <Col md="7">
+            {this.state.loading ? (
+              <div className="event-search-spinner">
+                <Spinner />
+              </div>
+            ) : null}
+            {searchedEvents}
+            {/* {this.state.selectedEvent ? (
             <ModalForm event={this.state.selectedEvent} {...this.props} />
-          ) : null}
+          ) : null} */}
+          </Col>
+          <Maps />
         </Row>
         {this.state.error ? <NotificationAlertPopUp message={this.state.error} /> : null}
       </div>

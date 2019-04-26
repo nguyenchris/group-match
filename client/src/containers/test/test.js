@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactWizard from 'react-bootstrap-wizard';
-import { Container, Row, Col, Input, Card, CardBody, FormGroup } from 'reactstrap';
+import { Container, Row, Col, Input } from 'reactstrap';
 // import 'bootstrap/dist/css/bootstrap.css';
 // import 'react-bootstrap-wizard/dist/react-wizard.scss';
-import AsyncSelect from 'react-select/lib/Async';
+// import AsyncSelect from 'react-select/lib/Async';
 
 class FirstStep extends React.Component {
   constructor(props) {
@@ -60,11 +60,6 @@ var steps = [
 ];
 
 class WizardExample extends React.Component {
-  finishButtonClick = (allStates, callback) => {
-    console.log(allStates);
-    // Callback is the paramter to close the modal
-    callback();
-  };
   render() {
     console.log(this.props);
     return (
@@ -74,8 +69,8 @@ class WizardExample extends React.Component {
             <ReactWizard
               steps={steps}
               navSteps
-              title="react-wizard"
-              description="This will help you split a complicated flow or a complicated form in multiple steps."
+              title={`Meetup for ${this.props.eventData.name}`}
+              description={`Go ahead and fill out this form in order to create your meetup. You're just moments away from creating your next new experience!`}
               headerTextCenter
               validate
               color="primary"

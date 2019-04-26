@@ -1,4 +1,14 @@
-.event-card {
-  margin-left: 15px;
-  margin-right: 5px;
+.event-card.card {
+  /* margin-left: 15px;
+  margin-right: 5px; */
+  width: 100%;
+  display: inline-block;
+}
+
+.event-card-wrapper {
+  /* margin-left: 15px;
+  margin-right: 5px; */
+  width: 30%;
+  margin-right: 15px;
+  display: inline-block;
 }

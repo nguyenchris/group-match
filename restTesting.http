@@ -23,9 +23,9 @@ GET http://{{host}}/api/google/key HTTP/1.1
 Content-Type: {{contentType}}
 
 ###
-GET http://{{host}}/api/event/search/?q=sex HTTP/1.1
+GET http://{{host}}/api/event/search/?q=party HTTP/1.1
 Content-Type: {{contentType}}
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNocmlzbmd1eWVuYXpAZ21haWwuY29tIiwidXNlcklkIjoiNWNiNDZjNGM0MDhlZmZhN2NmMTZkNzBmIiwiaWF0IjoxNTU2MjYwMjYwLCJleHAiOjE1NTYyNjM4NjB9.UBS7javtWtRMljCo1YNYolBWn_GZJpVl5dDDOYn4kC4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNocmlzbmd1eWVuYXpAZ21haWwuY29tIiwidXNlcklkIjoiNWNiNDZjNGM0MDhlZmZhN2NmMTZkNzBmIiwiaWF0IjoxNTU2MjY5OTUxLCJleHAiOjE1NTYyNzM1NTF9.p1l7Yf_gg9UyCA7de5UrV78QWXJOEdxDguAXp49A7gM
 
 ###
 
