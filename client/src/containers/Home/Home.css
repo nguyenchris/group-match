@@ -6,3 +6,13 @@
   background-position: center;
   height: 100vh;
 }
+
+.about {
+  width: 100%;
+  font-weight: bold;
+  text-align: center;
+  background-color: purple;
+  font-size: 150%;
+  position: absolute;
+  bottom: 26px;
+}
