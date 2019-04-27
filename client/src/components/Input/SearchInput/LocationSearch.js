@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Card, CardHeader, CardBody, FormGroup, CardTitle } from 'reactstrap';
 import AsyncSelect from 'react-select/lib/Async';
 import { getLocations } from '../../../utils/api';
+import Spinner from '../../UI/Spinner';
 
 const LocationSearch = props => {
   const locationOptions = inputValue => {
@@ -9,6 +10,21 @@ const LocationSearch = props => {
       return result.data.locations;
     });
   };
+
+  let currentLocationIcon = null;
+  if (props.loading && props.isCurrentLocationOn) {
+    currentLocationIcon = <Spinner />;
+  } else {
+    currentLocationIcon = (
+      <i
+        className={`fas fa-location-arrow current-location ${
+          props.isCurrentLocationOn ? 'current-location-selected' : ''
+        }`}
+        alt="Current Location"
+        onClick={props.onCurrentLocation}
+      />
+    );
+  }
 
   return (
     <Col xs={6} sm={3}>
@@ -28,17 +44,11 @@ const LocationSearch = props => {
               placeholder={'Location'}
               openMenuOnClick={false}
               loadOptions={locationOptions}
-              value={props.value}
+              value={props.loading ? '' : props.value}
               name={props.name}
               noOptionsMessage={() => 'No locations found'}
             />
-            <i
-              className={`fas fa-location-arrow current-location ${
-                props.isCurrentLocationOn ? 'current-location-selected' : ''
-              }`}
-              alt="Current Location"
-              onClick={props.onCurrentLocation}
-            />
+            {currentLocationIcon}
           </FormGroup>
         </CardBody>
       </Card>

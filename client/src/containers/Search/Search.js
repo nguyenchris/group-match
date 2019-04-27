@@ -101,9 +101,6 @@ class Search extends Component {
         locationLong: {
           value: ''
         },
-        location: {
-          value: ''
-        },
         isCurrentLocationSelected: false
       });
     }
@@ -317,6 +314,7 @@ class Search extends Component {
             locationValue={this.state.location}
             handleLocationValue={this.handleLocationValue}
             locationName="location"
+            locationLoading={this.props.locationLoading}
           />
           <Col xs={12} sm={2} className="btn-search">
             <Button color="primary" className="animation-on-hover" onClick={this.getEvents}>
@@ -343,9 +341,6 @@ class Search extends Component {
               </div>
             ) : null}
             {searchedEvents}
-            {/* {this.state.selectedEvent ? (
-            <ModalForm event={this.state.selectedEvent} {...this.props} />
-          ) : null} */}
           </Col>
           <Maps />
         </Row>
@@ -360,8 +355,8 @@ const mapStateToProps = state => {
     token: state.auth.token,
     latitude: state.geo.latitude,
     longitude: state.geo.longitude,
-    locationError: state.geo.error
-    // locationSuccess: state.geo
+    locationError: state.geo.error,
+    locationLoading: state.geo.loading
   };
 };
 

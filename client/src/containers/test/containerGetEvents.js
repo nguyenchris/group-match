@@ -21,7 +21,6 @@ class DevContainerEvents extends Component {
       });
   }
   render() {
-    console.log(this.props);
     const searchedEvents = this.state.events.map((event, index) => {
       if (event) {
         return <EventCard eventData={event} key={event.id} {...event} {...this.props} />;

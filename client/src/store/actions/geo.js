@@ -5,9 +5,16 @@ const options = {
   maximumAge: 0
 };
 
+const loadGeoLocation = () => {
+  return {
+    type: actionTypes.GEO_START
+  };
+};
+
 // Action to get current location which then dispatches an action depending on result of gelocation acceptance or block
 export const getCurrentLocation = () => {
   return dispatch => {
+    dispatch(loadGeoLocation());
     const geoFail = err => {
       if (err) {
         console.log(err);
