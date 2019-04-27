@@ -1,8 +1,7 @@
 import * as actionTypes from './actionTypes';
-
 const options = {
   enableHighAccuracy: false,
-  timeout: 8000,
+  timeout: 15000,
   maximumAge: 0
 };
 

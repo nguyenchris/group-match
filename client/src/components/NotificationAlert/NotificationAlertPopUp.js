@@ -8,13 +8,13 @@ class NotificationAlertPopUp extends Component {
   myFunc() {
     let options = {};
     options = {
-      place: 'bc',
+      place: 'tc',
       message: (
         <div>
           <div>{this.props.message}</div>
         </div>
       ),
-      type: 'info',
+      type: 'primary',
       icon: 'now-ui-icons ui-1_bell-53',
       autoDismiss: 4
     };

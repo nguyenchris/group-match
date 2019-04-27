@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, InputGroupAddon, InputGroupText, InputGroup, Label } from 'reactstrap';
+import { Input, InputGroupAddon, InputGroupText, InputGroup } from 'reactstrap';
 import classnames from 'classnames';
 
 const InputField = props => {

@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-import { Card, CardHeader, CardBody, Row, Col } from 'reactstrap';
+// import InfoBox from 'react-google-maps/lib/components/addons/InfoBox';
+import { Card, CardHeader, CardBody, Col } from 'reactstrap';
 import { getGoogleKey } from '../../utils/api';
 import { connect } from 'react-redux';
+import { InfoWindow } from 'react-google-maps';
+// import currentLocMarker from '../../assets/img/gps.png';
 // Styling for Map view and markers to show
 const MapWrapper = withScriptjs(
   withGoogleMap(props => (
     <GoogleMap
       defaultZoom={13}
-      defaultCenter={{ lat: 40.748817, lng: -73.985428 }}
+      defaultCenter={{ lat: 33.3521752, lng: -111.8743319 }}
       defaultOptions={{
-        scrollwheel: false,
+        scrollwheel: true,
+        zoomControl: true,
         styles: [
           {
             elementType: 'geometry',
@@ -255,7 +259,14 @@ const MapWrapper = withScriptjs(
         ]
       }}
     >
-      <Marker position={{ lat: 40.748817, lng: -73.985428 }} />
+      <Marker position={{ lat: 33.3521752, lng: -111.8743319 }} label={'hi'}>
+        {
+          <InfoWindow>
+            <div />
+          </InfoWindow>
+        }
+        /
+      </Marker>
       <Marker position={{ lat: 42.748817, lng: -71.985428 }} />
     </GoogleMap>
   ))
@@ -280,10 +291,11 @@ class Map extends Component {
       });
     });
   }
+  // this.state.GOOGLE_KEY
   render() {
     const map = (
       <MapWrapper
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${this.state.GOOGLE_KEY}`}
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=&v=3.exp&libraries=geometry,drawing`}
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `100%` }} />}
         mapElement={<div style={{ height: `100%` }} />}
@@ -291,24 +303,20 @@ class Map extends Component {
     );
     return (
       <>
-        <div className="content">
-          <Row>
-            <Col md="5">
-              <Card className="card-plain">
-                <CardHeader>Google Maps</CardHeader>
-                <CardBody>
-                  <div
-                    id="map"
-                    className="map"
-                    style={{ position: 'relative', overflow: 'hidden' }}
-                  >
-                    {this.state.GOOGLE_KEY ? map : null}
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </div>
+        {/* <div className="content"> */}
+        {/* <Row> */}
+        <Col md="5">
+          <Card className="card-plain">
+            <CardHeader>Google Maps</CardHeader>
+            <CardBody>
+              <div id="map" className="map" style={{ position: 'relative', overflow: 'hidden' }}>
+                {this.state.GOOGLE_KEY ? map : null}
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+        {/* </Row> */}
+        {/* </div> */}
       </>
     );
   }
