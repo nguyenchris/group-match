@@ -11,7 +11,9 @@ import Layout from './containers/Layouts/Index/Layout';
 import AdminLayout from './containers/Layouts/Admin/AdminLayout';
 // import Logout from './containers/Auth/Logout';
 // import './assets/css/blk-design-system-react.css';
-import './assets/scss/black-dashboard-react.scss';
+import './assets/scss/black-dashboard-pro-react.scss';
+
+// import './assets/css/black-dashboard-pro-react.css';
 
 class App extends Component {
   componentDidMount() {
@@ -20,31 +22,32 @@ class App extends Component {
   }
   render() {
     let app;
-    // Determine available routes depending if user is authenticated
-    if (!this.props.isLoggedIn) {
-      app = (
-        <div>
-          <Layout>
-            <Switch>
-              <Route path="/login" exact component={Login} />
-              <Route path="/signup" exact component={Signup} />
-              <Route path="/search" component={Search} />
-              <Route path="/" exact component={Home} />
-              <Redirect to="/" />
-            </Switch>
-          </Layout>
-        </div>
-      );
-    } else {
+
+    app = (
+      <div>
+        <Layout>
+          <Switch>
+            <Route path="/login" exact component={Login} />
+            <Route path="/signup" exact component={Signup} />
+            <Route path="/search" component={Search} />
+            <Route path="/" exact component={Home} />
+            <Redirect to="/" />
+          </Switch>
+        </Layout>
+      </div>
+    );
+    if (this.props.isLoggedIn) {
       app = (
         <div>
           <Switch>
             <Route path="/user" render={props => <AdminLayout {...props} />} />
             <Redirect from="/" to="/user/search" />
+            {/* <Route path="/" exact render={props => <Redirect {...props} to="/user" />} /> */}
           </Switch>
         </div>
       );
     }
+
     return app;
   }
 }

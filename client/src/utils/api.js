@@ -13,5 +13,9 @@ export const getGoogleKey = token => axios.get('/api/google/key', tokenConfig(to
 
 // GET location arrays for autocompletion
 export const getLocations = (value, token) => {
-  axios.get(`/api/event/search?location=${encodeURI(value)}`, tokenConfig(token));
+  return axios.get(`/api/event/search?location=${encodeURI(value)}`, tokenConfig(token));
+};
+
+export const getEventSearch = (value, token) => {
+  return axios.get(`/api/event/search?${encodeURI(value)}`, tokenConfig(token));
 };

@@ -1,3 +1,30 @@
+.event-search-spinner {
+  width: 1500px;
+  margin-top: 15%;
+  margin-left: 50%;
+}
+
+.filter-search-row div.dropdown-menu.show {
+  width: 100px;
+}
+
+.filter-search-row .dropdown .btn.dropdown-toggle:after {
+  margin-left: 10px !important;
+}
+
+div.filter-search-row.row > div > div.dropdown-menu.show {
+  padding: 1.5rem 0.7rem;
+  min-width: 30rem;
+}
+
+.rdtPicker .dow,
+.rdtPicker th.rdtSwitch,
+.rdtPicker th.rdtNext,
+.rdtPicker th.rdtPrev,
+.rdtPicker .rdtTimeToggle {
+  color: #1d8cf8;
+}
+
 .search-cards .card-header div.card-title {
   font-weight: 700;
   /* text-align: center; */
@@ -9,10 +36,6 @@
 .date-picker-search p {
   /* text-align: center; */
   font-weight: 600;
-}
-
-.date-picker-search [value] {
-  /* text-align: center; */
 }
 
 /* .btn-search {
@@ -55,6 +78,11 @@
 @media only screen and (max-width: 575px) {
   .btn-search button {
     margin-top: 0px;
+  }
+  div.filter-search-row.row > div > div.dropdown-menu.show {
+    padding: 1.5rem 0.7rem;
+    min-width: 23rem;
+    font-size: 12px;
   }
 }
 
@@ -178,7 +206,7 @@
   padding: 0px;
   border-radius: 50%;
 }
-.rdtDay.rdtToday.rdtActive,
+.search-cards .rdtDay.rdtToday.rdtActive,
 .rdtDay.rdtActive,
 .rdtDay.rdtActive:hover {
   background-color: #1d8cf8 !important;

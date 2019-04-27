@@ -1,6 +1,7 @@
 import Search from '../../../containers/Search/Search';
 import Maps from '../../Maps/Maps';
 import Feed from '../../Feed/Feed';
+import WizardExample from '../../test/test';
 const routes = [
   {
     path: '/feed',
@@ -21,6 +22,13 @@ const routes = [
     name: 'Dashboard',
     icon: 'tim-icons icon-chart-pie-36',
     component: Maps,
+    layout: '/user'
+  },
+  {
+    path: '/test',
+    name: 'test',
+    icon: 'tim-icons icon-chart-pie-36',
+    component: WizardExample,
     layout: '/user'
   }
 ];
