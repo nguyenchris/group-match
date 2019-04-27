@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, ModalBody } from 'reactstrap';
-import WizardExample from '../../containers/test/test';
+import CreateEventForm from '../Form/CreateEventForm';
 import './ModalForm.css';
 
 class ModalForm extends Component {
@@ -38,7 +38,7 @@ class ModalForm extends Component {
         </div>
         <div className="modal-event-form">
           <ModalBody>
-            <WizardExample {...this.props} closeModal={this.toggleModal} />
+            <CreateEventForm {...this.props} closeModal={this.toggleModal} />
           </ModalBody>
           {/* <ModalFooter> */}
           {/* <Button color="secondary" onClick={this.toggleModalDemo}>

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-import InfoBox from 'react-google-maps/lib/components/addons/InfoBox';
-import { Card, CardHeader, CardBody, Row, Col } from 'reactstrap';
+// import InfoBox from 'react-google-maps/lib/components/addons/InfoBox';
+import { Card, CardHeader, CardBody, Col } from 'reactstrap';
 import { getGoogleKey } from '../../utils/api';
 import { connect } from 'react-redux';
 import { InfoWindow } from 'react-google-maps';
-import currentLocMarker from '../../assets/img/gps.png';
+// import currentLocMarker from '../../assets/img/gps.png';
 // Styling for Map view and markers to show
 const MapWrapper = withScriptjs(
   withGoogleMap(props => (
@@ -286,7 +286,6 @@ class Map extends Component {
   componentDidMount() {
     // Call /api/google/key to get google key from server
     getGoogleKey(this.props.token).then(res => {
-      console.log(res.data);
       this.setState({
         GOOGLE_KEY: res.data.googleKey
       });
@@ -296,7 +295,7 @@ class Map extends Component {
   render() {
     const map = (
       <MapWrapper
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=`}
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=&v=3.exp&libraries=geometry,drawing`}
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `100%` }} />}
         mapElement={<div style={{ height: `100%` }} />}

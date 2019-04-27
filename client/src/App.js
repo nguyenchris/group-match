@@ -6,7 +6,6 @@ import * as actions from './store/actions/index';
 import Login from './containers/Auth/Login';
 import Signup from './containers/Auth/Signup';
 import Home from './containers/Home/Home';
-import Search from './containers/Search/Search';
 import Layout from './containers/Layouts/Index/Layout';
 import AdminLayout from './containers/Layouts/Admin/AdminLayout';
 // import Logout from './containers/Auth/Logout';
@@ -48,7 +47,6 @@ class App extends Component {
           <Switch>
             <Route path="/user" render={props => <AdminLayout {...props} />} />
             <Redirect from="/" to="/user/search" />
-            {/* <Route path="/" exact render={props => <Redirect {...props} to="/user" />} /> */}
           </Switch>
         </div>
       );

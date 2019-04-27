@@ -35,7 +35,6 @@ class AdminLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // sidebarOpened: document.documentElement.className.indexOf('nav-open') !== -1,
       activeColor: 'blue',
       sidebarOpened: false,
       sidebarMini: true,
@@ -190,7 +189,6 @@ class AdminLayout extends Component {
               text: this.state.userName,
               innerLink: '/user/feed'
             }}
-            // toggleSidebar={this.toggleSidebar}
             closeSidebar={this.closeSidebar}
           />
 

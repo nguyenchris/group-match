@@ -7,7 +7,6 @@ import moment from 'moment';
 import EventCard from '../../components/EventCard/EventCard';
 import Checkbox from '../../components/Input/SearchInput/Checkbox';
 import Spinner from '../../components/UI/Spinner';
-import ModalForm from '../../components/Modal/ModalForm';
 import Maps from '../Maps/Maps';
 import SearchInputs from './Filters/SearchInputs';
 import Filters from './Filters/Filters';

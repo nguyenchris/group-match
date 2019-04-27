@@ -7,4 +7,7 @@ const eventBriteController = require('../../controllers/eventBriteController');
 router.route('/search').get(isAuth, eventBriteController.getEventSearch);
 router.route('/location').get(isAuth, eventBriteController.getLocationAutocomplete);
 
+// DEV ONLY
+router.route('/dev').get(isAuth, eventBriteController.devOnlyGetEvents);
+
 module.exports = router;

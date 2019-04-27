@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardBody, CardTitle, CardText, Button, Col } from 'reactstrap';
+import { Card, CardImg, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 import './EventCard.css';
 import ModalForm from '../../components/Modal/ModalForm';
 import ModalEvent from '../../components/Modal/ModalEvent';
@@ -15,7 +15,6 @@ class EventCard extends Component {
       isModalCreateOpen: !prevState.isModalCreateOpen
     }));
   };
-
   toggleModalDetails = () => {
     this.setState(prevState => ({
       isModalDetailsOpen: !prevState.isModalDetailsOpen
