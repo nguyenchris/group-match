@@ -5,3 +5,13 @@
   margin-left: 17px;
   margin-right: 3px;
 }
+
+.feedItem{
+	width:100%;
+	padding: 15px;
+	color: #fff;
+	background-color:rgb(24, 17, 66);
+	border: 1px solid #47f;
+	margin-top:5px;
+	border-radius:10px;
+}
