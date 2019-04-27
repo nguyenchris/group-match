@@ -11,8 +11,6 @@ import NotificationAlert from '../../components/NotificationAlert/NotificationAl
 import * as actions from '../../store/actions/index';
 import { checkIfValid } from '../../utils/helpers';
 
-import axios from 'axios';
-
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.auth.token !== null,

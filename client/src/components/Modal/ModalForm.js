@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import WizardExample from '../../containers/test/test';
+import { Modal, ModalBody } from 'reactstrap';
+import CreateEventForm from '../Form/CreateEventForm';
+import './ModalForm.css';
 
 class ModalForm extends Component {
   state = {
     isOpen: false
   };
 
-  componentDidMount() {
-    this.toggleModal();
-  }
+  componentDidMount() {}
 
   toggleModal = () => {
     this.setState(prevState => ({
@@ -18,11 +17,10 @@ class ModalForm extends Component {
   };
 
   render() {
-    console.log('modal');
     return (
       <Modal
-        isOpen={this.state.isOpen}
-        toggle={this.toggleModal}
+        isOpen={this.props.isOpen}
+        toggle={this.props.toggle}
         modalClassName="modal-black"
         size="lg"
       >
@@ -32,21 +30,23 @@ class ModalForm extends Component {
             className="close"
             data-dismiss="modal"
             aria-label="Close"
-            onClick={this.toggleModal}
+            onClick={this.props.toggle}
           >
             <i className="tim-icons icon-simple-remove" />
           </button>
-          <h5 className="modal-title">Modal title</h5>
+          {/* <h5 className="modal-title">Create Meetup</h5> */}
         </div>
-        <ModalBody>
-          <WizardExample {...this.props} closeModal={this.toggleModal} />
-        </ModalBody>
-        {/* <ModalFooter> */}
-        {/* <Button color="secondary" onClick={this.toggleModalDemo}>
+        <div className="modal-event-form">
+          <ModalBody>
+            <CreateEventForm {...this.props} closeModal={this.toggleModal} />
+          </ModalBody>
+          {/* <ModalFooter> */}
+          {/* <Button color="secondary" onClick={this.toggleModalDemo}>
             Close
           </Button>
           <Button color="primary">Save changes</Button> */}
-        {/* </ModalFooter> */}
+          {/* </ModalFooter> */}
+        </div>
       </Modal>
     );
   }

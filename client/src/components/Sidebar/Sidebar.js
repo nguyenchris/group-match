@@ -23,6 +23,7 @@ class Sidebar extends React.Component {
     return this.props.location.pathname.indexOf(routeName) > -1 ? 'active' : '';
   }
   componentDidMount() {
+    // If using windows computer, make scrollbars have mac look
     if (navigator.platform.indexOf('Win') > -1) {
       ps = new PerfectScrollbar(this.refs.sidebar, {
         suppressScrollX: true,
@@ -71,7 +72,7 @@ class Sidebar extends React.Component {
           <Link
             to={logo.innerLink}
             className="simple-text logo-mini"
-            onClick={this.props.toggleSidebar}
+            onClick={this.props.closeSidebar}
           >
             <div className="logo-img">
               <i className="tim-icons icon-atom" />
@@ -82,7 +83,7 @@ class Sidebar extends React.Component {
           <Link
             to={logo.innerLink}
             className="simple-text logo-normal"
-            onClick={this.props.toggleSidebar}
+            onClick={this.props.closeSidebar}
           >
             {logo.text}
           </Link>
@@ -109,8 +110,8 @@ class Sidebar extends React.Component {
                   <NavLink
                     to={prop.layout + prop.path}
                     className="nav-link"
-                    activeClassName="active"
-                    onClick={this.props.toggleSidebar}
+                    activeClassName=""
+                    onClick={this.props.closeSidebar}
                   >
                     <i className={prop.icon} />
                     <p>{prop.name}</p>

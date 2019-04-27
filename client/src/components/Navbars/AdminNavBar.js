@@ -1,6 +1,8 @@
 import React from 'react';
 // nodejs library that concatenates classes
 import classNames from 'classnames';
+import './AdminNavBar.css';
+import moment from 'moment';
 // reactstrap components
 import {
   Button,
@@ -27,11 +29,15 @@ class AdminNavbar extends React.Component {
     this.state = {
       collapseOpen: false,
       modalSearch: false,
-      color: 'navbar-transparent'
+      color: 'navbar-transparent',
+      time: moment().format('h:mm A'),
+      timer: null
     };
   }
   componentDidMount() {
     window.addEventListener('resize', this.updateColor);
+    const timeInterval = setInterval(this.getTime, 10000);
+    this.setState({ timer: timeInterval });
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateColor);
@@ -69,12 +75,29 @@ class AdminNavbar extends React.Component {
       modalSearch: !this.state.modalSearch
     });
   };
+
+  getTime = () => {
+    this.setState({
+      time: moment().format('h:mm A')
+    });
+  };
+
   render() {
     return (
       <>
         <Navbar className={classNames('navbar-absolute', this.state.color)} expand="lg">
           <Container fluid>
             <div className="navbar-wrapper">
+              <div className="navbar-minimize d-inline">
+                <Button
+                  className="minimize-sidebar btn-just-icon"
+                  color="link"
+                  onClick={this.props.handleMiniClick}
+                >
+                  <i className="tim-icons icon-align-center visible-on-sidebar-regular" />
+                  <i className="tim-icons icon-bullet-list-67 visible-on-sidebar-mini" />
+                </Button>
+              </div>
               <div
                 className={classNames('navbar-toggle d-inline', {
                   toggled: this.props.sidebarOpened
@@ -86,7 +109,7 @@ class AdminNavbar extends React.Component {
                   <span className="navbar-toggler-bar bar3" />
                 </button>
               </div>
-              <NavbarBrand href="#pablo" onClick={e => e.preventDefault()}>
+              <NavbarBrand href="#" onClick={e => e.preventDefault()}>
                 {this.props.brandText}
               </NavbarBrand>
             </div>
@@ -106,6 +129,17 @@ class AdminNavbar extends React.Component {
             </button>
             <Collapse navbar isOpen={this.state.collapseOpen}>
               <Nav className="ml-auto" navbar>
+                <div className="current-temp-nav">
+                  <div className="time-zone-nav">
+                    {this.props.timezone ? this.props.timezone : null}
+                  </div>
+                  <div className="temp-nav">
+                    {this.props.weather
+                      ? `${this.props.weather}° ${this.props.weatherSummary}`
+                      : null}{' '}
+                    <span className="time-nav">{this.state.time}</span>
+                  </div>
+                </div>
                 <InputGroup className="search-bar">
                   <Button
                     color="link"
@@ -160,7 +194,7 @@ class AdminNavbar extends React.Component {
                       <i className="tim-icons icon-single-02" />
                     </div>
                     <b className="caret d-none d-lg-block d-xl-block" />
-                    <p className="d-lg-none">Account</p>
+                    {/* <p className="d-lg-none">Account</p> */}
                   </DropdownToggle>
                   <DropdownMenu className="dropdown-navbar" right tag="ul">
                     <NavLink tag="li">
