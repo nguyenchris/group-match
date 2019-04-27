@@ -1,9 +1,15 @@
-import React, { Component } from 'react';
-import { Col, Input, Card, CardHeader, CardBody, FormGroup, CardTitle } from 'reactstrap';
-import * as actions from '../../../store/actions/index';
-import { connect } from 'react-redux';
+import React from 'react';
+import { Col, Card, CardHeader, CardBody, FormGroup, CardTitle } from 'reactstrap';
+import AsyncSelect from 'react-select/lib/Async';
+import { getLocations } from '../../../utils/api';
 
 const LocationSearch = props => {
+  const locationOptions = inputValue => {
+    return getLocations(inputValue, props.token).then(result => {
+      return result.data.locations;
+    });
+  };
+
   return (
     <Col xs={6} sm={3}>
       <Card>
@@ -11,9 +17,28 @@ const LocationSearch = props => {
           <CardTitle>In</CardTitle>
         </CardHeader>
         <CardBody>
-          <FormGroup>
-            <Input placeholder="Location" value={props.locationValue} onChange={props.changed} />
-            <button onClick={props.onCurrentLocation}>Current Location</button>
+          <FormGroup className="location-search">
+            <AsyncSelect
+              className="react-select info"
+              classNamePrefix="react-select"
+              blurInputOnSelect={true}
+              isClearable={true}
+              onChange={e => props.changed(e)}
+              defaultOptions
+              placeholder={'Location'}
+              openMenuOnClick={false}
+              loadOptions={locationOptions}
+              value={props.value}
+              name={props.name}
+              noOptionsMessage={() => 'No locations found'}
+            />
+            <i
+              className={`fas fa-location-arrow current-location ${
+                props.isCurrentLocationOn ? 'current-location-selected' : ''
+              }`}
+              alt="Current Location"
+              onClick={props.onCurrentLocation}
+            />
           </FormGroup>
         </CardBody>
       </Card>

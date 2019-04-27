@@ -31522,6 +31522,11 @@ This file was modified entirely by Creative Tim for React-Select v2.0.0
   position: relative;
 }
 
+.react-select__input {
+  color: #ffffffcc;
+  font-size: 0.75rem;
+}
+
 .react-select .react-select__option {
   font-size: 0.8571em;
   padding-top: 0.6rem;
@@ -31621,7 +31626,7 @@ This file was modified entirely by Creative Tim for React-Select v2.0.0
   color: #e14eca;
 }
 .react-select .react-select__control .react-select__placeholder {
-  color: #9a9a9a;
+  color: hsl(0, 0%, 50%);
   line-height: normal;
   font-size: 0.8571em;
   top: 48%;
@@ -31652,7 +31657,7 @@ This file was modified entirely by Creative Tim for React-Select v2.0.0
   border-color: #999 transparent transparent;
   border-style: solid;
   border-width: 5px 5px 2.5px;
-  display: inline-block;
+  display: none;
   height: 0;
   width: 0;
   position: relative;
