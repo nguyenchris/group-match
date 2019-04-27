@@ -1,7 +1,13 @@
 .event-search-spinner {
-  width: 1500px;
-  margin-top: 15%;
-  margin-left: 50%;
+  margin-top: 35%;
+  text-align: center;
+}
+.event-search-spinner .loader {
+  width: 70px;
+}
+
+.modal-details-header {
+  margin-bottom: 20px;
 }
 
 .category-filter .btn-link {
@@ -9,6 +15,37 @@
   cursor: pointer;
   color: #e14eca;
   padding: 0;
+}
+
+.location-search .loader {
+  position: absolute;
+  width: 16px;
+  right: 33px;
+  top: 11px;
+}
+
+/* .current-location-spinner {
+  left: 200px;
+  width: 1000px;
+} */
+
+.location-search .svg {
+  right: 100px;
+  width: 350px;
+}
+
+.location-search svg {
+  width: 1000px;
+}
+
+/* .location-search .svg {
+  position: ab
+} */
+
+.location-spinner-wrapper {
+  /* position: relative; */
+  position: absolute;
+  margin-left: 85%;
 }
 
 .current-location {
@@ -25,7 +62,8 @@
   color: #1d8cf8;
 }
 
-.location-search .current-location {
+.location-search .current-location,
+.location-search .svg {
   position: absolute;
   right: 33px;
   bottom: 10px;

@@ -3,9 +3,11 @@ import './Spinner.css';
 import { ReactComponent as Loader } from '../../assets/img/oval.svg';
 const Spinner = () => {
   return (
-    <div className="svg">
-    <Loader className="loader" />
-    </div>
+    // <div className="svg">
+    <React.Fragment>
+      <Loader className="loader" />
+    </React.Fragment>
+    // </div>
   );
 };
 

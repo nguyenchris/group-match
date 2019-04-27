@@ -5679,7 +5679,7 @@ button.close {
 
 @media (min-width: 992px) {
   .modal-lg {
-    max-width: 800px;
+    max-width: 850px;
   }
 }
 
@@ -19825,8 +19825,8 @@ a[data-toggle='collapse'][aria-expanded='true'] .caret,
 }
 
 .modal.show .modal-dialog {
-  -webkit-transform: translate(0, 30%);
-  transform: translate(0, 30%);
+  -webkit-transform: translate(0, 20%);
+  transform: translate(0, 20%);
 }
 
 code {
@@ -34633,7 +34633,7 @@ textarea.form-control:active {
 }
 
 .modal.show.modal-long .modal-dialog {
-  transform: translateY(10%);
+  transform: translateY(1%);
 }
 
 @media (max-width: 991.98px) {

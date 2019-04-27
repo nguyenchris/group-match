@@ -18,12 +18,15 @@ const reducer = (state = intialState, action) => {
       return {
         ...state,
         longitude: action.longitude,
-        latitude: action.latitude
+        latitude: action.latitude,
+        loading: false,
+        error: null
       };
     case actionTypes.GEO_FAIL:
       return {
         ...state,
-        error: action.error
+        error: action.error,
+        loading: false
       };
     default:
       return state;

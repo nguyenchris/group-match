@@ -1,7 +1,6 @@
 import Search from '../../../containers/Search/Search';
 import Maps from '../../Maps/Maps';
 import Feed from '../../Feed/Feed';
-import WizardExample from '../../test/test';
 import Profile from '../../Profile/Profile';
 import DevContainerEvents from '../../test/containerGetEvents';
 

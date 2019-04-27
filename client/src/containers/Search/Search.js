@@ -56,7 +56,7 @@ class Search extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { latitude, longitude } = this.props;
+    const { latitude, longitude, locationError } = this.props;
     const {
       isCurrentLocationSelected,
       locationLat,
@@ -75,8 +75,20 @@ class Search extends Component {
      All below conditionals will check for changes in user location input / current location
      */
 
+    if (locationError && isCurrentLocationSelected) {
+      this.getError('Unable to get current location.');
+      this.setState({
+        isCurrentLocationSelected: false
+      });
+    }
+
     // Check if current location is selected
-    if (latitude !== locationLat.value && longitude !== locationLong && isCurrentLocationSelected) {
+    if (
+      latitude !== locationLat.value &&
+      longitude !== locationLong &&
+      isCurrentLocationSelected &&
+      !locationError
+    ) {
       this.setState({
         ...this.state,
         locationLat: {
@@ -99,9 +111,6 @@ class Search extends Component {
           value: ''
         },
         locationLong: {
-          value: ''
-        },
-        location: {
           value: ''
         },
         isCurrentLocationSelected: false
@@ -270,7 +279,7 @@ class Search extends Component {
       this.setState({
         error: null
       });
-    }, 5000);
+    }, 4000);
   };
 
   render() {
@@ -317,6 +326,7 @@ class Search extends Component {
             locationValue={this.state.location}
             handleLocationValue={this.handleLocationValue}
             locationName="location"
+            locationLoading={this.props.locationLoading}
           />
           <Col xs={12} sm={2} className="btn-search">
             <Button color="primary" className="animation-on-hover" onClick={this.getEvents}>
@@ -343,9 +353,6 @@ class Search extends Component {
               </div>
             ) : null}
             {searchedEvents}
-            {/* {this.state.selectedEvent ? (
-            <ModalForm event={this.state.selectedEvent} {...this.props} />
-          ) : null} */}
           </Col>
           <Maps />
         </Row>
@@ -360,8 +367,8 @@ const mapStateToProps = state => {
     token: state.auth.token,
     latitude: state.geo.latitude,
     longitude: state.geo.longitude,
-    locationError: state.geo.error
-    // locationSuccess: state.geo
+    locationError: state.geo.error,
+    locationLoading: state.geo.loading
   };
 };
 

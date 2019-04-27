@@ -12,3 +12,7 @@
   padding-top: 20vh;
   overflow: hidden;
 }
+
+.auth-form .loader {
+  width: 4.5%;
+}
