@@ -56,7 +56,7 @@ class Search extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { latitude, longitude } = this.props;
+    const { latitude, longitude, locationError } = this.props;
     const {
       isCurrentLocationSelected,
       locationLat,
@@ -75,8 +75,20 @@ class Search extends Component {
      All below conditionals will check for changes in user location input / current location
      */
 
+    if (locationError && isCurrentLocationSelected) {
+      this.getError('Unable to get current location.');
+      this.setState({
+        isCurrentLocationSelected: false
+      });
+    }
+
     // Check if current location is selected
-    if (latitude !== locationLat.value && longitude !== locationLong && isCurrentLocationSelected) {
+    if (
+      latitude !== locationLat.value &&
+      longitude !== locationLong &&
+      isCurrentLocationSelected &&
+      !locationError
+    ) {
       this.setState({
         ...this.state,
         locationLat: {
@@ -267,7 +279,7 @@ class Search extends Component {
       this.setState({
         error: null
       });
-    }, 5000);
+    }, 4000);
   };
 
   render() {

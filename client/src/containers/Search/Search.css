@@ -6,6 +6,10 @@
   width: 70px;
 }
 
+.modal-details-header {
+  margin-bottom: 20px;
+}
+
 .category-filter .btn-link {
   /* color: yellow; */
   cursor: pointer;

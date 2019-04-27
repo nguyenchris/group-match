@@ -19,7 +19,8 @@ const reducer = (state = intialState, action) => {
         ...state,
         longitude: action.longitude,
         latitude: action.latitude,
-        loading: false
+        loading: false,
+        error: null
       };
     case actionTypes.GEO_FAIL:
       return {
