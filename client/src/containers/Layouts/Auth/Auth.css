@@ -1,0 +1,18 @@
+.auth-submit {
+  width: 100%;
+}
+
+@media (min-width: 992px) {
+  .mb-lg-auto.col-lg-6 {
+    margin: 0 auto;
+  }
+}
+
+.section-signup {
+  padding-top: 20vh;
+  overflow: hidden;
+}
+
+.auth-form .loader {
+  width: 4.5%;
+}

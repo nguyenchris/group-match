@@ -1,0 +1,18 @@
+.img-background {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+
+.about {
+  width: 100%;
+  font-weight: bold;
+  text-align: center;
+  background-color: purple;
+  font-size: 150%;
+  position: absolute;
+  bottom: 26px;
+}
