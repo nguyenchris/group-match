@@ -354,7 +354,9 @@ class Search extends Component {
             ) : null}
             {searchedEvents}
           </Col>
-          <Maps />
+          <Maps
+            eventData={this.state.searchResults.length !== 0 ? this.state.searchResults : null}
+          />
         </Row>
         {this.state.error ? <NotificationAlertPopUp message={this.state.error} /> : null}
       </div>
