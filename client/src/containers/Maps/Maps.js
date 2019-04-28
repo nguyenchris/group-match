@@ -267,15 +267,6 @@ const MapWrapper = withScriptjs(
       }}
     >
       {props.markers}
-      {/* <Marker position={{ lat: 33.3521752, lng: -111.8743319 }} label={'hi'}>
-        {
-          <InfoWindow>
-            <div />
-          </InfoWindow>
-        }
-        /
-      </Marker>
-      <Marker position={{ lat: 42.748817, lng: -71.985428 }} /> */}
     </GoogleMap>
   ))
 );
@@ -344,6 +335,7 @@ class Map extends Component {
         googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${
           this.state.GOOGLE_KEY
         }&v=3.exp&libraries=geometry,drawing`}
+        // googleMapURL={'https://maps.googleapis.com/maps/api/js?key='}
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `100%` }} />}
         mapElement={<div style={{ height: `100%` }} />}

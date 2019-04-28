@@ -25,3 +25,7 @@ export const getEventSearch = (value, token) => {
 export const getCurrentWeather = (lat, long, token) => {
   return axios.get(`/api/weather/current?latitude=${lat}&longitude=${long}`, tokenConfig(token));
 };
+
+export const postCreateEvent = (data, token) => {
+  return axios.post(`/api/event/events`, data, tokenConfig(token));
+};

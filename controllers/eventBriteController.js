@@ -5,6 +5,7 @@ const moment = require('moment-timezone');
 const { parseEventData } = require('../utils/utility');
 const fs = require('fs');
 const devEvents = require('../data/eventsJSON-dev.json');
+const db = require('../models/index');
 
 // Controller for /api/event/city?{query=}
 exports.getLocationAutocomplete = (req, res, next) => {
@@ -45,6 +46,10 @@ exports.getEventSearch = (req, res, next) => {
       console.log(err.data);
       next(err);
     });
+};
+
+exports.postCreateEvent = (req, res, next) => {
+  db.E;
 };
 
 // DEV ONLY
