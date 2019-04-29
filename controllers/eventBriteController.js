@@ -42,14 +42,31 @@ exports.getEventSearch = (req, res, next) => {
       // res.json(result.data);
     })
     .catch(err => {
-      console.log(err);
       console.log(err.data);
       next(err);
     });
 };
 
 exports.postCreateEvent = (req, res, next) => {
-  db.E;
+  const { name, description, maxAttendees, preference, eventData } = req.body;
+  const meetup = new db.Meetup({
+    name: name,
+    description: description,
+    preference: preference,
+    creator: req.userId,
+    maxAttendees: maxAttendees,
+    event: eventData
+  });
+  return meetup
+    .save()
+    .then(result => {
+      console.log(result);
+      res.status(201).json(result);
+    })
+    .catch(err => {
+      console.log(err);
+      next(err);
+    });
 };
 
 // DEV ONLY

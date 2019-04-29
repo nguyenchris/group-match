@@ -27,5 +27,5 @@ export const getCurrentWeather = (lat, long, token) => {
 };
 
 export const postCreateEvent = (data, token) => {
-  return axios.post(`/api/event/events`, data, tokenConfig(token));
+  return axios.post(`/api/event/`, data, tokenConfig(token));
 };

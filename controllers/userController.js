@@ -70,20 +70,23 @@ exports.login = (req, res, next) => {
         error.statusCode = 401;
         throw error;
       }
-      const token = jwt.sign(
-        {
-          email: fetchedUser.email,
-          userId: fetchedUser._id.toString()
-        },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
-      );
-      res.status(200).json({
-        userId: fetchedUser._id.toString(),
-        email: fetchedUser.email,
-        name: fetchedUser.name,
-        status: fetchedUser.status,
-        token: token
+      fetchedUser.lastSignIn = Date.now();
+      return fetchedUser.save().then(result => {
+        const token = jwt.sign(
+          {
+            email: result.email,
+            userId: result._id.toString()
+          },
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+        );
+        res.status(200).json({
+          userId: result._id.toString(),
+          email: result.email,
+          name: result.name,
+          status: result.status,
+          token: token
+        });
       });
     })
     .catch(err => {

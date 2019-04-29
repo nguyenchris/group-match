@@ -301,7 +301,13 @@ class CreateEventForm extends React.Component {
       preference: settings.preference,
       eventData: eventData
     };
-    postCreateEvent(data, this.props.token);
+    postCreateEvent(data, this.props.token)
+      .then(result => {
+        console.log(result.data);
+      })
+      .catch(err => {
+        console.log(err.data);
+      });
   };
   render() {
     return (
