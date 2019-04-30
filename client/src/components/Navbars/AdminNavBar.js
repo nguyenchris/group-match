@@ -78,6 +78,7 @@ class AdminNavbar extends React.Component {
   };
 
   getTime = () => {
+    console.log('getTime');
     this.setState({
       time: moment().format('h:mm A')
     });

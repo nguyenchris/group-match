@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 import {
   Jumbotron,
@@ -8,13 +8,45 @@ import {
   CardText,
   CardBody,
   CardTitle,
-  Col
-} from "reactstrap";
+  Col,
+  CardFooter,
+  Button
+} from 'reactstrap';
 
-import "./Profile.css";
+import './Profile.css';
+import { getUser } from '../../utils/api';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions';
 
 class Profile extends Component {
-  state = {};
+  state = {
+    name: '',
+    aboutMe: '',
+    imageUrl: '',
+    lastSignIn: '',
+    createdOn: '',
+    friends: []
+  };
+
+  componentDidMount() {
+    console.log(this.props);
+    let id = null;
+    if (this.props.userId) {
+      id = this.props.userId;
+    } else {
+      id = this.props.userState.userId;
+    }
+    getUser(id, this.props.userState.token).then(user => {
+      this.setState({
+        name: user.data.name,
+        aboutMe: user.data.aboutMe,
+        imageUrl: user.data.imageUrl,
+        lastSignIn: user.data.lastSignIn,
+        createdOn: user.data.createdOn,
+        friends: user.data.friends
+      });
+    });
+  }
 
   render() {
     return (
@@ -22,29 +54,48 @@ class Profile extends Component {
         {/* User Main Profile */}
         <Jumbotron fluid>
           <Container fluid>
-            <Row>
+            {/* <Row>
               <Col md={1}>
-                <img
-                  className="imgclass"
-                  src={"https://www.jetphotos.com/assets/img/user.png"}
-                />
+                <img className="imgclass" src={'https://www.jetphotos.com/assets/img/user.png'} />
               </Col>
               <Col md={8}>
                 <h1 className="display-3">User Profile</h1>
               </Col>
+            </Row> */}
+            <Row>
+              <Col sm="6" lg="6" className="ml-auto mr-auto">
+                <Card className="card-user">
+                  <CardBody>
+                    <CardText />
+                    <div className="author">
+                      <div className="block block-one" />
+                      <a href="#pablo" onClick={e => e.preventDefault()}>
+                        <img alt="..." className="avatar" src={this.state.imageUrl} />
+                        <h5 className="title">{this.state.name}</h5>
+                      </a>
+                      <p>Status: {this.state.status ? 'Online' : 'Offline'}</p>
+                      <p>Last Sign In: {this.state.lastSignIn}</p>
+                      <p>Member Since: {this.state.createdOn}</p>
+                    </div>
+                    <div className="card-description">
+                      <h5 className="text-left">About Me</h5>
+                      {this.state.aboutMe}
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
             </Row>
-            <p className="lead">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-              cupidatat non proident, sunt in culpa qui officia deserunt mollit
-              anim id est laborum.Duis aute irure dolor in reprehenderit in
-              voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-              officia deserunt mollit anim id est laborum.Duis aute irure dolor
-              in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+
+            {/* <p className="lead">
+              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+              officia deserunt mollit anim id est laborum.Duis aute irure dolor in reprehenderit in
+              voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+              cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+              laborum.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+              eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+              culpa qui officia deserunt mollit anim id est laborum.
+            </p> */}
           </Container>
         </Jumbotron>
         <Container>
@@ -55,8 +106,8 @@ class Profile extends Component {
                 <CardBody>
                   <CardTitle>Interests:</CardTitle>
                   <CardText>
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
                   </CardText>
                 </CardBody>
               </Card>
@@ -67,8 +118,8 @@ class Profile extends Component {
                 <CardBody>
                   <CardTitle>Previously Attended Events:</CardTitle>
                   <CardText>
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
                   </CardText>
                 </CardBody>
               </Card>
@@ -82,4 +133,13 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+const mapStateToProps = state => {
+  return {
+    userState: state.auth
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(Profile);

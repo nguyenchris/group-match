@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../models/index');
 const { validationHandler } = require('../middleware/validationHandler');
 const { fromNow } = require('../utils/date-helpers');
+const moment = require('moment');
 
 // POST /api/user/signup
 // Controller for when user signs up
@@ -120,7 +121,7 @@ exports.getUser = (req, res, next) => {
         status: user.status,
         imageUrl: user.imageUrl,
         lastSignIn: fromNow(user.lastSignIn),
-        createdOn: user.createdOn,
+        createdOn: moment(user.createdOn).format('MMMM Do YYYY'),
         isProfileCreated: user.isProfileCreated,
         friends: user.friends
       });
