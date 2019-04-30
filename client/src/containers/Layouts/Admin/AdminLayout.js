@@ -26,6 +26,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    onUpdateProfile: (token, data) => dispatch(actions.createProfile(token, data, 'update')),
     onGetCurrentLocation: () => dispatch(actions.getCurrentLocation())
   };
 };
@@ -45,18 +46,19 @@ class AdminLayout extends Component {
       weather: null,
       timeZone: null,
       weatherSummary: null,
+      getWeather: true,
       user: null,
       error: ''
     };
   }
   componentDidMount() {
-    getUser(this.props.userId, this.props.token)
-      .then(result => {
-        this.setState({ ...this.state, userName: result.data.name, user: result.data });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // getUser(this.props.userId, this.props.token)
+    //   .then(result => {
+    //     this.setState({ ...this.state, userName: result.data.name, user: result.data });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
     // Get location for user
     this.props.onGetCurrentLocation();
 
@@ -80,7 +82,7 @@ class AdminLayout extends Component {
     window.removeEventListener('scroll', this.showNavbarButton);
   }
   componentDidUpdate(e) {
-    const { latitude, longitude, token } = this.props;
+    const { latitude, longitude, token, isProfileCreated } = this.props;
     if (e.location.pathname !== e.history.location.pathname) {
       if (navigator.platform.indexOf('Win') > -1) {
         let tables = document.querySelectorAll('.table-responsive');
@@ -93,19 +95,35 @@ class AdminLayout extends Component {
       this.refs.mainPanel.scrollTop = 0;
     }
 
-    if (!e.latitude && !e.longitude && latitude && longitude) {
+    if (this.state.getWeather && latitude && longitude) {
+      console.log('getting weather');
       getCurrentWeather(latitude, longitude, token)
         .then(result => {
           this.setState({
             timeZone: result.data.timezone,
             weather: result.data.temperature,
-            weatherSummary: result.data.summary
+            weatherSummary: result.data.summary,
+            getWeather: false
           });
         })
         .catch(err => {
           this.getError('Unable to get current weather.');
         });
     }
+
+    // if (!e.latitude && !e.longitude && latitude && longitude) {
+    //   getCurrentWeather(latitude, longitude, token)
+    //     .then(result => {
+    //       this.setState({
+    //         timeZone: result.data.timezone,
+    //         weather: result.data.temperature,
+    //         weatherSummary: result.data.summary
+    //       });
+    //     })
+    //     .catch(err => {
+    //       this.getError('Unable to get current weather.');
+    //     });
+    // }
   }
 
   showNavbarButton = () => {
@@ -174,7 +192,6 @@ class AdminLayout extends Component {
     return 'Dashboard';
   };
   render() {
-    console.log(this.props);
     return (
       <>
         <div className="wrapper">
@@ -216,6 +233,9 @@ class AdminLayout extends Component {
             {this.state.error ? <NotificationAlertPopUp message={this.state.error} /> : null}
 
             {!this.props.isProfileCreated ? <ModalProfile {...this.props} /> : null}
+            {this.props.userState.error ? (
+              <NotificationAlertPopUp message={this.props.userState.error} />
+            ) : null}
             <Switch>
               {this.getRoutes(routes)}
               <Route path={`${this.props.match.path}/logout`} exact component={Logout} />{' '}

@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Modal, ModalBody } from 'reactstrap';
 import ProfileForm from '../Form/Profile/ProfileForm';
 import './ModalForm.css';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/index';
+import NotificationAlertPopUp from '../NotificationAlert/NotificationAlertPopUp';
+import { getCurrentWeather } from '../../utils/api';
 
 class ModalProfile extends Component {
   state = {
@@ -13,7 +17,6 @@ class ModalProfile extends Component {
       this.toggleModal();
     }
   }
-
   toggleModal = () => {
     this.setState(prevState => ({
       isOpen: !prevState.isOpen
@@ -21,14 +24,19 @@ class ModalProfile extends Component {
   };
 
   finishButtonClick = e => {
-    console.log(e);
-    this.toggleModal();
+    const data = {
+      aboutMe: e.About.aboutMe,
+      imageUrl: e.Image.url
+    };
+    console.log(data);
+    console.log(this.props.token);
+    this.props.onCreateProfile(this.props.token, data);
   };
 
   render() {
     return (
       <Modal
-        isOpen={this.state.isOpen}
+        isOpen={!this.props.userState.isProfileCreated}
         modalClassName="modal-black"
         size="lg"
         unmountOnClose={true}
@@ -49,4 +57,24 @@ class ModalProfile extends Component {
   }
 }
 
-export default ModalProfile;
+// const mapStateToProps = state => {
+//   return {
+//     userId: state.auth.userId,
+//     token: state.auth.token,
+//     userState: state.auth,
+//     locationError: state.geo.error,
+//     latitude: state.geo.latitude,
+//     longitude: state.geo.longitude,
+//     error: state.auth.error
+//   };
+// };
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onCreateProfile: (token, data) => dispatch(actions.createProfile(token, data, 'create'))
+  };
+};
+export default connect(
+  null,
+  mapDispatchToProps
+)(ModalProfile);

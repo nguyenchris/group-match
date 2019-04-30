@@ -1,51 +1,51 @@
-// import * as actionTypes from './actionTypes';
-// import axios from 'axios';
-// import { getUser } from '../../utils';
+import * as actionTypes from './actionTypes';
+import axios from 'axios';
+import { getUser } from '../../utils/api';
 
-// export const userGetStart = () => {
-//   return {
-//     type: actionTypes.USER_GET_START
-//   };
-// };
+const tokenConfig = token => {
+  return { headers: { Authorization: `Bearer ${token}` } };
+};
 
-// export const userGetSuccess = (token, userId) => {
-//   return {
-//     type: actionTypes.USER_GET_SUCCESS,
-//     token: token,
-//     userId: userId
-//   };
-// };
+export const profileSuccess = (aboutMe, imageUrl, type) => {
+  return {
+    type: actionTypes.USER_CREATE_PROFILE_SUCCESS,
+    aboutMe,
+    imageUrl
+  };
 
-// export const userGetFail = error => {
-//   return {
-//     type: actionTypes.USER_GET_FAIL,
-//     error: error
-//   };
-// };
+  // if (type === 'update') {
+  //   return {
+  //     type: actionTypes.USER_UPDATE_PROFILE_SUCCESS
+  //   };
+  // }
+};
 
-// // Return dispatches for auth flow and user signup / login
-// export const getUser = (data, isLogin) => {
-//   return dispatch => {
-//     dispatch(userGetStart());
-//     getUser()
-//   };
-// };
+export const profileFail = message => {
+  return {
+    type: actionTypes.USER_CREATE_PROFILE_FAIL,
+    message
+  };
+};
 
-// // Checks if token exists in localstorage and returns the dispatch
-// export const authCheckState = () => {
-//   return dispatch => {
-//     const token = localStorage.getItem('token');
-//     if (!token) {
-//       dispatch(logout());
-//     } else {
-//       const expiration = new Date(localStorage.getItem('expiration'));
-//       if (expiration <= new Date()) {
-//         dispatch(logout());
-//       } else {
-//         const userId = localStorage.getItem('userId');
-//         dispatch(authSuccess(token, userId));
-//         dispatch(authCheckTimeout(expiration.getTime() - new Date().getTime()));
-//       }
-//     }
-//   };
-// };
+export const createProfile = (token, data, type) => {
+  return dispatch => {
+    if (type === 'create') {
+      axios
+        .post('/api/user/profile', data, tokenConfig(token))
+        .then(response => {
+          console.log(response);
+          const { aboutMe, imageUrl } = response.data;
+          dispatch(profileSuccess(aboutMe, imageUrl, type));
+        })
+        .catch(err => {
+          console.log(err);
+          dispatch(profileFail('An error occurred creating your profile!'));
+        });
+    }
+    if (type === 'update') {
+      axios.put('/api/user/profile', data, tokenConfig(token)).then(response => {
+        const { aboutMe, imageUrl } = response.data;
+      });
+    }
+  };
+};

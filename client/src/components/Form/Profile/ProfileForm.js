@@ -15,13 +15,33 @@ class ThirdStep extends React.Component {
     return (
       <div>
         <h5 className="info-text">Please confirm your Profile</h5>
+        <Row>
+          <Col>
+            <div className="card-user text-center">
+              <img
+                src={this.props.wizardData.Image ? this.props.wizardData.Image.url : null}
+                className="avatar"
+                alt="Invalid"
+              />
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm="2">
+            <strong>About Me:</strong>
+          </Col>
+          <Col sm="10">
+            {this.props.wizardData.About ? this.props.wizardData.About.aboutMe : null}
+          </Col>
+        </Row>
       </div>
     );
   }
 }
+
 const steps = [
-  { stepName: 'About Me', stepIcon: 'tim-icons icon-single-02', component: FirstStep },
-  { stepName: 'Profile Image', stepIcon: 'tim-icons icon-settings-gear-63', component: SecondStep },
+  { stepName: 'About', stepIcon: 'tim-icons icon-single-02', component: FirstStep },
+  { stepName: 'Image', stepIcon: 'tim-icons icon-settings-gear-63', component: SecondStep },
   { stepName: 'confirm', stepIcon: 'tim-icons icon-check-2', component: ThirdStep }
 ];
 class ProfileForm extends React.Component {

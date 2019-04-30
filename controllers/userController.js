@@ -130,12 +130,14 @@ exports.getUser = (req, res, next) => {
     });
 };
 
+// POST /api/user/profile
 exports.postProfile = (req, res, next) => {
+  console.log('hi');
   db.User.findById(req.userId)
     .then(user => {
       user.isProfileCreated = true;
       user.aboutMe = req.body.aboutMe;
-      user.imageURl = req.body.imageUrl;
+      user.imageUrl = req.body.imageUrl;
       return user.save();
     })
     .then(result => {

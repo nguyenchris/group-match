@@ -7,7 +7,7 @@ const isAuth = require('../../middleware/isAuth');
 // All routes match with '/api/user
 router.route('/signup').post(validateUser('createUser'), userController.signUp);
 router.route('/login').post(validateUser('loginUser'), userController.login);
-router.route('/:id').get(isAuth, userController.getUser);
 router.route('/profile').post(isAuth, userController.postProfile);
+router.route('/:id').get(isAuth, userController.getUser);
 
 module.exports = router;
