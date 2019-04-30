@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import {
   Modal,
   ModalBody,
-  Row,
-  Col,
-  Button,
   ModalFooter,
   Card,
   CardHeader,
@@ -16,7 +13,7 @@ import {
   TabPane,
   NavLink
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import Interweave from 'interweave';
 
 class ModalEvent extends Component {

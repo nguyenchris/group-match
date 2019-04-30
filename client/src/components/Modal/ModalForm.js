@@ -38,7 +38,11 @@ class ModalForm extends Component {
         </div>
         <div className="modal-event-form">
           <ModalBody>
-            <CreateEventForm {...this.props} closeModal={this.toggleModal} />
+            <CreateEventForm
+              {...this.props}
+              closeModal={this.toggleModal}
+              finishButtonClick={this.props.finishButtonClick}
+            />
           </ModalBody>
           {/* <ModalFooter> */}
           {/* <Button color="secondary" onClick={this.toggleModalDemo}>

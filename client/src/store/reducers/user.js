@@ -5,6 +5,12 @@ const initialState = {
   token: null,
   userId: null,
   name: null,
+  isProfileCreated: null,
+  imageUrl: null,
+  createdOn: null,
+  lastSignIn: null,
+  friends: [],
+  status: false,
   error: null,
   loading: false,
   authRedirectPath: '/'
@@ -16,9 +22,17 @@ const authStart = (state, action) => {
 };
 // Update state to reflect successful authentication
 const authSuccess = (state, action) => {
+  const { userId, name, status, isProfileCreated, lastSignIn, createdOn, token, imageUrl } = action;
   return updateObject(state, {
-    token: action.token,
-    userId: action.userId,
+    token: token,
+    userId: userId,
+    name: name,
+    lastSignIn: lastSignIn,
+    imageUrl: imageUrl,
+    status: status,
+    isProfileCreated: isProfileCreated,
+    createdOn: createdOn,
+    profileError: null,
     error: null,
     loading: false
   });
@@ -29,7 +43,32 @@ const authFail = (state, action) => {
 };
 
 const authLogout = (state, action) => {
-  return updateObject(state, { token: null, userId: null, name: null });
+  return updateObject(state, {
+    token: null,
+    userId: null,
+    name: null,
+    isProfileCreated: null,
+    imageUrl: null,
+    lastSignIn: null,
+    friends: [],
+    status: false,
+    createdOn: null
+  });
+};
+
+const profileSuccess = (state, action) => {
+  return updateObject(state, {
+    aboutMe: action.aboutMe,
+    imageUrl: action.imageUrl,
+    isProfileCreated: true,
+    error: null
+  });
+};
+
+const profileFail = (state, action) => {
+  return updateObject(state, {
+    error: action.message
+  });
 };
 
 const reducer = (state = initialState, action) => {
@@ -42,7 +81,10 @@ const reducer = (state = initialState, action) => {
       return authFail(state, action);
     case actionTypes.AUTH_LOGOUT:
       return authLogout(state, action);
-    // case actionTypes.SET_AUTH_REDIRECT_PATH: return setAuthRedirectPath(state,action);
+    case actionTypes.USER_CREATE_PROFILE_SUCCESS:
+      return profileSuccess(state, action);
+    case actionTypes.USER_CREATE_PROFILE_FAIL:
+      return profileFail(state, action);
     default:
       return state;
   }

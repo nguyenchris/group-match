@@ -6,6 +6,10 @@ class NotificationAlertPopUp extends Component {
     this.myFunc();
   }
   myFunc() {
+    let color = 'primary';
+    if (this.props.notifyColor) {
+      color = this.props.notifyColor;
+    }
     let options = {};
     options = {
       place: 'tc',
@@ -14,7 +18,7 @@ class NotificationAlertPopUp extends Component {
           <div>{this.props.message}</div>
         </div>
       ),
-      type: 'primary',
+      type: `${color}`,
       icon: 'now-ui-icons ui-1_bell-53',
       autoDismiss: 4
     };

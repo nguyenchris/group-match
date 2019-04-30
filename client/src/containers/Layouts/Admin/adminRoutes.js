@@ -32,14 +32,15 @@ const routes = [
     icon: 'tim-icons icon-chart-pie-36',
     component: Profile,
     layout: '/user'
-  },
-  {
-    path: '/test',
-    name: 'test',
-    icon: 'tim-icons icon-chart-pie-36',
-    component: DevContainerEvents,
-    layout: '/user'
   }
 ];
+
+// {
+//   path: '/test',
+//   name: 'test',
+//   icon: 'tim-icons icon-chart-pie-36',
+//   component: DevContainerEvents,
+//   layout: '/user'
+// }
 
 export default routes;
