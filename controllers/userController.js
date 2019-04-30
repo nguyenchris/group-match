@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../models/index');
 const { validationHandler } = require('../middleware/validationHandler');
 const { fromNow } = require('../utils/date-helpers');
+const moment = require('moment');
 
 // POST /api/user/signup
 // Controller for when user signs up
@@ -36,6 +37,10 @@ exports.signUp = (req, res, next) => {
             email: newUser.email,
             name: newUser.name,
             status: newUser.status,
+            imageUrl: newUser.imageUrl,
+            lastSignIn: fromNow(newUser.lastSignIn),
+            isProfileCreated: newUser.isProfileCreated,
+            friends: newUser.friends,
             token: token
           });
         });
@@ -70,20 +75,28 @@ exports.login = (req, res, next) => {
         error.statusCode = 401;
         throw error;
       }
-      const token = jwt.sign(
-        {
-          email: fetchedUser.email,
-          userId: fetchedUser._id.toString()
-        },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
-      );
-      res.status(200).json({
-        userId: fetchedUser._id.toString(),
-        email: fetchedUser.email,
-        name: fetchedUser.name,
-        status: fetchedUser.status,
-        token: token
+      fetchedUser.lastSignIn = Date.now();
+      return fetchedUser.save().then(result => {
+        const token = jwt.sign(
+          {
+            email: result.email,
+            userId: result._id.toString()
+          },
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+        );
+        res.status(200).json({
+          userId: result._id.toString(),
+          email: result.email,
+          name: result.name,
+          aboutMe: result.aboutMe,
+          status: result.status,
+          imageUrl: result.imageUrl,
+          lastSignIn: fromNow(result.lastSignIn),
+          isProfileCreated: result.isProfileCreated,
+          friends: result.friends,
+          token: token
+        });
       });
     })
     .catch(err => {
@@ -97,16 +110,46 @@ exports.getUser = (req, res, next) => {
   db.User.findById(req.params.id)
     .then(user => {
       if (!user) {
+        const error = new Error('User not found!');
+        error.statusCode = 401;
+        throw error;
       }
       res.status(200).json({
         userId: user._id,
         name: user.name,
+        aboutMe: user.aboutMe,
         status: user.status,
+        imageUrl: user.imageUrl,
         lastSignIn: fromNow(user.lastSignIn),
-        createdOn: user.createdOn
+        createdOn: moment(user.createdOn).format('MMMM Do YYYY'),
+        isProfileCreated: user.isProfileCreated,
+        friends: user.friends
       });
     })
     .catch(err => {
+      next(err);
+    });
+};
+
+// POST /api/user/profile
+exports.postProfile = (req, res, next) => {
+  console.log('hi');
+  db.User.findById(req.userId)
+    .then(user => {
+      user.isProfileCreated = true;
+      user.aboutMe = req.body.aboutMe;
+      user.imageUrl = req.body.imageUrl;
+      return user.save();
+    })
+    .then(result => {
+      res.status(201).json({
+        aboutMe: result.aboutMe,
+        imageUrl: result.imageUrl,
+        isProfileCreated: result.isProfileCreated
+      });
+    })
+    .catch(err => {
+      console.log(err);
       next(err);
     });
 };

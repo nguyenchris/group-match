@@ -108,7 +108,10 @@ class Sidebar extends React.Component {
                   key={key}
                 >
                   <NavLink
-                    to={prop.layout + prop.path}
+                    to={{
+                      pathname: `${prop.layout + prop.path}`,
+                      userState: this.props.userState
+                    }}
                     className="nav-link"
                     activeClassName=""
                     onClick={this.props.closeSidebar}

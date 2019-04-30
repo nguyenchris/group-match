@@ -132,7 +132,7 @@ class Login extends Component {
         title="Login"
         alert={this.props.error ? <NotificationAlert alert={this.props.error} /> : null}
       >
-        <Form className="form" onSubmit={this.submitHandler} noValidate>
+        <Form className="form auth-form" onSubmit={this.submitHandler} noValidate>
           {form}
           <Button className="btn-round" color="success" disabled={this.props.loading} block>
             {this.props.loading ? <Spinner /> : 'Submit'}

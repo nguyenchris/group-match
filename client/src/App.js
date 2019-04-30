@@ -33,8 +33,8 @@ class App extends Component {
             <Redirect to="/" />
           </Switch> */}
           <Switch>
-            <Route path="/login" exact render={props => <Login {...props} />} />
-            <Route path="/signup" exact render={props => <Signup {...props} />} />
+            <Route path="/login" exact render={props => <Login />} />
+            <Route path="/signup" exact render={props => <Signup />} />
             <Route path="/" exact component={Home} />
             <Redirect to="/" />
           </Switch>
@@ -46,7 +46,7 @@ class App extends Component {
         <div>
           <Switch>
             <Route path="/user" render={props => <AdminLayout {...props} />} />
-            <Redirect from="/" to="/user/search" />
+            <Redirect from="/" to="/user/feed" />
           </Switch>
         </div>
       );
