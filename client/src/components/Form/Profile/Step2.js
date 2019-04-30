@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Input, FormGroup, Row, Col, Button, Label } from 'reactstrap';
+import { Input, FormGroup, Row, Col, Button } from 'reactstrap';
 
 class SecondStep extends React.Component {
   constructor(props) {

@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import './AdminNavBar.css';
 import moment from 'moment';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 // reactstrap components
 import {
   Button,

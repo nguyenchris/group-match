@@ -1,22 +1,11 @@
 import React, { Component } from 'react';
 
-import {
-  Jumbotron,
-  Container,
-  Row,
-  Card,
-  CardText,
-  CardBody,
-  CardTitle,
-  Col,
-  CardFooter,
-  Button
-} from 'reactstrap';
+import { Jumbotron, Container, Row, Card, CardText, CardBody, CardTitle, Col } from 'reactstrap';
 
 import './Profile.css';
 import { getUser } from '../../utils/api';
 import { connect } from 'react-redux';
-import * as actions from '../../store/actions';
+// import * as actions from '../../store/actions';
 
 class Profile extends Component {
   state = {
@@ -104,10 +93,9 @@ class Profile extends Component {
               {/* Interests */}
               <Card>
                 <CardBody>
-                  <CardTitle>Interests:</CardTitle>
+                  <CardTitle>Friends</CardTitle>
                   <CardText>
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
+                    {this.state.friends.length > 0 ? 'map friends' : 'No friends yet.'}
                   </CardText>
                 </CardBody>
               </Card>

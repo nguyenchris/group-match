@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
-import { getUser } from '../../utils/api';
+// import { getUser } from '../../utils/api';
 
 const tokenConfig = token => {
   return { headers: { Authorization: `Bearer ${token}` } };
@@ -42,10 +42,10 @@ export const createProfile = (token, data, type) => {
           dispatch(profileFail('An error occurred creating your profile!'));
         });
     }
-    if (type === 'update') {
-      axios.put('/api/user/profile', data, tokenConfig(token)).then(response => {
-        const { aboutMe, imageUrl } = response.data;
-      });
-    }
+    // if (type === 'update') {
+    //   axios.put('/api/user/profile', data, tokenConfig(token)).then(response => {
+    //     const { aboutMe, imageUrl } = response.data;
+    //   });
+    // }
   };
 };

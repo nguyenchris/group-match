@@ -7,10 +7,10 @@ import AdminFooter from '../../../components/Footer/AdminFooter';
 import { connect } from 'react-redux';
 import Logout from '../../Auth/Logout';
 import routes from './adminRoutes';
-import { getUser, getCurrentWeather } from '../../../utils/api';
+import { getCurrentWeather } from '../../../utils/api';
 import * as actions from '../../../store/actions/index';
 import NotificationAlertPopUp from '../../../components/NotificationAlert/NotificationAlertPopUp';
-import ProfileForm from '../../../components/Form/Profile/ProfileForm';
+// import ProfileForm from '../../../components/Form/Profile/ProfileForm';
 import ModalProfile from '../../../components/Modal/ModalProfile';
 
 const mapStateToProps = state => {
