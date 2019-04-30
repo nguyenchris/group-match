@@ -15,7 +15,7 @@ class SecondStep extends React.Component {
   handleInput = e => {
     const { value, id } = e.target;
     this.setState({
-      [id]: value,
+      [id]: value.trim(),
       [id + 'State']: 'has-success'
     });
   };

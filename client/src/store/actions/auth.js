@@ -9,12 +9,14 @@ export const authStart = () => {
 };
 
 export const authSuccess = (token, user) => {
-  const { userId, name, status, isProfileCreated, lastSignIn, createdOn } = user;
+  const { userId, name, status, isProfileCreated, lastSignIn, createdOn, aboutMe, imageUrl } = user;
   return {
     type: actionTypes.AUTH_SUCCESS,
     token: token,
     userId: userId,
     name: name,
+    aboutMe: aboutMe,
+    imageUrl: imageUrl,
     lastSignIn: lastSignIn,
     status: status,
     isProfileCreated: isProfileCreated,
@@ -83,7 +85,6 @@ export const authCheckState = () => {
       } else {
         const userId = localStorage.getItem('userId');
         getUser(userId, token).then(response => {
-          console.log(response.data);
           dispatch(authSuccess(token, response.data));
           dispatch(authCheckTimeout(expiration.getTime() - new Date().getTime()));
         });

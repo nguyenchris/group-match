@@ -1,31 +1,33 @@
 import React from 'react';
 import ReactWizard from 'react-bootstrap-wizard';
 import { Container, Row, Col } from 'reactstrap';
-
-
+import FirstStep from './Step1';
+import SecondStep from './Step2';
 class ThirdStep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      confirm: 'third step here'
+      confirm: null
     };
   }
 
   render() {
     return (
       <div>
-        <h5 className="info-text">Please confirm your Meetup</h5>
+        <h5 className="info-text">Please confirm your Profile</h5>
       </div>
     );
   }
 }
-
 const steps = [
-  { stepName: 'settings', stepIcon: 'tim-icons icon-settings-gear-63', component: },
-  { stepName: 'description', stepIcon: 'tim-icons icon-pencil', component:  },
+  { stepName: 'About Me', stepIcon: 'tim-icons icon-single-02', component: FirstStep },
+  { stepName: 'Profile Image', stepIcon: 'tim-icons icon-settings-gear-63', component: SecondStep },
   { stepName: 'confirm', stepIcon: 'tim-icons icon-check-2', component: ThirdStep }
 ];
 class ProfileForm extends React.Component {
+  finishButtonClick(e) {
+    console.log(e);
+  }
   render() {
     return (
       <Container fluid>
@@ -34,8 +36,10 @@ class ProfileForm extends React.Component {
             <ReactWizard
               steps={steps}
               navSteps
-              title={`Meetup Creation Form`}
-              description={`${this.props.eventData.name}`}
+              title={`Create Profile`}
+              description={`Welcome ${
+                this.props.userState.name
+              }! Please create your profile to get started.`}
               headerTextCenter
               validate
               progressbar={true}
@@ -44,7 +48,6 @@ class ProfileForm extends React.Component {
               nextButtonClasses="btn-wd btn-info"
               previousButtonClasses="btn-wd"
               finishButtonClick={e => this.props.finishButtonClick(e)}
-              wizardData={{ eventData: this.props.eventData }}
             />
           </Col>
         </Row>

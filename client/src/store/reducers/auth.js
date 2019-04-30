@@ -6,6 +6,7 @@ const initialState = {
   userId: null,
   name: null,
   isProfileCreated: null,
+  imageUrl: null,
   createdOn: null,
   lastSignIn: null,
   friends: [],
@@ -21,12 +22,13 @@ const authStart = (state, action) => {
 };
 // Update state to reflect successful authentication
 const authSuccess = (state, action) => {
-  const { userId, name, status, isProfileCreated, lastSignIn, createdOn, token } = action;
+  const { userId, name, status, isProfileCreated, lastSignIn, createdOn, token, imageUrl } = action;
   return updateObject(state, {
     token: token,
     userId: userId,
     name: name,
     lastSignIn: lastSignIn,
+    imageUrl: imageUrl,
     status: status,
     isProfileCreated: isProfileCreated,
     createdOn: createdOn,
@@ -45,9 +47,11 @@ const authLogout = (state, action) => {
     userId: null,
     name: null,
     isProfileCreated: null,
+    imageUrl: null,
     lastSignIn: null,
     friends: [],
-    status: false
+    status: false,
+    createdOn: null
   });
 };
 

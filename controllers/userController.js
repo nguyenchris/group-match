@@ -36,6 +36,8 @@ exports.signUp = (req, res, next) => {
             email: newUser.email,
             name: newUser.name,
             status: newUser.status,
+            imageUrl: newUser.imageUrl,
+            lastSignIn: fromNow(newUser.lastSignIn),
             isProfileCreated: newUser.isProfileCreated,
             friends: newUser.friends,
             token: token
@@ -86,7 +88,10 @@ exports.login = (req, res, next) => {
           userId: result._id.toString(),
           email: result.email,
           name: result.name,
+          aboutMe: result.aboutMe,
           status: result.status,
+          imageUrl: result.imageUrl,
+          lastSignIn: fromNow(result.lastSignIn),
           isProfileCreated: result.isProfileCreated,
           friends: result.friends,
           token: token
@@ -111,7 +116,9 @@ exports.getUser = (req, res, next) => {
       res.status(200).json({
         userId: user._id,
         name: user.name,
+        aboutMe: user.aboutMe,
         status: user.status,
+        imageUrl: user.imageUrl,
         lastSignIn: fromNow(user.lastSignIn),
         createdOn: user.createdOn,
         isProfileCreated: user.isProfileCreated,
@@ -124,5 +131,22 @@ exports.getUser = (req, res, next) => {
 };
 
 exports.postProfile = (req, res, next) => {
-  db.User.findById(req.userId).then(user => {});
+  db.User.findById(req.userId)
+    .then(user => {
+      user.isProfileCreated = true;
+      user.aboutMe = req.body.aboutMe;
+      user.imageURl = req.body.imageUrl;
+      return user.save();
+    })
+    .then(result => {
+      res.status(201).json({
+        aboutMe: result.aboutMe,
+        imageUrl: result.imageUrl,
+        isProfileCreated: result.isProfileCreated
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      next(err);
+    });
 };

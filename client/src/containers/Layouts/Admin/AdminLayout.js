@@ -10,12 +10,14 @@ import routes from './adminRoutes';
 import { getUser, getCurrentWeather } from '../../../utils/api';
 import * as actions from '../../../store/actions/index';
 import NotificationAlertPopUp from '../../../components/NotificationAlert/NotificationAlertPopUp';
+import ProfileForm from '../../../components/Form/Profile/ProfileForm';
+import ModalProfile from '../../../components/Modal/ModalProfile';
 
-// Contains array of routes, icones, and which component to render for Sidebar
 const mapStateToProps = state => {
   return {
     userId: state.auth.userId,
     token: state.auth.token,
+    userState: state.auth,
     locationError: state.geo.error,
     latitude: state.geo.latitude,
     longitude: state.geo.longitude
@@ -172,7 +174,7 @@ class AdminLayout extends Component {
     return 'Dashboard';
   };
   render() {
-    console.log(this.state);
+    console.log(this.props);
     return (
       <>
         <div className="wrapper">
@@ -191,7 +193,7 @@ class AdminLayout extends Component {
             routes={routes}
             bgColor="blue"
             logo={{
-              text: this.state.userName,
+              text: this.props.userState.name,
               innerLink: '/user/feed'
             }}
             closeSidebar={this.closeSidebar}
@@ -213,6 +215,7 @@ class AdminLayout extends Component {
             ) : null}
             {this.state.error ? <NotificationAlertPopUp message={this.state.error} /> : null}
 
+            {!this.props.isProfileCreated ? <ModalProfile {...this.props} /> : null}
             <Switch>
               {this.getRoutes(routes)}
               <Route path={`${this.props.match.path}/logout`} exact component={Logout} />{' '}
