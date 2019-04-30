@@ -3,11 +3,14 @@ import { Card, CardImg, CardBody, CardTitle, CardText, Button } from 'reactstrap
 import './EventCard.css';
 import ModalForm from '../../components/Modal/ModalForm';
 import ModalEvent from '../../components/Modal/ModalEvent';
+import { postCreateEvent } from '../../utils/api';
+import NotificationAlertPopUp from '../NotificationAlert/NotificationAlertPopUp';
 
 class EventCard extends Component {
   state = {
     isModalCreateOpen: false,
-    isModalDetailsOpen: false
+    isModalDetailsOpen: false,
+    notification: ''
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -28,6 +31,42 @@ class EventCard extends Component {
       ...prevState,
       isModalDetailsOpen: !prevState.isModalDetailsOpen
     }));
+  };
+
+  timeoutNotifcationAlert = () => {
+    setTimeout(() => {
+      this.setState({
+        ...this.state,
+        notification: ''
+      });
+    }, 4000);
+  };
+
+  finishButtonClick = e => {
+    const { description, eventData, settings } = e;
+    const data = {
+      name: description.meetupName,
+      description: description.description,
+      maxAttendees: settings.maxAttendees,
+      preference: settings.preference,
+      eventData: eventData
+    };
+    postCreateEvent(data, this.props.token)
+      .then(result => {
+        this.setState({
+          ...this.state,
+          notification: 'Meet up successfully created!'
+        });
+        this.toggleModalCreate();
+        this.timeoutNotifcationAlert();
+      })
+      .catch(err => {
+        this.setState({
+          ...this.state,
+          notification: 'Something went wrong, unable to create meetup.'
+        });
+        this.timeoutNotifcationAlert();
+      });
   };
 
   render() {
@@ -57,10 +96,14 @@ class EventCard extends Component {
               <ModalForm
                 isOpen={this.state.isModalCreateOpen}
                 toggle={this.toggleModalCreate}
+                finishButtonClick={this.finishButtonClick}
                 {...this.props}
               />
             ) : null}
           </CardBody>
+          {this.state.notification ? (
+            <NotificationAlertPopUp message={this.state.notification} />
+          ) : null}
         </Card>
       </div>
     );

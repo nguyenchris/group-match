@@ -17,7 +17,6 @@ export const getCurrentLocation = () => {
     dispatch(loadGeoLocation());
     const geoFail = err => {
       if (err) {
-        console.log(err);
         dispatch({
           type: actionTypes.GEO_FAIL,
           error: err.message
@@ -27,7 +26,6 @@ export const getCurrentLocation = () => {
 
     const geoSuccess = position => {
       if (position) {
-        console.log(position);
         dispatch({
           type: actionTypes.GEO_SUCCESS,
           latitude: position.coords.latitude,

@@ -15,13 +15,13 @@ import './assets/css/nucleo-icons.css';
 
 import * as serviceWorker from './serviceWorker';
 import App from './App';
-import authReducer from './store/reducers/auth';
+import userReducer from './store/reducers/user';
 import geoReducer from './store/reducers/geo';
 
 // const logger = createLogger();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
-  auth: authReducer,
+  auth: userReducer,
   geo: geoReducer
 });
 // const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk, logger)));

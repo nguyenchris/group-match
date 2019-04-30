@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import './AdminNavBar.css';
 import moment from 'moment';
+// import { Redirect } from 'react-router-dom';
 // reactstrap components
 import {
   Button,
@@ -77,6 +78,7 @@ class AdminNavbar extends React.Component {
   };
 
   getTime = () => {
+    console.log('getTime');
     this.setState({
       time: moment().format('h:mm A')
     });
@@ -190,8 +192,15 @@ class AdminNavbar extends React.Component {
                     onClick={e => e.preventDefault()}
                   >
                     <div className="photo">
-                      {/* <img alt="..." src={require('../../assets/img/anime3.png')} /> */}
-                      <i className="tim-icons icon-single-02" />
+                      <img
+                        alt="..."
+                        src={
+                          this.props.userState.imageUrl
+                            ? this.props.userState.imageUrl
+                            : require('../../assets/img/anime3.png')
+                        }
+                      />
+                      {/* <i className="tim-icons icon-single-02" /> */}
                     </div>
                     <b className="caret d-none d-lg-block d-xl-block" />
                     {/* <p className="d-lg-none">Account</p> */}
