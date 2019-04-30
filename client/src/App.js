@@ -16,6 +16,7 @@ import './assets/scss/black-dashboard-pro-react.scss';
 
 class App extends Component {
   componentDidMount() {
+    console.log(this.props.location);
     // When app mounts, dispatch auto login if token expiration is available
     this.props.onTryAutoLogin();
   }
@@ -33,8 +34,8 @@ class App extends Component {
             <Redirect to="/" />
           </Switch> */}
           <Switch>
-            <Route path="/login" exact render={props => <Login {...props} />} />
-            <Route path="/signup" exact render={props => <Signup {...props} />} />
+            <Route path="/login" exact render={props => <Login />} />
+            <Route path="/signup" exact render={props => <Signup />} />
             <Route path="/" exact component={Home} />
             <Redirect to="/" />
           </Switch>

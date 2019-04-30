@@ -36,6 +36,8 @@ exports.signUp = (req, res, next) => {
             email: newUser.email,
             name: newUser.name,
             status: newUser.status,
+            isProfileCreated: newUser.isProfileCreated,
+            friends: newUser.friends,
             token: token
           });
         });
@@ -85,6 +87,8 @@ exports.login = (req, res, next) => {
           email: result.email,
           name: result.name,
           status: result.status,
+          isProfileCreated: result.isProfileCreated,
+          friends: result.friends,
           token: token
         });
       });
@@ -100,16 +104,25 @@ exports.getUser = (req, res, next) => {
   db.User.findById(req.params.id)
     .then(user => {
       if (!user) {
+        const error = new Error('User not found!');
+        error.statusCode = 401;
+        throw error;
       }
       res.status(200).json({
         userId: user._id,
         name: user.name,
         status: user.status,
         lastSignIn: fromNow(user.lastSignIn),
-        createdOn: user.createdOn
+        createdOn: user.createdOn,
+        isProfileCreated: user.isProfileCreated,
+        friends: user.friends
       });
     })
     .catch(err => {
       next(err);
     });
+};
+
+exports.postProfile = (req, res, next) => {
+  db.User.findById(req.userId).then(user => {});
 };

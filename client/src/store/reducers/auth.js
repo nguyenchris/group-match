@@ -5,6 +5,11 @@ const initialState = {
   token: null,
   userId: null,
   name: null,
+  isProfileCreated: null,
+  createdOn: null,
+  lastSignIn: null,
+  friends: [],
+  status: false,
   error: null,
   loading: false,
   authRedirectPath: '/'
@@ -16,9 +21,15 @@ const authStart = (state, action) => {
 };
 // Update state to reflect successful authentication
 const authSuccess = (state, action) => {
+  const { userId, name, status, isProfileCreated, lastSignIn, createdOn, token } = action;
   return updateObject(state, {
-    token: action.token,
-    userId: action.userId,
+    token: token,
+    userId: userId,
+    name: name,
+    lastSignIn: lastSignIn,
+    status: status,
+    isProfileCreated: isProfileCreated,
+    createdOn: createdOn,
     error: null,
     loading: false
   });
@@ -29,7 +40,15 @@ const authFail = (state, action) => {
 };
 
 const authLogout = (state, action) => {
-  return updateObject(state, { token: null, userId: null, name: null });
+  return updateObject(state, {
+    token: null,
+    userId: null,
+    name: null,
+    isProfileCreated: null,
+    lastSignIn: null,
+    friends: [],
+    status: false
+  });
 };
 
 const reducer = (state = initialState, action) => {

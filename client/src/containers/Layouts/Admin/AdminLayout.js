@@ -43,14 +43,18 @@ class AdminLayout extends Component {
       weather: null,
       timeZone: null,
       weatherSummary: null,
+      user: null,
       error: ''
     };
   }
   componentDidMount() {
-    // Get user profile
-    getUser(this.props.userId, this.props.token).then(result => {
-      this.setState({ userName: result.data.name });
-    });
+    getUser(this.props.userId, this.props.token)
+      .then(result => {
+        this.setState({ ...this.state, userName: result.data.name, user: result.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
     // Get location for user
     this.props.onGetCurrentLocation();
 
@@ -168,6 +172,7 @@ class AdminLayout extends Component {
     return 'Dashboard';
   };
   render() {
+    console.log(this.state);
     return (
       <>
         <div className="wrapper">

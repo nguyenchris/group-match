@@ -10,6 +10,7 @@ const userSchema = new Schema({
   imageUrl: { type: String },
   lastSignIn: { type: Date, default: Date.now },
   createdOn: { type: Date, default: Date.now },
+  isProfileCreated: { type: Boolean, default: false },
   friends: [
     {
       type: Schema.Types.ObjectId,

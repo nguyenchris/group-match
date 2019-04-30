@@ -7,14 +7,14 @@ const fs = require('fs');
 const devEvents = require('../data/eventsJSON-dev.json');
 const db = require('../models/index');
 
-// Controller for /api/event/city?{query=}
+// Controller for GET /api/event/city?{query=}
 exports.getLocationAutocomplete = (req, res, next) => {
   res
     .status(200)
     .json({ locations: getSuggestions(decodeURI(req.query.location), 'location', 'city') });
 };
 
-// Controller for /api/event/search?{query=}
+// Controller for GET /api/event/search?{query=}
 exports.getEventSearch = (req, res, next) => {
   const authHeader = { headers: { Authorization: `Bearer ${process.env.EVENTBRITE_TOKEN}` } };
   console.log(req.query);
@@ -31,15 +31,7 @@ exports.getEventSearch = (req, res, next) => {
       const { pagination, events } = result.data;
       const updatedEvents = parseEventData(events);
       let numberOfEvents = null;
-
-      // const currentPageNumberOfEvents = result.data.pagination.
-      // if (pagination.object_count <= 50) {
-      //   numberOfEvents = updatedEvents.length
-      // } else {
-      // }
-      // if (updatedNumOfEvents !== numberOfEvents)
       res.status(200).json({ pagination: pagination, events: updatedEvents });
-      // res.json(result.data);
     })
     .catch(err => {
       console.log(err.data);
@@ -47,6 +39,7 @@ exports.getEventSearch = (req, res, next) => {
     });
 };
 
+// controller for POST /api/event
 exports.postCreateEvent = (req, res, next) => {
   const { name, description, maxAttendees, preference, eventData } = req.body;
   const meetup = new db.Meetup({

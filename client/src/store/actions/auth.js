@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
+import { getUser } from '../../utils/api';
 
 export const authStart = () => {
   return {
@@ -7,11 +8,17 @@ export const authStart = () => {
   };
 };
 
-export const authSuccess = (token, userId) => {
+export const authSuccess = (token, user) => {
+  const { userId, name, status, isProfileCreated, lastSignIn, createdOn } = user;
   return {
     type: actionTypes.AUTH_SUCCESS,
     token: token,
-    userId: userId
+    userId: userId,
+    name: name,
+    lastSignIn: lastSignIn,
+    status: status,
+    isProfileCreated: isProfileCreated,
+    createdOn: createdOn
   };
 };
 
@@ -54,7 +61,7 @@ export const auth = (data, isLogin) => {
         localStorage.setItem('token', token);
         localStorage.setItem('expiration', expiration.toISOString());
         localStorage.setItem('userId', userId);
-        dispatch(authSuccess(token, userId));
+        dispatch(authSuccess(token, response.data));
         dispatch(authCheckTimeout(3600000));
       })
       .catch(err => {
@@ -75,8 +82,11 @@ export const authCheckState = () => {
         dispatch(logout());
       } else {
         const userId = localStorage.getItem('userId');
-        dispatch(authSuccess(token, userId));
-        dispatch(authCheckTimeout(expiration.getTime() - new Date().getTime()));
+        getUser(userId, token).then(response => {
+          console.log(response.data);
+          dispatch(authSuccess(token, response.data));
+          dispatch(authCheckTimeout(expiration.getTime() - new Date().getTime()));
+        });
       }
     }
   };
