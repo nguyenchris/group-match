@@ -81,7 +81,9 @@ class Profile extends Component {
                       {this.state.aboutMe}
                     </div>
                   </CardBody>
-                  {this.props.location.user ? <Button disabled>Send Friend Request</Button> : null}
+                  {this.props.location.user ? (
+                    <Button onClick={e => e.preventDefault()}>Send Friend Request</Button>
+                  ) : null}
                 </Card>
               </Col>
             </Row>
