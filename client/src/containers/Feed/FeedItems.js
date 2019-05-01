@@ -9,7 +9,7 @@ class FeedItems extends Component {
             return (
               <div className="feedItem" key={index}>
                 {' '}
-                {feedItem.userName} said "{feedItem.value}"
+                {feedItem.userName}: "{feedItem.value}"
               </div>
             );
           } else if (feedItem.type === 'attendEvent') {
