@@ -62,6 +62,19 @@ exports.postCreateEvent = (req, res, next) => {
     });
 };
 
+exports.getMeetups = (req, res, next) => {
+  db.Meetup.find()
+    .populate('creator')
+    .populate('attendees')
+    .then(meetups => {
+      res.json({ meetups: meetups });
+    })
+    .catch(err => {
+      console.log(err);
+      next(err);
+    });
+};
+
 // DEV ONLY
 // GET controller to get the same json of events as if a user searches for events
 exports.devOnlyGetEvents = (req, res, next) => {

@@ -76,6 +76,7 @@ exports.login = (req, res, next) => {
         throw error;
       }
       fetchedUser.lastSignIn = Date.now();
+      fetchedUser.status = true;
       return fetchedUser.save().then(result => {
         const token = jwt.sign(
           {

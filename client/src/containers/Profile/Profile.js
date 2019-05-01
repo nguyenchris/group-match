@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 
-import { Jumbotron, Container, Row, Card, CardText, CardBody, CardTitle, Col } from 'reactstrap';
+import {
+  Jumbotron,
+  Container,
+  Row,
+  Card,
+  CardText,
+  CardBody,
+  CardTitle,
+  Col,
+  Button
+} from 'reactstrap';
 
 import './Profile.css';
 import { getUser } from '../../utils/api';
@@ -18,10 +28,10 @@ class Profile extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props);
     let id = null;
-    if (this.props.userId) {
-      id = this.props.userId;
+
+    if (this.props.location.user) {
+      id = this.props.location.user._id;
     } else {
       id = this.props.userState.userId;
     }
@@ -71,6 +81,7 @@ class Profile extends Component {
                       {this.state.aboutMe}
                     </div>
                   </CardBody>
+                  {this.props.location.user ? <Button disabled>Send Friend Request</Button> : null}
                 </Card>
               </Col>
             </Row>

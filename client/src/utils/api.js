@@ -33,3 +33,7 @@ export const postCreateEvent = (data, token) => {
 export const postCreateProfile = (data, token) => {
   return axios.post('/api/user/profile', tokenConfig(token));
 };
+
+export const getMeetups = token => {
+  return axios.get(`/api/event`);
+};
