@@ -32,3 +32,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNocmlzb
 GET http://{{host}}/api/weather/current/?latitude=33.352170099999995&longitude=-111.87435599999999 HTTP/1.1
 Content-Type: {{contentType}}
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNocmlzbmd1eWVuYXpAZ21haWwuY29tIiwidXNlcklkIjoiNWNiNDZjNGM0MDhlZmZhN2NmMTZkNzBmIiwiaWF0IjoxNTU2MDk2ODA2LCJleHAiOjE1NTYxMDA0MDZ9.ANQTxv44L8y-9AKwZr3qobsFbQKtH-wct3-8oUh75Mw
+
+###
+
+GET http://{{host}}/api/event/ HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNocmlzbmd1eWVuYXpAZ21haWwuY29tIiwidXNlcklkIjoiNWNjOGY1N2E0MGUzNmQ5NjZmOWRjNzMzIiwiaWF0IjoxNTU2NjczOTE0LCJleHAiOjE1NTY2Nzc1MTR9.8h7Tij1PAgJP0DstARjkYCcDHMbtTXhyYbcZlgOE9Ko
