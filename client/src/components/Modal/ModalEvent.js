@@ -39,7 +39,6 @@ class ModalEvent extends Component {
     });
   };
   render() {
-    console.log(this.props.eventData);
     return (
       <Modal
         isOpen={this.props.isOpen}
