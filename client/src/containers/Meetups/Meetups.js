@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Row, Card, CardImg, CardBody, CardTitle, CardText, Button } from 'reactstrap';
-import { Link } from 'react-router-dom';
-
-import ModalEvent from '../../components/Modal/ModalEvent';
+import { Row } from 'reactstrap';
+import MeetupCard from '../../components/MeetupCard/MeetupCard';
 
 class DevContainerEvents extends Component {
   state = {
@@ -16,12 +14,12 @@ class DevContainerEvents extends Component {
     axios
       .get('/api/event/', { headers: { Authorization: `Bearer ${this.props.token}` } })
       .then(result => {
+        console.log(result.data.meetups);
         this.setState({
           meetups: result.data.meetups
         });
       })
       .catch(err => {
-        // if (err) throw err;
         console.log(err);
       });
   }
@@ -45,43 +43,7 @@ class DevContainerEvents extends Component {
         <Row>
           {this.state.meetups.length > 0
             ? this.state.meetups.map(meetup => (
-                <div className="event-card-wrapper">
-                  <Card className="event-card card-plain">
-                    <CardImg top src={meetup.event.lowImage} alt="..." />
-                    <CardBody>
-                      <CardTitle>Meetup Name: {meetup.name}</CardTitle>
-                      <CardTitle>
-                        Creator:{' '}
-                        <Link to={{ pathname: '/user/profile', user: meetup.creator }}>
-                          {meetup.creator.name}
-                        </Link>
-                      </CardTitle>
-                      <CardTitle>Meetup Description: {meetup.description}</CardTitle>
-                      <CardTitle>Max allowed attendees: {meetup.maxAttendees}</CardTitle>
-                      <CardTitle>Current amount of attendees: {meetup.attendees.length}</CardTitle>
-                      <CardTitle>Event: {meetup.event.name}</CardTitle>
-                      <CardText>
-                        Time: {meetup.event.start.timeDisplay} - {meetup.event.end.timeDisplay}
-                      </CardText>
-                      <Button color="secondary" name="info" onClick={this.toggleModalDetails}>
-                        Details
-                      </Button>
-                      {this.state.isModalDetailsOpen ? (
-                        <ModalEvent
-                          isOpen={this.state.isModalDetailsOpen}
-                          toggle={this.toggleModalDetails}
-                          {...meetup.event}
-                        />
-                      ) : null}
-                      <Button color="secondary" name="create" onClick={e => e.preventDefault()}>
-                        Request Join
-                      </Button>
-                    </CardBody>
-                    {/* {this.state.notification ? ( */}
-                    {/* <NotificationAlertPopUp message={this.state.notification} />
-            ) : null} */}
-                  </Card>
-                </div>
+                <MeetupCard key={meetup._id} meetup={meetup} id={meetup._id} />
               ))
             : 'No Meetups'}
         </Row>

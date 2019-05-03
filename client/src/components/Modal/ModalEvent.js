@@ -32,10 +32,10 @@ class ModalEvent extends Component {
   //   });
   // }
 
-  changeActiveTab = (e, tabState, tadName) => {
+  changeActiveTab = (e, tabState, tabName) => {
     e.preventDefault();
     this.setState({
-      [tabState]: tadName
+      [tabState]: tabName
     });
   };
   render() {

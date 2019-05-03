@@ -206,7 +206,7 @@ class AdminNavbar extends React.Component {
                     {/* <p className="d-lg-none">Account</p> */}
                   </DropdownToggle>
                   <DropdownMenu className="dropdown-navbar" right tag="ul">
-                    <NavLink tag={Link} to="/user/profile">
+                    <NavLink tag={Link} to={`/user/profile/${this.props.userState.userId}`}>
                       <DropdownItem className="nav-item">Profile</DropdownItem>
                     </NavLink>
                     <NavLink tag="li">

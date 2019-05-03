@@ -109,7 +109,11 @@ class Sidebar extends React.Component {
                 >
                   <NavLink
                     to={{
-                      pathname: `${prop.layout + prop.path}`,
+                      pathname: `${
+                        prop.path === '/profile'
+                          ? prop.layout + prop.path + '/' + this.props.userState.userId
+                          : prop.layout + prop.path
+                      }`,
                       userState: this.props.userState
                     }}
                     className="nav-link"

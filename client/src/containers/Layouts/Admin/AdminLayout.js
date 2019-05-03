@@ -10,6 +10,7 @@ import routes from './adminRoutes';
 import { getCurrentWeather } from '../../../utils/api';
 import * as actions from '../../../store/actions/index';
 import NotificationAlertPopUp from '../../../components/NotificationAlert/NotificationAlertPopUp';
+import Profile from '../../Profile/Profile';
 // import ProfileForm from '../../../components/Form/Profile/ProfileForm';
 import ModalProfile from '../../../components/Modal/ModalProfile';
 
@@ -238,6 +239,7 @@ class AdminLayout extends Component {
             ) : null}
             <Switch>
               {this.getRoutes(routes)}
+              <Route path={`${this.props.match.path}/profile/:id`} component={Profile} />
               <Route path={`${this.props.match.path}/logout`} exact component={Logout} />{' '}
             </Switch>
             {// we don't want the Footer to be rendered on map page

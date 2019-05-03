@@ -29,9 +29,9 @@ class Profile extends Component {
 
   componentDidMount() {
     let id = null;
-
-    if (this.props.location.user) {
-      id = this.props.location.user._id;
+    console.log(this.props);
+    if (this.props.match.params.id) {
+      id = this.props.match.params.id;
     } else {
       id = this.props.userState.userId;
     }
