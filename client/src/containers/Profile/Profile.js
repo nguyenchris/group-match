@@ -40,6 +40,7 @@ class Profile extends Component {
         name: user.data.name,
         aboutMe: user.data.aboutMe,
         imageUrl: user.data.imageUrl,
+        status: user.data.status,
         lastSignIn: user.data.lastSignIn,
         createdOn: user.data.createdOn,
         friends: user.data.friends

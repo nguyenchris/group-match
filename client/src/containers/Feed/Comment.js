@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import { CardBody, Card, CardImg, CardTitle, CardText, Button } from 'reactstrap';
+import { getSocket } from '../../store/sockets';
 
 class Comment extends Component {
   constructor(props) {
@@ -11,7 +12,9 @@ class Comment extends Component {
   }
 
   handlePost() {
-    console.log('Posted', this.state.comment);
+    getSocket().emit('messageToServer', {
+      message: this.state.comment
+    });
     this.props.onPost(this.state.comment);
   }
 

@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
 });
 // const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk, logger)));
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
 const app = (
   <Provider store={store}>

@@ -49,3 +49,10 @@ export const createProfile = (token, data, type) => {
     // }
   };
 };
+
+export const messageToServer = message => {
+  return {
+    type: actionTypes.NEW_MESSAGE,
+    message: message
+  };
+};

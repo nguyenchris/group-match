@@ -71,6 +71,10 @@ const profileFail = (state, action) => {
   });
 };
 
+const newMessage = action => {
+  console.log(action.message);
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START:
@@ -85,6 +89,8 @@ const reducer = (state = initialState, action) => {
       return profileSuccess(state, action);
     case actionTypes.USER_CREATE_PROFILE_FAIL:
       return profileFail(state, action);
+    case actionTypes.NEW_MESSAGE:
+      return newMessage(action);
     default:
       return state;
   }

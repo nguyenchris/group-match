@@ -4,6 +4,11 @@ const expressValidator = require('express-validator');
 
 const routes = require('./routes');
 const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+const socketMain = require('./controllers/sockets');
+
 const PORT = process.env.PORT || 3001;
 
 app.use(express.urlencoded({ extended: true }));
@@ -29,6 +34,10 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: error.message, data: error.data });
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+});
+
+io.on('connection', socket => {
+  socketMain(io, socket);
 });

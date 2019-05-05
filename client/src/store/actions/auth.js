@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 import { getUser } from '../../utils/api';
+import { getSocket } from '../sockets';
 
 export const authStart = () => {
   return {
@@ -10,6 +11,7 @@ export const authStart = () => {
 
 export const authSuccess = (token, user) => {
   const { userId, name, status, isProfileCreated, lastSignIn, createdOn, aboutMe, imageUrl } = user;
+  getSocket();
   return {
     type: actionTypes.AUTH_SUCCESS,
     token: token,
