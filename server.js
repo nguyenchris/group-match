@@ -38,6 +38,5 @@ server.listen(PORT, () => {
 
 const io = require('./socket').init(server);
 io.on('connection', socket => {
-  console.log('Client connected!');
   socketMain(io, socket);
 });

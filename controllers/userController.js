@@ -18,8 +18,7 @@ exports.signUp = (req, res, next) => {
           const user = new db.User({
             email: req.body.email,
             password: hashedPw,
-            name: req.body.name,
-            status: true
+            name: req.body.name
           });
           return user.save();
         })
@@ -76,7 +75,6 @@ exports.login = (req, res, next) => {
         throw error;
       }
       fetchedUser.lastSignIn = Date.now();
-      fetchedUser.status = true;
       return fetchedUser.save().then(result => {
         const token = jwt.sign(
           {

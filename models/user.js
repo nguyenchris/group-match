@@ -11,6 +11,7 @@ const userSchema = new Schema({
   lastSignIn: { type: Date, default: Date.now },
   createdOn: { type: Date, default: Date.now },
   isProfileCreated: { type: Boolean, default: false },
+  socketId: { type: String },
   friends: [
     {
       type: Schema.Types.ObjectId,
@@ -19,8 +20,8 @@ const userSchema = new Schema({
   ]
 });
 
-// userSchema.methods.checkPassword = function(password) {
-
-// }
+userSchema.statics.updateStatus = function(id, status) {
+  return this.findOneAndUpdate({ _id: id }, { status: status });
+};
 
 module.exports = mongoose.model('User', userSchema);

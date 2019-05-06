@@ -37,7 +37,6 @@ class ModalProfile extends Component {
         modalClassName="modal-black"
         size="lg"
         unmountOnClose={true}
-        focus={true}
       >
         <div className="modal-event-form">
           <ModalBody>

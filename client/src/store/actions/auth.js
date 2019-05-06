@@ -13,7 +13,7 @@ export const authSuccess = (token, user) => {
   const { userId, name, status, isProfileCreated, lastSignIn, createdOn, aboutMe, imageUrl } = user;
   // get socket after login is successful
   if (!socket) {
-    getSocket();
+    getSocket(userId);
   }
   return {
     type: actionTypes.AUTH_SUCCESS,

@@ -5,11 +5,12 @@ import { getOnlineUsers } from './actions/index';
 export let socket;
 
 // function to connect socket with server after user signs in
-export const getSocket = () => {
+export const getSocket = userId => {
   if (!socket) {
     socket = io.connect();
     socket.on('connect', () => {
       console.log('socket connected!');
+      socket.emit('activeUser', { userId: userId, socketId: socket.id, method: 'connect' });
     });
     socket.on('numTotalOnline', numUsers => {
       store.dispatch(getOnlineUsers(numUsers));
@@ -18,7 +19,12 @@ export const getSocket = () => {
       if (reason === 'io server disconnect') {
         socket.connect();
       }
+      socket.emit('activeUser', { userId: userId, socketId: socket.id, method: 'disconnect' });
     });
+    socket.on('allOnlineUsers', data => {
+      console.log(data);
+    });
+
     // socket.on('posts', message => {
     //   store.dispatch(messageToServer(message));
     // });
