@@ -5,9 +5,7 @@ const expressValidator = require('express-validator');
 const routes = require('./routes');
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io')(server);
-
-const socketMain = require('./controllers/sockets');
+const socketMain = require('./controllers/socketMain');
 
 const PORT = process.env.PORT || 3001;
 
@@ -38,6 +36,8 @@ server.listen(PORT, () => {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
 
+const io = require('./socket').init(server);
 io.on('connection', socket => {
+  console.log('Client connected!');
   socketMain(io, socket);
 });

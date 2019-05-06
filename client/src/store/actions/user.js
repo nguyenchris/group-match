@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 // import { getUser } from '../../utils/api';
+import { getSocket } from '../sockets';
 
 const tokenConfig = token => {
   return { headers: { Authorization: `Bearer ${token}` } };
@@ -50,9 +51,9 @@ export const createProfile = (token, data, type) => {
   };
 };
 
-export const messageToServer = message => {
-  return {
-    type: actionTypes.NEW_MESSAGE,
-    message: message
-  };
-};
+// export const messageToServer = message => {
+//   return {
+//     type: actionTypes.NEW_MESSAGE,
+//     message: message
+//   };
+// };

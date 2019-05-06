@@ -17,12 +17,14 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 import userReducer from './store/reducers/user';
 import geoReducer from './store/reducers/geo';
+import feedReducer from './store/reducers/feed';
 
 // const logger = createLogger();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
   auth: userReducer,
-  geo: geoReducer
+  geo: geoReducer,
+  feed: feedReducer
 });
 // const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk, logger)));
 

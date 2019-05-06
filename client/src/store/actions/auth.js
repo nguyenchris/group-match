@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 import { getUser } from '../../utils/api';
-import { getSocket } from '../sockets';
+import { getSocket, socket } from '../sockets';
 
 export const authStart = () => {
   return {
@@ -11,7 +11,10 @@ export const authStart = () => {
 
 export const authSuccess = (token, user) => {
   const { userId, name, status, isProfileCreated, lastSignIn, createdOn, aboutMe, imageUrl } = user;
-  getSocket();
+  // get socket after login is successful
+  if (!socket) {
+    getSocket();
+  }
   return {
     type: actionTypes.AUTH_SUCCESS,
     token: token,
@@ -34,9 +37,13 @@ export const authFail = error => {
 };
 
 export const logout = () => {
+  if (socket) {
+    socket.disconnect();
+  }
   localStorage.removeItem('token');
   localStorage.removeItem('expiration');
   localStorage.removeItem('userId');
+
   return {
     type: actionTypes.AUTH_LOGOUT
   };

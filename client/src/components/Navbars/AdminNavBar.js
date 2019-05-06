@@ -3,7 +3,8 @@ import React from 'react';
 import classNames from 'classnames';
 import './AdminNavBar.css';
 import moment from 'moment';
-// import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 // reactstrap components
 import {
   Button,
@@ -21,8 +22,6 @@ import {
   Container,
   Modal
 } from 'reactstrap';
-
-import { Link } from 'react-router-dom';
 
 class AdminNavbar extends React.Component {
   constructor(props) {
@@ -78,7 +77,6 @@ class AdminNavbar extends React.Component {
   };
 
   getTime = () => {
-    console.log('getTime');
     this.setState({
       time: moment().format('h:mm A')
     });
@@ -141,6 +139,7 @@ class AdminNavbar extends React.Component {
                       : null}{' '}
                     <span className="time-nav">{this.state.time}</span>
                   </div>
+                  <p className="online-nav">Online Users: {this.props.numberOnline}</p>
                 </div>
                 <InputGroup className="search-bar">
                   <Button
@@ -157,7 +156,6 @@ class AdminNavbar extends React.Component {
                 <UncontrolledDropdown nav>
                   <DropdownToggle caret color="default" data-toggle="dropdown" nav>
                     <div className="notification d-none d-lg-block d-xl-block" />
-                    {/* <i className="tim-icons icon-sound-wave" /> */}
                     <i className="tim-icons icon-bell-55" />
                     <p className="d-lg-none">Notifications</p>
                   </DropdownToggle>
@@ -246,4 +244,13 @@ class AdminNavbar extends React.Component {
   }
 }
 
-export default AdminNavbar;
+const mapStateToProps = state => {
+  return {
+    numberOnline: state.feed.numberOnline
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(AdminNavbar);

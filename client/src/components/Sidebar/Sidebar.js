@@ -6,7 +6,6 @@ import { PropTypes } from 'prop-types';
 
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from 'perfect-scrollbar';
-// import '../../assets/css/black-dashboard-react.css';
 
 // reactstrap components
 import { Nav } from 'reactstrap';
@@ -96,6 +95,7 @@ class Sidebar extends React.Component {
           {logoImg !== null || logoText !== null ? (
             <div className="logo">
               {logoImg}
+
               {logoText}
             </div>
           ) : null}

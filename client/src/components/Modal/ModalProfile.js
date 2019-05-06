@@ -4,8 +4,7 @@ import ProfileForm from '../Form/Profile/ProfileForm';
 import './ModalForm.css';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
-import NotificationAlertPopUp from '../NotificationAlert/NotificationAlertPopUp';
-import { getCurrentWeather } from '../../utils/api';
+// import NotificationAlertPopUp from '../NotificationAlert/NotificationAlertPopUp';
 
 class ModalProfile extends Component {
   state = {
@@ -28,8 +27,6 @@ class ModalProfile extends Component {
       aboutMe: e.About.aboutMe,
       imageUrl: e.Image.url
     };
-    console.log(data);
-    console.log(this.props.token);
     this.props.onCreateProfile(this.props.token, data);
   };
 
@@ -40,6 +37,7 @@ class ModalProfile extends Component {
         modalClassName="modal-black"
         size="lg"
         unmountOnClose={true}
+        focus={true}
       >
         <div className="modal-event-form">
           <ModalBody>
@@ -56,18 +54,6 @@ class ModalProfile extends Component {
     );
   }
 }
-
-// const mapStateToProps = state => {
-//   return {
-//     userId: state.auth.userId,
-//     token: state.auth.token,
-//     userState: state.auth,
-//     locationError: state.geo.error,
-//     latitude: state.geo.latitude,
-//     longitude: state.geo.longitude,
-//     error: state.auth.error
-//   };
-// };
 
 const mapDispatchToProps = dispatch => {
   return {

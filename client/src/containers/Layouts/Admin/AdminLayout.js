@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import AdminNavbar from '../../../components/Navbars/AdminNavBar';
-import Sidebar from '../../../components/Sidebar/Sidebar';
 import { Route, Switch } from 'react-router-dom';
 import PerfectScrollbar from 'perfect-scrollbar';
-import AdminFooter from '../../../components/Footer/AdminFooter';
 import { connect } from 'react-redux';
-import Logout from '../../Auth/Logout';
-import routes from './adminRoutes';
-import { getCurrentWeather } from '../../../utils/api';
 import * as actions from '../../../store/actions/index';
+
+import Logout from '../../Auth/Logout';
+import AdminFooter from '../../../components/Footer/AdminFooter';
+import AdminNavbar from '../../../components/Navbars/AdminNavBar';
+import Sidebar from '../../../components/Sidebar/Sidebar';
 import NotificationAlertPopUp from '../../../components/NotificationAlert/NotificationAlertPopUp';
 import Profile from '../../Profile/Profile';
-// import ProfileForm from '../../../components/Form/Profile/ProfileForm';
 import ModalProfile from '../../../components/Modal/ModalProfile';
+import { getCurrentWeather } from '../../../utils/api';
+import routes from './adminRoutes';
 
 const mapStateToProps = state => {
   return {

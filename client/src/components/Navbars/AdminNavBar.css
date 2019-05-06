@@ -1,7 +1,7 @@
 .current-temp-nav {
   position: absolute;
   right: 215px;
-  top: 15px;
+  top: 10px;
   font-size: 11px;
 }
 
@@ -18,4 +18,17 @@
 
 .time-nav {
   margin-left: 5px;
+}
+
+.online-nav {
+  color: #525f7f;
+  position: absolute;
+  right: 20px;
+  font-size: 12px;
+}
+
+@media only screen and (max-width: 580px) {
+  .current-temp-nav {
+    display: none;
+  }
 }

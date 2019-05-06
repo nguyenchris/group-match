@@ -15,9 +15,9 @@ class Feed extends Component {
   }
 
   componentDidMount() {
-    getSocket().emit('messageToServer', {
-      message: 'hi'
-    });
+    // getSocket().emit('messageToServer', {
+    //   message: 'hi'
+    // });
   }
 
   handlePost(comment) {
