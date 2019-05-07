@@ -38,10 +38,14 @@ export const postCreateProfile = (data, token) => {
 
 // GET all meetups
 export const getMeetups = token => {
-  return axios.get(`/api/event`);
+  return axios.get(`/api/event`, tokenConfig(token));
 };
 
 // GET all feed items
-export const getFeed = token => {
-  return axios.get('/api/feed');
+export const getPosts = token => {
+  return axios.get('/api/feed/post', tokenConfig(token));
+};
+
+export const createPost = (post, token) => {
+  return axios.post('/api/feed/post', post, tokenConfig(token));
 };

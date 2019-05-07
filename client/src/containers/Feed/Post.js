@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import { CardBody, Card, CardImg, CardTitle, CardText, Button } from 'reactstrap';
 import { getSocket } from '../../store/sockets';
+import { Row } from 'reactstrap';
 
 class Comment extends Component {
   constructor(props) {
@@ -12,9 +13,6 @@ class Comment extends Component {
   }
 
   handlePost() {
-    getSocket().emit('messageToServer', {
-      message: this.state.comment
-    });
     this.props.onPost(this.state.comment);
   }
 
@@ -24,10 +22,10 @@ class Comment extends Component {
 
   render() {
     return (
-      <div className="comment">
+      <Row>
         Comment: <input value={this.state.comment} onChange={e => this.handleCommentChange(e)} />{' '}
         <button onClick={this.handlePost}>Post</button>
-      </div>
+      </Row>
     );
   }
 }

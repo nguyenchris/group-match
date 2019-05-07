@@ -18,6 +18,7 @@ if (process.env.NODE_ENV === 'production') {
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
+
 app.use(expressValidator());
 app.use(routes);
 
@@ -32,11 +33,11 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: error.message, data: error.data });
 });
 
-server.listen(PORT, () => {
-  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
-});
-
 const io = require('./socket').init(server);
 io.on('connection', socket => {
   socketMain(io, socket);
+});
+
+server.listen(PORT, () => {
+  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });

@@ -74,14 +74,14 @@ class AdminLayout extends Component {
     }
     window.addEventListener('scroll', this.showNavbarButton);
   }
-  // componentWillUnmount() {
-  //   if (navigator.platform.indexOf('Win') > -1) {
-  //     ps.destroy();
-  //     document.documentElement.className += ' perfect-scrollbar-off';
-  //     document.documentElement.classList.remove('perfect-scrollbar-on');
-  //   }
-  //   window.removeEventListener('scroll', this.showNavbarButton);
-  // }
+  componentWillUnmount() {
+    if (navigator.platform.indexOf('Win') > -1) {
+      ps.destroy();
+      document.documentElement.className += ' perfect-scrollbar-off';
+      document.documentElement.classList.remove('perfect-scrollbar-on');
+    }
+    window.removeEventListener('scroll', this.showNavbarButton);
+  }
   componentDidUpdate(e) {
     const { latitude, longitude, token } = this.props;
     if (e.location.pathname !== e.history.location.pathname) {

@@ -3,5 +3,6 @@ module.exports = {
   Meetup: require('./meetup'),
   Comment: require('./comment'),
   Post: require('./post'),
-  Like: require('./like')
+  Like: require('./like'),
+  Notification: require('./notification')
 };

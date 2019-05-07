@@ -27,8 +27,13 @@ export const getSocket = userId => {
       store.dispatch(getOnlineUsers(users.length, users));
     });
 
-    // socket.on('posts', message => {
-    //   store.dispatch(messageToServer(message));
+    // socket.on('posts', ({ action, post }) => {
+    //   // switch (action) {
+    //   //   case 'create':
+    //   //   // return dispatch()
+    //   //   default:
+    //   //     return;
+    //   // }
     // });
   }
   return socket;

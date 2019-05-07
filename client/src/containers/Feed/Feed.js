@@ -2,40 +2,91 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import * as actions from '../../store/actions';
 import { getSocket } from '../../store/sockets';
-
-import Comment from './Comment';
-import FeedItems from './FeedItems';
-import axios from 'axios';
+import { Row, Col } from 'reactstrap';
+import Post from './Post';
+import SinglePost from './SinglePost';
+import { getPosts, createPost } from '../../utils/api';
+import Spinner from '../../components/UI/Spinner';
+import moment from 'moment';
+import './Feed.css';
 
 class Feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      feedItems: []
+      posts: [],
+      postsLoading: true,
+      postsPageAmount: null
     };
   }
 
   componentDidMount() {
-    // getSocket().emit('messageToServer', {
-    //   message: 'hi'
-    // });
-  }
-
-  handlePost(comment) {
-    this.setState(prevState => {
-      return prevState.feedItems.push({
-        type: 'comment',
-        value: comment,
-        userName: this.props.userState.name
-      });
+    this.loadPosts();
+    getSocket().on('posts', ({ action, post }) => {
+      switch (action) {
+        case 'create':
+          return this.addPost(post);
+        default:
+          return;
+      }
     });
   }
+
+  addPost = newPost => {
+    this.setState(prevState => {
+      const updatedPosts = [...prevState.posts];
+      updatedPosts.unshift(newPost);
+      return {
+        posts: updatedPosts
+      };
+    });
+  };
+
+  handlePost(content) {
+    const newPost = {
+      content: content,
+      creator: this.props.userState.userId
+    };
+    createPost(newPost, this.props.userState.token).then(post => {
+      console.log(post.data);
+    });
+  }
+
+  loadPosts = () => {
+    this.setState({ postsLoading: true });
+    getPosts(this.props.userState.token).then(({ data }) => {
+      this.setState({ posts: data.posts, postsLoading: false });
+      console.log(data);
+    });
+  };
 
   render() {
     return (
       <div className="content">
-        <Comment onPost={comment => this.handlePost(comment)} />
-        <FeedItems items={this.state.feedItems} />
+        <Row>
+          {this.state.posts.length === 0 && !this.state.postsLoading ? (
+            <Col className="text-center">
+              <h1>No Posts found</h1>
+            </Col>
+          ) : null}
+          {this.state.postsLoading ? (
+            <Col>
+              <div className="feed-spinner">
+                <Spinner />
+              </div>
+            </Col>
+          ) : null}
+          {this.state.posts.map(post => (
+            <SinglePost
+              key={post._id}
+              post={post}
+              time={moment(post.createdAt)
+                .startOf()
+                .fromNow()}
+            />
+          ))}
+        </Row>
+        <Post onPost={post => this.handlePost(post)} />
       </div>
     );
   }

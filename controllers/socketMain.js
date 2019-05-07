@@ -1,6 +1,8 @@
 const db = require('../models/index');
 let dbUserId;
 
+exports.onlineUsers = [];
+
 function socketMain(io, socket) {
   socket.on('activeUser', ({ userId, socketId, method }) => {
     dbUserId = userId;
@@ -8,9 +10,12 @@ function socketMain(io, socket) {
     // update status online to true
     db.User.updateStatus(userId, true, socket.id)
       .then(user => {
-        return db.User.find({ status: true }).then(users => {
-          IOevents(io, 'allOnlineUsers', users);
-        });
+        return db.User.find({ status: true })
+          .select('_id socketId name status')
+          .then(users => {
+            onlineUsers = users;
+            IOevents(io, 'allOnlineUsers', users);
+          });
       })
       .catch(err => {
         if (err) console.log(new Error(err));
@@ -21,9 +26,12 @@ function socketMain(io, socket) {
       console.log(`dbUserId: ${dbUserId} socketID: ${socket.id} disconnected!`);
       db.User.disconnectUser(socket.id)
         .then(user => {
-          return db.User.find({ status: true }).then(users => {
-            IOevents(io, 'allOnlineUsers', users);
-          });
+          return db.User.find({ status: true })
+            .select('_id socketId name status')
+            .then(users => {
+              onlineUsers = users;
+              IOevents(io, 'allOnlineUsers', users);
+            });
         })
         .catch(err => console.log(new Error(err)));
     }
