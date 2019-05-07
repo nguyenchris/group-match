@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import { CardBody, Card, CardImg, CardTitle, CardText, Button } from 'reactstrap';
 import { getSocket } from '../../store/sockets';
 import { Row } from 'reactstrap';
+import { connect } from 'react-redux';
 
 class Comment extends Component {
   constructor(props) {
@@ -30,4 +31,13 @@ class Comment extends Component {
   }
 }
 
-export default Comment;
+const mapStateToProps = state => {
+  return {
+    usersOnline: state.feed.usersOnline
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(Comment);

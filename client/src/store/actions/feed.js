@@ -4,6 +4,6 @@ export const getOnlineUsers = (number, users) => {
   return {
     type: actionTypes.GET_ONLINE_USERS,
     numberOnline: number,
-    onlineUsers: users
+    usersOnline: users
   };
 };
