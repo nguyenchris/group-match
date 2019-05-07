@@ -5,6 +5,7 @@ import { getSocket } from '../../store/sockets';
 
 import Comment from './Comment';
 import FeedItems from './FeedItems';
+import axios from 'axios';
 
 class Feed extends Component {
   constructor(props) {

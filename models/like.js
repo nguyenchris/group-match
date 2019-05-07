@@ -1,13 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const like = new Schema({
+const likeSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User' },
-  event: { type: Schema.Types.ObjectId, ref: 'Event' }
+  post: { type: Schema.Types.ObjectId, ref: 'Post' },
+  date: { type: Date, default: Date.now }
 });
-
-// userSchema.methods.checkPassword = function(password) {
-
-// }
 
 module.exports = mongoose.model('Like', likeSchema);

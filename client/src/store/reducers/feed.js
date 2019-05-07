@@ -4,12 +4,14 @@ import { updateObject } from '../../utils/helpers';
 const initialState = {
   numberOnline: null,
   posts: [],
+  usersOnline: [],
   error: null
 };
 
 const getNumberOnline = (state, action) => {
   return updateObject(state, {
-    numberOnline: action.numberOnline
+    numberOnline: action.numberOnline,
+    usersOnline: action.usersOnline
   });
 };
 

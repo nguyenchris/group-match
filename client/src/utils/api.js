@@ -26,14 +26,22 @@ export const getCurrentWeather = (lat, long, token) => {
   return axios.get(`/api/weather/current?latitude=${lat}&longitude=${long}`, tokenConfig(token));
 };
 
+// POST create meetup event
 export const postCreateEvent = (data, token) => {
   return axios.post(`/api/event/`, data, tokenConfig(token));
 };
 
+// POST profile creation
 export const postCreateProfile = (data, token) => {
   return axios.post('/api/user/profile', tokenConfig(token));
 };
 
+// GET all meetups
 export const getMeetups = token => {
   return axios.get(`/api/event`);
+};
+
+// GET all feed items
+export const getFeed = token => {
+  return axios.get('/api/feed');
 };

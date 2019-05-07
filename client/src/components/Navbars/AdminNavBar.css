@@ -23,8 +23,8 @@
 .online-nav {
   color: #525f7f;
   position: absolute;
-  right: 20px;
-  font-size: 12px;
+  right: 14px;
+  font-size: 13px;
 }
 
 @media only screen and (max-width: 580px) {

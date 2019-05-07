@@ -20,8 +20,12 @@ const userSchema = new Schema({
   ]
 });
 
-userSchema.statics.updateStatus = function(id, status) {
-  return this.findOneAndUpdate({ _id: id }, { status: status });
+userSchema.statics.updateStatus = function(id, status, socketId) {
+  return this.findOneAndUpdate({ _id: id }, { status: status, socketId: socketId });
+};
+
+userSchema.statics.disconnectUser = function(socketId) {
+  return this.findOneAndUpdate({ socketId: socketId }, { status: false });
 };
 
 module.exports = mongoose.model('User', userSchema);
