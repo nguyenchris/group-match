@@ -74,7 +74,9 @@ class Sidebar extends React.Component {
             onClick={this.props.closeSidebar}
           >
             <div className="logo-img">
-              <i className="tim-icons icon-atom" />
+              {' '}
+              <img src={logo.imgSrc} alt="react-logo" />
+              {/* <i className="tim-icons icon-atom" /> */}
             </div>
           </Link>
         );

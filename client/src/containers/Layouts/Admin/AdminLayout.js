@@ -212,11 +212,11 @@ class AdminLayout extends Component {
             bgColor="blue"
             logo={{
               text: this.props.userState.name,
-              innerLink: '/user/feed'
+              innerLink: `/user/profile/${this.props.userState.userId}`,
+              imgSrc: this.props.userState.imageUrl
             }}
             closeSidebar={this.closeSidebar}
           />
-
           <div className="main-panel" ref="mainPanel" data="blue">
             <AdminNavbar
               {...this.props}

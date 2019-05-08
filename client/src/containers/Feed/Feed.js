@@ -79,6 +79,9 @@ class Feed extends Component {
           {this.state.posts.map(post => (
             <SinglePost
               key={post._id}
+              id={post._id}
+              tooltipId={`tooltip${post._id}`}
+              tooltipId2={`toolTip${post._id}2`}
               post={post}
               time={moment(post.createdAt)
                 .startOf()
