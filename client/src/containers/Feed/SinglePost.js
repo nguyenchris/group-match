@@ -8,17 +8,40 @@ import {
   CardTitle,
   Button,
   ButtonGroup,
+  Row,
   Badge,
   UncontrolledTooltip,
-  Collapse
+  Collapse,
+  Input
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 class SinglePost extends Component {
   state = {
-    openedCollapses: []
+    openedCollapses: [],
+    isLiked: false
   };
+
+  componentDidMount() {
+    this.checkIfLiked();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.post.likes !== this.props.post.likes) {
+      this.checkIfLiked();
+    }
+  }
+
+  // shouldComponentUpdate(prevProps, prevState) {
+  //   if (prevProps.post.likes !== this.props.post.likes) {
+  // console.log('diff');
+  // console.log(this.props.post.likes);
+  // console.log(prevProps.post.likes);
+  //     return true;
+  //   }
+  //   return false;
+  // }
   collapsesToggle = (e, collapse) => {
     e.preventDefault();
     let openedCollapses = [...this.state.openedCollapses];
@@ -30,6 +53,15 @@ class SinglePost extends Component {
       openedCollapses.push(collapse);
       this.setState({
         openedCollapses: openedCollapses
+      });
+    }
+  };
+
+  checkIfLiked = () => {
+    const isLiked = this.props.post.likes.some(like => like.user === this.props.userId);
+    if (isLiked) {
+      this.setState({
+        isLiked: isLiked
       });
     }
   };
@@ -56,7 +88,7 @@ class SinglePost extends Component {
             </Link>
           </CardHeader>
           <CardBody>
-            <CardTitle tag="h3">{this.props.post.content}</CardTitle>
+            <CardTitle tag="h4">{this.props.post.content}</CardTitle>
           </CardBody>
           <CardFooter className="post-footer">
             <hr />
@@ -74,52 +106,94 @@ class SinglePost extends Component {
                 <span className="text-danger">Offline</span>
               )}
             </h6>
-            <h6 className="text-muted post-time">
-              {/* <i className="ti-time" /> */}
-              Posted {this.props.time}
-            </h6>
-            {/* <ButtonGroup> */}
-            <Button color="info" className="btn-link" type="button">
-              <i className="tim-icons icon-heart-2" /> {'  '}Like{' '}
-              <Badge className="badge-like btn-round" color="info">
-                4
-              </Badge>
-            </Button>
-            <Button color="info" className="btn-link" type="button">
-              Comment
-            </Button>
-            {/* </ButtonGroup> */}
+            <h6 className="text-muted post-time">Posted {this.props.time}</h6>
+            <Row>
+              <Col>
+                <Button
+                  color={this.state.isLiked ? 'primary' : 'info'}
+                  className="btn-link"
+                  type="button"
+                  onClick={() => this.props.addLike(this.props.post._id)}
+                >
+                  <i className="tim-icons icon-heart-2" /> {'  '}Like{' '}
+                  <Badge className="badge-like" color={this.state.isLiked ? 'primary' : 'info'}>
+                    {this.props.post.likes.length}
+                  </Badge>
+                </Button>
+              </Col>
+              <Col>
+                <Button color="info" className="btn-link" type="button">
+                  Comment
+                </Button>
+              </Col>
+            </Row>
             <div
               aria-multiselectable={false}
               className="card-collapse"
               id="accordion"
               role="tablist"
             >
-              <Card className="card-plain">
-                <CardHeader role="tab">
+              <Card className="card-plain view-comments-card">
+                <CardHeader className="view-comments-header" role="tab">
                   <a
                     aria-expanded={this.state.openedCollapses.includes('collapseOne')}
                     href="#pablo"
                     data-parent="#accordion"
                     data-toggle="collapse"
                     onClick={e => this.collapsesToggle(e, 'collapseOne')}
+                    className={`view-comments ${
+                      this.state.openedCollapses.includes('collapseOne') ? 'text-info' : ''
+                    }`}
                   >
-                    View Comments <i className="tim-icons icon-minimal-down text-info" />
+                    View Comments{' '}
+                    <Badge className="badge-comments" color="info">
+                      {this.props.post.comments.length}
+                    </Badge>
+                    <i className="tim-icons icon-minimal-down text-info" />
                   </a>
                 </CardHeader>
                 <Collapse
                   role="tabpanel"
                   isOpen={this.state.openedCollapses.includes('collapseOne')}
                 >
-                  <CardBody>
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-                    sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                    shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
-                    cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
-                    Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
-                    you probably haven't heard of them accusamus labore sustainable VHS.
+                  <CardBody className="view-comments-body">
+                    {/* {this.props.post.comments.length === 0 ? 'No Comments' : null} */}
+                    <Row className="comment-input-row">
+                      <div className="comment-image-user">
+                        <img src={this.props.post.creator.imageUrl} alt="" />
+                      </div>
+                      <Input
+                        className="comment-input"
+                        type="text"
+                        placeholder="Write a comment..."
+                        color="info"
+                      />
+                    </Row>
+                    <Row className="comment-wrapper">
+                      <Col sm="3">
+                        <div className="comment-user-info">
+                          <div className="comment-image">
+                            <img src={this.props.post.creator.imageUrl} alt="" />
+                          </div>
+                        </div>
+                      </Col>
+
+                      <Col sm="9">
+                        <p className="comment-text">
+                          <span className="comment-name">
+                            <Link
+                              to={{
+                                pathname: `/user/profile/${this.props.post.creator._id}`
+                              }}
+                            >
+                              {this.props.post.creator.name}
+                            </Link>
+                          </span>
+                          hi this is a comment. how much as laksgasngajn q tqn q toqj tuiqwtiqntn
+                          ast ast
+                        </p>
+                      </Col>
+                    </Row>
                   </CardBody>
                 </Collapse>
               </Card>
@@ -139,7 +213,8 @@ class SinglePost extends Component {
 
 const mapStateToProps = state => {
   return {
-    usersOnline: state.feed.usersOnline
+    usersOnline: state.feed.usersOnline,
+    userId: state.auth.userId
   };
 };
 

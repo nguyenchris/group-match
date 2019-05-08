@@ -71,3 +71,44 @@ exports.createPost = (req, res, next) => {
     })
     .catch(err => next(err));
 };
+
+// POST api/feed/like
+exports.createLike = (req, res, next) => {
+  let fetchedPost;
+  let newLike;
+  db.Post.findOne({ _id: req.body.postId })
+    .populate({
+      path: 'creator',
+      model: 'User',
+      select: '_id name imageUrl status'
+    })
+    .populate({
+      path: 'comments',
+      populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
+    })
+    .populate({
+      path: 'likes',
+      populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
+    })
+    .then(post => {
+      fetchedPost = post;
+      newLike = new db.Like({
+        user: req.userId,
+        post: post._id
+      });
+      return newLike.save();
+    })
+    .then(like => {
+      fetchedPost.likes.push(like);
+      return fetchedPost.save();
+    })
+    .then(result => {
+      res.status(201).json(result);
+      io.getIO().emit('like', {
+        action: 'create',
+        post: result,
+        like: newLike
+      });
+    })
+    .catch(err => next(err));
+};

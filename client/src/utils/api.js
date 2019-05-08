@@ -49,3 +49,7 @@ export const getPosts = token => {
 export const createPost = (post, token) => {
   return axios.post('/api/feed/post', post, tokenConfig(token));
 };
+
+export const createLike = (postId, token) => {
+  return axios.post(`/api/feed/like`, { postId: postId }, tokenConfig(token));
+};

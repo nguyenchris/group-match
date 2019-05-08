@@ -214,6 +214,8 @@ class AdminLayout extends Component {
               text: this.props.userState.name,
               innerLink: `/user/profile/${this.props.userState.userId}`,
               imgSrc: this.props.userState.imageUrl
+                ? this.props.userState.imageUrl
+                : require('../../../assets/img/anime3.png')
             }}
             closeSidebar={this.closeSidebar}
           />
