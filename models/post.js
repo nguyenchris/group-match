@@ -20,24 +20,11 @@ const postSchema = new Schema({
   ]
 });
 
-postSchema.pre('findOne', { query: true }, function(next) {
-  this.populate({
-    path: 'creator',
-    model: 'User',
-    select: '_id name imageUrl status'
-  });
-  this.populate({
-    path: 'comments',
-    populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
-  });
-  this.populate({
-    path: 'likes',
-    populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
-  });
-  next();
-});
+postSchema.pre('findOne', { query: true }, populateFinds);
 
-postSchema.pre('find', { query: true }, function(next) {
+postSchema.pre('find', { query: true }, populateFinds);
+
+function populateFinds(next) {
   this.populate({
     path: 'creator',
     model: 'User',
@@ -52,6 +39,6 @@ postSchema.pre('find', { query: true }, function(next) {
     populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
   });
   next();
-});
+}
 
 module.exports = mongoose.model('Post', postSchema);

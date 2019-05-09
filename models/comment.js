@@ -5,7 +5,7 @@ const commentSchema = new Schema({
   content: { type: String, required: true },
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
+  updatedAt: { type: Date }
 });
 
 module.exports = mongoose.model('Comment', commentSchema);

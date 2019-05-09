@@ -92,6 +92,8 @@ class Feed extends Component {
       .catch(err => this.displayError('An error occurred creating your !'));
   }
 
+  submitComment = e => {};
+
   loadPosts = () => {
     this.setState({ postsLoading: true });
     getPosts(this.props.userState.token)

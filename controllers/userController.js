@@ -29,7 +29,7 @@ exports.signUp = (req, res, next) => {
               userId: newUser._id
             },
             process.env.JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '2h' }
           );
           res.status(201).json({
             userId: newUser._id,

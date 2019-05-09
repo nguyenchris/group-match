@@ -15,11 +15,13 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Comments from './Comments';
 
 class SinglePost extends Component {
   state = {
     openedCollapses: [],
-    likeObj: null
+    likeObj: null,
+    commentValue: ''
   };
 
   componentDidMount() {
@@ -32,8 +34,16 @@ class SinglePost extends Component {
     }
   }
 
+  handleInput = e => {
+    this.setState({
+      ...this.state,
+      commentValue: e.target.value
+    });
+  };
+
   collapsesToggle = (e, collapse) => {
     e.preventDefault();
+
     let openedCollapses = [...this.state.openedCollapses];
     if (openedCollapses.includes(collapse)) {
       this.setState({
@@ -66,7 +76,7 @@ class SinglePost extends Component {
       isOnline = this.props.usersOnline.some(user => user._id === this.props.post.creator._id);
     }
     return (
-      <Col md="4">
+      <Col md="5">
         <Card className="card-testimonial post-card">
           <CardHeader className="card-header-avatar">
             <Link
@@ -111,15 +121,23 @@ class SinglePost extends Component {
                   onClick={() => this.props.updateLike(this.props.post._id, this.state.likeObj)}
                 >
                   <i className="tim-icons icon-heart-2" /> {'  '}
-                  {this.state.likeObj ? 'Liked' : 'Like'}{' '}
+                  {this.state.likeObj ? 'Liked' : 'Likes'}{' '}
                   <Badge className="badge-like" color={this.state.likeObj ? 'primary' : 'info'}>
                     {this.props.post.likes.length}
                   </Badge>
                 </Button>
               </Col>
               <Col>
-                <Button color="info" className="btn-link" type="button">
-                  Comment
+                <Button
+                  color="info"
+                  className="btn-link"
+                  type="button"
+                  onClick={e => this.collapsesToggle(e, 'collapseOne')}
+                >
+                  Comments{'  '}
+                  <Badge className="badge-comments" color="info">
+                    {this.props.post.comments.length}
+                  </Badge>
                 </Button>
               </Col>
             </Row>
@@ -130,24 +148,6 @@ class SinglePost extends Component {
               role="tablist"
             >
               <Card className="card-plain view-comments-card">
-                <CardHeader className="view-comments-header" role="tab">
-                  <a
-                    aria-expanded={this.state.openedCollapses.includes('collapseOne')}
-                    href="#pablo"
-                    data-parent="#accordion"
-                    data-toggle="collapse"
-                    onClick={e => this.collapsesToggle(e, 'collapseOne')}
-                    className={`view-comments ${
-                      this.state.openedCollapses.includes('collapseOne') ? 'text-info' : ''
-                    }`}
-                  >
-                    View Comments{' '}
-                    <Badge className="badge-comments" color="info">
-                      {this.props.post.comments.length}
-                    </Badge>
-                    <i className="tim-icons icon-minimal-down text-info" />
-                  </a>
-                </CardHeader>
                 <Collapse
                   role="tabpanel"
                   isOpen={this.state.openedCollapses.includes('collapseOne')}
@@ -163,33 +163,12 @@ class SinglePost extends Component {
                         type="text"
                         placeholder="Write a comment..."
                         color="info"
+                        value={this.state.commentValue}
+                        onChange={this.handleInput}
+                        // onClick={}
                       />
                     </Row>
-                    <Row className="comment-wrapper">
-                      <Col sm="3">
-                        <div className="comment-user-info">
-                          <div className="comment-image">
-                            <img src={this.props.post.creator.imageUrl} alt="" />
-                          </div>
-                        </div>
-                      </Col>
-
-                      <Col sm="9">
-                        <p className="comment-text">
-                          <span className="comment-name">
-                            <Link
-                              to={{
-                                pathname: `/user/profile/${this.props.post.creator._id}`
-                              }}
-                            >
-                              {this.props.post.creator.name}
-                            </Link>
-                          </span>
-                          hi this is a comment. how much as laksgasngajn q tqn q toqj tuiqwtiqntn
-                          ast ast
-                        </p>
-                      </Col>
-                    </Row>
+                    <Comments userId={this.props.userId} post={this.props.post} />
                   </CardBody>
                 </Collapse>
               </Card>
