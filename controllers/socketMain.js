@@ -21,6 +21,7 @@ function socketMain(io, socket) {
         if (err) console.log(new Error(err));
       });
   });
+
   socket.on('disconnect', reason => {
     if (socket.disconnected) {
       console.log(`dbUserId: ${dbUserId} socketID: ${socket.id} disconnected!`);

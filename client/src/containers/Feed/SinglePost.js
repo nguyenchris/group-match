@@ -7,7 +7,6 @@ import {
   CardFooter,
   CardTitle,
   Button,
-  ButtonGroup,
   Row,
   Badge,
   UncontrolledTooltip,
@@ -20,7 +19,7 @@ import { connect } from 'react-redux';
 class SinglePost extends Component {
   state = {
     openedCollapses: [],
-    isLiked: false
+    likeObj: null
   };
 
   componentDidMount() {
@@ -28,20 +27,11 @@ class SinglePost extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.post.likes !== this.props.post.likes) {
+    if (prevProps.post.likes.length !== this.props.post.likes.length) {
       this.checkIfLiked();
     }
   }
 
-  // shouldComponentUpdate(prevProps, prevState) {
-  //   if (prevProps.post.likes !== this.props.post.likes) {
-  // console.log('diff');
-  // console.log(this.props.post.likes);
-  // console.log(prevProps.post.likes);
-  //     return true;
-  //   }
-  //   return false;
-  // }
   collapsesToggle = (e, collapse) => {
     e.preventDefault();
     let openedCollapses = [...this.state.openedCollapses];
@@ -58,10 +48,15 @@ class SinglePost extends Component {
   };
 
   checkIfLiked = () => {
-    const isLiked = this.props.post.likes.some(like => like.user === this.props.userId);
-    if (isLiked) {
+    const likeIndex = this.props.post.likes.findIndex(like => like.user === this.props.userId);
+    if (likeIndex !== -1) {
+      const likeObj = this.props.post.likes[likeIndex];
       this.setState({
-        isLiked: isLiked
+        likeObj: likeObj
+      });
+    } else {
+      this.setState({
+        likeObj: null
       });
     }
   };
@@ -110,14 +105,14 @@ class SinglePost extends Component {
             <Row>
               <Col>
                 <Button
-                  color={this.state.isLiked ? 'primary' : 'info'}
+                  color={this.state.likeObj ? 'primary' : 'info'}
                   className="btn-link"
                   type="button"
-                  onClick={() => this.props.addLike(this.props.post._id)}
+                  onClick={() => this.props.updateLike(this.props.post._id, this.state.likeObj)}
                 >
                   <i className="tim-icons icon-heart-2" /> {'  '}
-                  {this.state.isLiked ? 'Liked' : 'Like'}{' '}
-                  <Badge className="badge-like" color={this.state.isLiked ? 'primary' : 'info'}>
+                  {this.state.likeObj ? 'Liked' : 'Like'}{' '}
+                  <Badge className="badge-like" color={this.state.likeObj ? 'primary' : 'info'}>
                     {this.props.post.likes.length}
                   </Badge>
                 </Button>

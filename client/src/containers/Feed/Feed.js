@@ -5,10 +5,11 @@ import { getSocket } from '../../store/sockets';
 import { Row, Col } from 'reactstrap';
 import Post from './Post';
 import SinglePost from './SinglePost';
-import { getPosts, createPost, createLike } from '../../utils/api';
+import { getPosts, createPost, createLike, deleteLike } from '../../utils/api';
 import Spinner from '../../components/UI/Spinner';
 import moment from 'moment';
 import './Feed.css';
+import NotificationAlertPopUp from '../../components/NotificationAlert/NotificationAlertPopUp';
 
 class Feed extends Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class Feed extends Component {
     this.state = {
       posts: [],
       postsLoading: true,
-      postsPageAmount: null
+      postsPageAmount: null,
+      error: null
     };
   }
 
@@ -31,12 +33,13 @@ class Feed extends Component {
       }
     });
     getSocket().on('like', ({ action, post, like }) => {
-      switch (action) {
-        case 'create':
-          return this.addLike(post, like);
-        default:
-          return;
-      }
+      // switch (action) {
+      //   case 'create':
+      //     return this.addLike(post);
+      //   default:
+      //     return;
+      // }
+      this.addLike(post);
     });
   }
 
@@ -50,23 +53,31 @@ class Feed extends Component {
     });
   };
 
-  addLike = (post, like) => {
-    this.setState(prevState => {
-      const updatedPosts = [...prevState.posts];
-      const indexOfLikedPost = this.state.posts.findIndex(elem => elem._id === post._id);
-      updatedPosts[indexOfLikedPost] = post;
-      return {
-        posts: updatedPosts
-      };
+  addLike = post => {
+    const updatedPosts = [...this.state.posts];
+    const indexOfLikedPost = this.state.posts.findIndex(elem => elem._id === post._id);
+    updatedPosts[indexOfLikedPost] = post;
+    this.setState({
+      posts: updatedPosts
     });
   };
 
-  createLike = postId => {
-    createLike(postId, this.props.userState.token)
-      .then(result => {
-        console.log('json', result);
-      })
-      .catch(err => console.log(err.message));
+  // Update like button and send data to db
+  updateLike = (postId, likeObj) => {
+    console.log(likeObj);
+    if (!likeObj) {
+      createLike(postId, this.props.userState.token)
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(err => this.displayError('An error occurred creating your like!'));
+    } else {
+      deleteLike(likeObj._id, postId, this.props.userState.token)
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(err => this.displayError('An error occurred removing your like!'));
+    }
   };
 
   handlePost(content) {
@@ -74,21 +85,34 @@ class Feed extends Component {
       content: content,
       creator: this.props.userState.userId
     };
-    createPost(newPost, this.props.userState.token).then(post => {
-      console.log(post.data);
-    });
+    createPost(newPost, this.props.userState.token)
+      .then(post => {
+        return post;
+      })
+      .catch(err => this.displayError('An error occurred creating your !'));
   }
 
   loadPosts = () => {
     this.setState({ postsLoading: true });
-    getPosts(this.props.userState.token).then(({ data }) => {
-      this.setState({ posts: data.posts, postsLoading: false });
-      console.log(data);
+    getPosts(this.props.userState.token)
+      .then(({ data }) => {
+        this.setState({ posts: data.posts, postsLoading: false });
+      })
+      .catch(err => this.displayError('An error occurred getting the News Feed'));
+  };
+
+  displayError = error => {
+    this.setState({
+      error: error
     });
+    setTimeout(() => {
+      this.setState({
+        error: null
+      });
+    }, 4500);
   };
 
   render() {
-    console.log(this.state.posts);
     return (
       <div className="content">
         <Row>
@@ -111,7 +135,7 @@ class Feed extends Component {
               tooltipId={`tooltip${post._id}`}
               tooltipId2={`toolTip${post._id}2`}
               post={post}
-              addLike={this.createLike}
+              updateLike={this.updateLike}
               time={moment(post.createdAt)
                 .startOf()
                 .fromNow()}
@@ -119,6 +143,7 @@ class Feed extends Component {
           ))}
         </Row>
         <Post onPost={post => this.handlePost(post)} />
+        {this.state.error ? <NotificationAlertPopUp message={this.state.error} /> : null}
       </div>
     );
   }

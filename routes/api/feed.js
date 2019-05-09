@@ -8,5 +8,8 @@ router
   .route('/post')
   .get(isAuth, feedController.getPosts)
   .post(isAuth, feedController.createPost);
-router.route('/like').post(isAuth, feedController.createLike);
+router
+  .route('/like')
+  .post(isAuth, feedController.createLike)
+  .put(isAuth, feedController.deleteLike);
 module.exports = router;

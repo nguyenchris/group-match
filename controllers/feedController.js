@@ -48,26 +48,50 @@ exports.createPost = (req, res, next) => {
 // POST api/feed/like
 exports.createLike = (req, res, next) => {
   let fetchedPost;
-  let newLike;
+  let createdLike;
   db.Post.findOne({ _id: req.body.postId })
     .then(post => {
       fetchedPost = post;
-      newLike = new db.Like({
+      const newLike = new db.Like({
         user: req.userId,
         post: post._id
       });
       return newLike.save();
     })
     .then(like => {
+      createdLike = like;
       fetchedPost.likes.push(like);
       return fetchedPost.save();
     })
     .then(result => {
-      res.status(201).json(result);
+      res.status(201).json({ post: result, like: createdLike });
       io.getIO().emit('like', {
         action: 'create',
         post: result,
-        like: newLike
+        like: createdLike
+      });
+    })
+    .catch(err => next(err));
+};
+
+// PUT api/feed/like
+exports.deleteLike = (req, res, next) => {
+  let fetchedLike;
+  let updatedPost;
+  db.Post.findOne({ _id: req.body.postId })
+    .then(fetchedPost => {
+      fetchedPost.likes.pull(req.body.likeId);
+      return fetchedPost.save();
+    })
+    .then(post => {
+      updatedPost = post;
+      return db.Like.findOneAndDelete({ _id: req.body.likeId });
+    })
+    .then(like => {
+      res.status(201).json({ post: updatedPost });
+      io.getIO().emit('like', {
+        action: 'delete',
+        post: updatedPost
       });
     })
     .catch(err => next(err));
