@@ -10,21 +10,7 @@ exports.getPosts = (req, res, next) => {
     .countDocuments()
     .then(count => {
       totalItems = count;
-      return db.Post.find()
-        .populate({
-          path: 'creator',
-          model: 'User',
-          select: '_id name imageUrl status'
-        })
-        .populate({
-          path: 'comments',
-          populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
-        })
-        .populate({
-          path: 'likes',
-          populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
-        })
-        .sort({ createdAt: -1 });
+      return db.Post.find().sort({ createdAt: -1 });
     })
     .then(posts => {
       res.status(200).json({
@@ -47,20 +33,7 @@ exports.createPost = (req, res, next) => {
   newPost
     .save()
     .then(post => {
-      return db.Post.findOne({ _id: post._id })
-        .populate({
-          path: 'creator',
-          model: 'User',
-          select: '_id name imageUrl status'
-        })
-        .populate({
-          path: 'comments',
-          populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
-        })
-        .populate({
-          path: 'likes',
-          populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
-        });
+      return db.Post.findOne({ _id: post._id });
     })
     .then(fetchedPost => {
       res.status(201).json(fetchedPost);
@@ -77,19 +50,6 @@ exports.createLike = (req, res, next) => {
   let fetchedPost;
   let newLike;
   db.Post.findOne({ _id: req.body.postId })
-    .populate({
-      path: 'creator',
-      model: 'User',
-      select: '_id name imageUrl status'
-    })
-    .populate({
-      path: 'comments',
-      populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
-    })
-    .populate({
-      path: 'likes',
-      populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
-    })
     .then(post => {
       fetchedPost = post;
       newLike = new db.Like({

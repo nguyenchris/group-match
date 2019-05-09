@@ -115,7 +115,8 @@ class SinglePost extends Component {
                   type="button"
                   onClick={() => this.props.addLike(this.props.post._id)}
                 >
-                  <i className="tim-icons icon-heart-2" /> {'  '}Like{' '}
+                  <i className="tim-icons icon-heart-2" /> {'  '}
+                  {this.state.isLiked ? 'Liked' : 'Like'}{' '}
                   <Badge className="badge-like" color={this.state.isLiked ? 'primary' : 'info'}>
                     {this.props.post.likes.length}
                   </Badge>
