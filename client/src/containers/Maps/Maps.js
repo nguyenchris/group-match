@@ -329,10 +329,10 @@ class Map extends Component {
     const map = (
       <MapWrapper
         ref="map"
-        // googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${
-        //   this.state.GOOGLE_KEY
-        // }&v=3.exp&libraries=geometry,drawing`}
-        googleMapURL={'https://maps.googleapis.com/maps/api/js?key='}
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${
+          this.state.GOOGLE_KEY
+        }&v=3.exp&libraries=geometry,drawing`}
+        // googleMapURL={'https://maps.googleapis.com/maps/api/js?key='}
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `100%` }} />}
         mapElement={<div style={{ height: `100%` }} />}
