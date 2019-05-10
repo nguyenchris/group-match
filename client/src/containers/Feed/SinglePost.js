@@ -153,7 +153,6 @@ class SinglePost extends Component {
                   isOpen={this.state.openedCollapses.includes('collapseOne')}
                 >
                   <CardBody className="view-comments-body">
-                    {/* {this.props.post.comments.length === 0 ? 'No Comments' : null} */}
                     <Row className="comment-input-row">
                       <div className="comment-image-user">
                         <img src={this.props.post.creator.imageUrl} alt="" />
@@ -161,14 +160,21 @@ class SinglePost extends Component {
                       <Input
                         className="comment-input"
                         type="text"
+                        id={this.props.post._id}
                         placeholder="Write a comment..."
                         color="info"
                         value={this.state.commentValue}
                         onChange={this.handleInput}
-                        // onClick={}
+                        onKeyPress={e => this.props.submitComment(e)}
                       />
                     </Row>
-                    <Comments userId={this.props.userId} post={this.props.post} />
+                    {console.log(this.props.post.comments)}
+                    <Comments
+                      userId={this.props.userId}
+                      token={this.props.token}
+                      comments={this.props.post.comments}
+                      postId={this.props.post._id}
+                    />
                   </CardBody>
                 </Collapse>
               </Card>
@@ -189,7 +195,8 @@ class SinglePost extends Component {
 const mapStateToProps = state => {
   return {
     usersOnline: state.feed.usersOnline,
-    userId: state.auth.userId
+    userId: state.auth.userId,
+    token: state.auth.token
   };
 };
 

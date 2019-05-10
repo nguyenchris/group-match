@@ -13,5 +13,9 @@ router
   .post(isAuth, feedController.createLike)
   .put(isAuth, feedController.deleteLike);
 
-// router.router('/comment').post(isAuth, feedController.createComment).put(edit)
+router
+  .route('/comment')
+  .post(isAuth, feedController.createComment)
+  .put(isAuth, feedController.editComment);
+
 module.exports = router;

@@ -5,7 +5,7 @@ import { getSocket } from '../../store/sockets';
 import { Row, Col } from 'reactstrap';
 import Post from './Post';
 import SinglePost from './SinglePost';
-import { getPosts, createPost, createLike, deleteLike } from '../../utils/api';
+import { getPosts, createPost, createLike, deleteLike, createComment } from '../../utils/api';
 import Spinner from '../../components/UI/Spinner';
 import moment from 'moment';
 import './Feed.css';
@@ -27,23 +27,20 @@ class Feed extends Component {
     getSocket().on('posts', ({ action, post }) => {
       switch (action) {
         case 'create':
-          return this.addPost(post);
+          return this.updatePostState(post);
         default:
           return;
       }
     });
     getSocket().on('like', ({ action, post, like }) => {
-      // switch (action) {
-      //   case 'create':
-      //     return this.addLike(post);
-      //   default:
-      //     return;
-      // }
-      this.addLike(post);
+      this.updateLikeState(post);
+    });
+    getSocket().on('comment', ({ action, post, comment }) => {
+      this.updateCommentState(post);
     });
   }
 
-  addPost = newPost => {
+  updatePostState = newPost => {
     this.setState(prevState => {
       const updatedPosts = [...prevState.posts];
       updatedPosts.unshift(newPost);
@@ -53,7 +50,7 @@ class Feed extends Component {
     });
   };
 
-  addLike = post => {
+  updateLikeState = post => {
     const updatedPosts = [...this.state.posts];
     const indexOfLikedPost = this.state.posts.findIndex(elem => elem._id === post._id);
     updatedPosts[indexOfLikedPost] = post;
@@ -62,9 +59,17 @@ class Feed extends Component {
     });
   };
 
+  updateCommentState = post => {
+    const updatedPosts = [...this.state.posts];
+    const indexOfCommentPost = this.state.posts.findIndex(elem => elem._id === post._id);
+    updatedPosts[indexOfCommentPost] = post;
+    this.setState({
+      posts: updatedPosts
+    });
+  };
+
   // Update like button and send data to db
   updateLike = (postId, likeObj) => {
-    console.log(likeObj);
     if (!likeObj) {
       createLike(postId, this.props.userState.token)
         .then(({ data }) => {
@@ -89,10 +94,21 @@ class Feed extends Component {
       .then(post => {
         return post;
       })
-      .catch(err => this.displayError('An error occurred creating your !'));
+      .catch(err => this.displayError('An error occurred creating your post!'));
   }
 
-  submitComment = e => {};
+  submitComment = (e, isEdit) => {
+    const value = e.target.value.trim();
+    const postId = e.target.id;
+    if (e.key === 'Enter' && value.length !== 0) {
+      createComment(value, postId, this.props.userState.token)
+        .then(({ data }) => {
+          console.log(data);
+          return data;
+        })
+        .catch(err => this.displayError('Oops, there was an error creating your comment!'));
+    }
+  };
 
   loadPosts = () => {
     this.setState({ postsLoading: true });
@@ -141,6 +157,7 @@ class Feed extends Component {
               time={moment(post.createdAt)
                 .startOf()
                 .fromNow()}
+              submitComment={this.submitComment}
             />
           ))}
         </Row>

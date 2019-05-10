@@ -24,6 +24,30 @@ postSchema.pre('findOne', { query: true }, populateFinds);
 
 postSchema.pre('find', { query: true }, populateFinds);
 
+// postSchema.pre('save', function(doc, next) {
+//   doc.populate({
+//     path: 'creator',
+//     model: 'User',
+//     select: '_id name imageUrl status'
+//   });
+//   doc.populate({
+//     path: 'comments',
+//     model: 'Comment',
+//     populate: {
+//       path: 'creator',
+//       model: 'User',
+//       select: '_id name imageUrl status',
+//       options: { sort: { createdAt: 1 } }
+//     }
+//   });
+//   doc.populate({
+//     path: 'likes',
+//     model: 'Like',
+//     populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
+//   });
+//   next();
+// });
+
 function populateFinds(next) {
   this.populate({
     path: 'creator',
@@ -32,10 +56,17 @@ function populateFinds(next) {
   });
   this.populate({
     path: 'comments',
-    populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
+    model: 'Comment',
+    populate: {
+      path: 'creator',
+      model: 'User',
+      select: '_id name imageUrl status',
+      options: { sort: { createdAt: 1 } }
+    }
   });
   this.populate({
     path: 'likes',
+    model: 'Like',
     populate: { path: 'creator', model: 'User', select: '_id name imageUrl status' }
   });
   next();

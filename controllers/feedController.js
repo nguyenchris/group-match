@@ -96,3 +96,61 @@ exports.deleteLike = (req, res, next) => {
     })
     .catch(err => next(err));
 };
+
+// POST api/feed/comment
+exports.createComment = (req, res, next) => {
+  let fetchedPosts;
+  let newComment;
+  db.Post.findOne({ _id: req.body.postId })
+    .then(post => {
+      fetchedPosts = post;
+      const comment = new db.Comment({
+        content: req.body.content,
+        creator: req.userId
+      });
+      return comment.save();
+    })
+    .then(savedComment => {
+      newComment = savedComment;
+      fetchedPosts.comments.push(newComment);
+      return fetchedPosts.save();
+    })
+    .then(updatedPost => {
+      return db.Post.findOne({ _id: updatedPost._id });
+    })
+    .then(newPost => {
+      res.status(201).json({ post: newPost, comment: newComment });
+      io.getIO().emit('comment', {
+        action: 'create',
+        post: newPost,
+        comment: newComment
+      });
+    })
+    .catch(err => next(err));
+};
+
+// PUT api/feed/comment
+exports.editComment = (req, res, next) => {
+  const commentId = req.body.commentId;
+  const content = req.body.content;
+  let newComment;
+  db.Comment.findOne({ _id: commentId })
+    .then(comment => {
+      comment.content = content;
+      return comment.save();
+    })
+    .then(updatedComment => {
+      newComment = updatedComment;
+      return db.Post.findOne({ _id: req.body.postId });
+    })
+    .then(updatedPost => {
+      console.log(newComment);
+      res.status(201).json({ post: updatedPost }),
+        io.getIO().emit('comment', {
+          action: 'edit',
+          post: updatedPost,
+          comment: newComment
+        });
+    })
+    .catch(err => next(err));
+};

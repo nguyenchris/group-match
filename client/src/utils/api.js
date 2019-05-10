@@ -57,3 +57,20 @@ export const createLike = (postId, token) => {
 export const deleteLike = (likeId, postId, token) => {
   return axios.put(`/api/feed/like`, { likeId: likeId, postId: postId }, tokenConfig(token));
 };
+
+export const createComment = (content, postId, token) => {
+  const data = {
+    content: content,
+    postId: postId
+  };
+  return axios.post('/api/feed/comment', data, tokenConfig(token));
+};
+
+export const editComment = (value, commentId, postId, token) => {
+  const data = {
+    content: value,
+    postId,
+    commentId
+  };
+  return axios.put('/api/feed/comment', data, tokenConfig(token));
+};
