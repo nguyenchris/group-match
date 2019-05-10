@@ -37,8 +37,8 @@ class Comment extends Component {
   render() {
     return (
       <Row>
-        <Button color="simple" onClick={this.toggleModalPost}>
-          New Post
+        <Button size="lg" className="btn-simple" color="twitter" onClick={this.toggleModalPost}>
+          Create New Post
         </Button>
 
         <Modal modalClassName="modal-search" isOpen={this.state.modalOpen}>
