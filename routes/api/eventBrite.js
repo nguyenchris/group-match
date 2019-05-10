@@ -10,6 +10,7 @@ router
   .post(isAuth, eventBriteController.postCreateEvent);
 router.route('/search').get(isAuth, eventBriteController.getEventSearch);
 router.route('/location').get(isAuth, eventBriteController.getLocationAutocomplete);
+router.route('/join').post(isAuth, eventBriteController.joinMeetup);
 // DEV ONLY
 router.route('/dev').get(isAuth, eventBriteController.devOnlyGetEvents);
 

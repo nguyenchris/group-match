@@ -14,7 +14,6 @@ class DevContainerEvents extends Component {
     axios
       .get('/api/event/', { headers: { Authorization: `Bearer ${this.props.token}` } })
       .then(result => {
-        console.log(result.data.meetups);
         this.setState({
           meetups: result.data.meetups
         });
@@ -43,7 +42,13 @@ class DevContainerEvents extends Component {
         <Row>
           {this.state.meetups.length > 0
             ? this.state.meetups.map(meetup => (
-                <MeetupCard key={meetup._id} meetup={meetup} id={meetup._id} />
+                <MeetupCard
+                  key={meetup._id}
+                  meetup={meetup}
+                  id={meetup._id}
+                  userId={this.props.userId}
+                  token={this.props.token}
+                />
               ))
             : 'No Meetups'}
         </Row>

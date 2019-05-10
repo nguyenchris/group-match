@@ -29,7 +29,6 @@ class Profile extends Component {
 
   componentDidMount() {
     let id = null;
-    console.log(this.props);
     if (this.props.match.params.id) {
       id = this.props.match.params.id;
     } else {
@@ -43,10 +42,13 @@ class Profile extends Component {
         status: user.data.status,
         lastSignIn: user.data.lastSignIn,
         createdOn: user.data.createdOn,
-        friends: user.data.friends
+        friends: user.data.friends,
+        id: user.data.userId
       });
     });
   }
+
+  sendFriendRequest = id => {};
 
   render() {
     return (
@@ -82,8 +84,10 @@ class Profile extends Component {
                       {this.state.aboutMe}
                     </div>
                   </CardBody>
-                  {this.props.location.user ? (
-                    <Button onClick={e => e.preventDefault()}>Send Friend Request</Button>
+                  {this.state.id !== this.props.userState.userId ? (
+                    <Button onClick={e => e.preventDefault()}>
+                      Send Friend Request (Feature currently unavailable)
+                    </Button>
                   ) : null}
                 </Card>
               </Col>

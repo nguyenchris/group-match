@@ -75,6 +75,25 @@ exports.getMeetups = (req, res, next) => {
     });
 };
 
+exports.joinMeetup = (req, res, next) => {
+  db.Meetup.findOne({
+    _id: req.body.meetupId
+  })
+    .populate('attendees')
+    .then(fetchedMeetup => {
+      let max = fetchedMeetup.attendees.length;
+      if (max >= parseInt(fetchedMeetup.maxAttendees)) {
+        return res.status(400).json({ error: 'Too Many attendees' });
+      } else {
+        fetchedMeetup.attendees.push(req.userId);
+        return fetchedMeetup.save();
+      }
+    })
+    .then(meetup => {
+      res.status(201).json({ meetup: meetup });
+    });
+};
+
 // DEV ONLY
 // GET controller to get the same json of events as if a user searches for events
 exports.devOnlyGetEvents = (req, res, next) => {

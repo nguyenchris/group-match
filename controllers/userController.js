@@ -152,3 +152,7 @@ exports.postProfile = (req, res, next) => {
       next(err);
     });
 };
+
+// exports.sendFriendRequest = () => {
+
+// }

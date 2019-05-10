@@ -141,7 +141,7 @@ class AdminNavbar extends React.Component {
                   <p className="online-nav">Online Users: {this.props.numberOnline}</p>
                 </div>
                 <InputGroup className="search-bar">
-                  <Button
+                  {/* <Button
                     color="link"
                     data-target="#searchModal"
                     data-toggle="modal"
@@ -150,7 +150,7 @@ class AdminNavbar extends React.Component {
                   >
                     <i className="tim-icons icon-zoom-split" />
                     <span className="d-lg-none d-md-block">Search</span>
-                  </Button>
+                  </Button> */}
                 </InputGroup>
                 <UncontrolledDropdown nav>
                   <DropdownToggle caret color="default" data-toggle="dropdown" nav>
@@ -206,9 +206,9 @@ class AdminNavbar extends React.Component {
                     <NavLink tag={Link} to={`/user/profile/${this.props.userState.userId}`}>
                       <DropdownItem className="nav-item">Profile</DropdownItem>
                     </NavLink>
-                    <NavLink tag="li">
+                    {/* <NavLink tag="li">
                       <DropdownItem className="nav-item">Settings</DropdownItem>
-                    </NavLink>
+                    </NavLink> */}
                     <DropdownItem divider tag="li" />
                     <NavLink tag={Link} to="/user/logout">
                       <DropdownItem className="nav-item">Log out</DropdownItem>

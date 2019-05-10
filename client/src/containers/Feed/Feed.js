@@ -69,19 +69,23 @@ class Feed extends Component {
   };
 
   // Update like button and send data to db
-  updateLike = (postId, likeObj) => {
-    if (!likeObj) {
-      createLike(postId, this.props.userState.token)
-        .then(({ data }) => {
-          return data;
-        })
-        .catch(err => this.displayError('An error occurred creating your like!'));
+  updateLike = (postId, likeObj, creatorId) => {
+    if (this.props.userState.userId !== creatorId) {
+      if (!likeObj) {
+        createLike(postId, this.props.userState.token)
+          .then(({ data }) => {
+            return data;
+          })
+          .catch(err => this.displayError('An error occurred creating your like!'));
+      } else {
+        deleteLike(likeObj._id, postId, this.props.userState.token)
+          .then(({ data }) => {
+            return data;
+          })
+          .catch(err => this.displayError('An error occurred removing your like!'));
+      }
     } else {
-      deleteLike(likeObj._id, postId, this.props.userState.token)
-        .then(({ data }) => {
-          return data;
-        })
-        .catch(err => this.displayError('An error occurred removing your like!'));
+      this.displayError('You cannot like your own post!');
     }
   };
 
@@ -134,6 +138,12 @@ class Feed extends Component {
     return (
       <div className="content">
         <Row>
+          <div className="ml-auto mr-auto">
+            <Post onPost={post => this.handlePost(post)} />
+          </div>
+        </Row>
+
+        <Row>
           {this.state.posts.length === 0 && !this.state.postsLoading ? (
             <Col className="text-center">
               <h1>No Posts found</h1>
@@ -146,6 +156,7 @@ class Feed extends Component {
               </div>
             </Col>
           ) : null}
+          {/* <Col> */}
           {this.state.posts.map(post => (
             <SinglePost
               key={post._id}
@@ -160,8 +171,8 @@ class Feed extends Component {
               submitComment={this.submitComment}
             />
           ))}
+          {/* </Col> */}
         </Row>
-        <Post onPost={post => this.handlePost(post)} />
         {this.state.error ? <NotificationAlertPopUp message={this.state.error} /> : null}
       </div>
     );

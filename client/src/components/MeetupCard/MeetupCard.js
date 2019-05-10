@@ -4,13 +4,21 @@ import { Card, CardImg, CardBody, CardTitle, CardText, Button } from 'reactstrap
 import ModalEvent from '../../components/Modal/ModalEvent';
 
 import { Link } from 'react-router-dom';
-
+import { joinMeetup } from '../../utils/api';
 class MeetupCard extends Component {
   state = {
     isModalCreateOpen: false,
     isModalDetailsOpen: false,
-    notification: ''
+    notification: '',
+    attendees: []
   };
+
+  componentDidMount() {
+    this.setState({
+      ...this.state,
+      attendees: this.props.meetup.attendees
+    });
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (nextState !== this.state) {
@@ -41,7 +49,28 @@ class MeetupCard extends Component {
     }, 4000);
   };
 
+  handleJoin = e => {
+    e.preventDefault();
+    joinMeetup(this.props.id, this.props.token)
+      .then(({ data }) => {
+        // this.setState(prevState => ({
+        //   ...prevState,
+        //   attendees: data.meetup.attendees
+        // }));
+        console.log(data.meetup);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   render() {
+    let attendees = this.state.attendees.map((attendee, i) => {
+      if (attendee) {
+        return <p key={i}>{attendee.name}</p>;
+      }
+      return;
+    });
     return (
       <div className="event-card-wrapper">
         <Card className="event-card card-plain">
@@ -66,6 +95,9 @@ class MeetupCard extends Component {
               Time: {this.props.meetup.event.start.timeDisplay} -{' '}
               {this.props.meetup.event.end.timeDisplay}
             </CardText>
+            <CardText>
+              Users joining: {this.state.attendees.length > 0 ? attendees : 'No Attendees yet.'}
+            </CardText>
             <Button color="secondary" name="info" onClick={this.toggleModalDetails}>
               Details
             </Button>
@@ -76,8 +108,8 @@ class MeetupCard extends Component {
                 {...this.props.meetup.event}
               />
             ) : null}
-            <Button color="secondary" name="create" onClick={e => e.preventDefault()}>
-              Request Join
+            <Button color="secondary" name="create" onClick={e => this.handleJoin(e)}>
+              Join
             </Button>
           </CardBody>
         </Card>

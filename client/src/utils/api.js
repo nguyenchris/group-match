@@ -74,3 +74,11 @@ export const editComment = (value, commentId, postId, token) => {
   };
   return axios.put('/api/feed/comment', data, tokenConfig(token));
 };
+
+export const joinMeetup = (meetupId, token) => {
+  return axios.post('/api/event/join', { meetupId }, tokenConfig(token));
+};
+
+// export const sendFriendRequest = (userId, token) => {
+//   return axios.post('/api/user/friend', { userId: userId }, tokenConfig(token));
+// };

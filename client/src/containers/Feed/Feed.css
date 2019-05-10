@@ -13,6 +13,10 @@
   margin-bottom: 0;
 }
 
+.post-card-wrapper .card-testimonial.post-card.card {
+  margin-top: 100px;
+}
+
 .card-testimonial .card-footer.post-footer h6 {
   padding-bottom: 0;
 }

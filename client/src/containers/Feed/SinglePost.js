@@ -76,7 +76,7 @@ class SinglePost extends Component {
       isOnline = this.props.usersOnline.some(user => user._id === this.props.post.creator._id);
     }
     return (
-      <Col md="5">
+      <Col md="6" className="post-card-wrapper">
         <Card className="card-testimonial post-card">
           <CardHeader className="card-header-avatar">
             <Link
@@ -118,7 +118,13 @@ class SinglePost extends Component {
                   color={this.state.likeObj ? 'primary' : 'info'}
                   className="btn-link"
                   type="button"
-                  onClick={() => this.props.updateLike(this.props.post._id, this.state.likeObj)}
+                  onClick={() =>
+                    this.props.updateLike(
+                      this.props.post._id,
+                      this.state.likeObj,
+                      this.props.post.creator._id
+                    )
+                  }
                 >
                   <i className="tim-icons icon-heart-2" /> {'  '}
                   {this.state.likeObj ? 'Liked' : 'Likes'}{' '}
