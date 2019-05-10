@@ -161,7 +161,7 @@ class SinglePost extends Component {
                   <CardBody className="view-comments-body">
                     <Row className="comment-input-row">
                       <div className="comment-image-user">
-                        <img src={this.props.post.creator.imageUrl} alt="" />
+                        <img src={this.props.userImg} alt="" />
                       </div>
                       <Input
                         className="comment-input"
@@ -202,7 +202,8 @@ const mapStateToProps = state => {
   return {
     usersOnline: state.feed.usersOnline,
     userId: state.auth.userId,
-    token: state.auth.token
+    token: state.auth.token,
+    userImg: state.auth.imageUrl
   };
 };
 
