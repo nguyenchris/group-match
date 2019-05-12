@@ -63,8 +63,6 @@ exports.postCreateEvent = (req, res, next) => {
 
 exports.getMeetups = (req, res, next) => {
   db.Meetup.find()
-    .populate('creator')
-    .populate('attendees')
     .then(meetups => {
       res.json({ meetups: meetups });
     })
@@ -78,18 +76,27 @@ exports.joinMeetup = (req, res, next) => {
   db.Meetup.findOne({
     _id: req.body.meetupId
   })
-    .populate('attendees')
     .then(fetchedMeetup => {
       let max = fetchedMeetup.attendees.length;
+      const isUserJoined = fetchedMeetup.attendees.some(
+        attendee => attendee._id.toString() === req.userId
+      );
       if (max >= parseInt(fetchedMeetup.maxAttendees)) {
         return res.status(400).json({ error: 'Too Many attendees' });
+      }
+      if (isUserJoined) {
+        fetchedMeetup.attendees.pull(req.userId);
+        return fetchedMeetup.save();
       } else {
         fetchedMeetup.attendees.push(req.userId);
         return fetchedMeetup.save();
       }
     })
     .then(meetup => {
-      res.status(201).json({ meetup: meetup });
+      return db.Meetup.findOne({ _id: meetup._id });
+    })
+    .then(updatedMeetup => {
+      res.status(201).json({ meetup: updatedMeetup });
     });
 };
 

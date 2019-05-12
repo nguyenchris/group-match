@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Row } from 'reactstrap';
 import MeetupCard from '../../components/MeetupCard/MeetupCard';
 import './Meetups.css';
+// import { getSocket } from '../../store/sockets';
 class Meetups extends Component {
   state = {
     meetups: [],

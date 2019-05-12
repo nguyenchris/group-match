@@ -13,7 +13,6 @@ import {
   TabPane,
   NavLink
 } from 'reactstrap';
-// import { Link } from 'react-router-dom';
 import Interweave from 'interweave';
 
 class ModalEvent extends Component {
