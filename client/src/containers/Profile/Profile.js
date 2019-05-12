@@ -110,10 +110,7 @@ class Profile extends Component {
               <Card>
                 <CardBody>
                   <CardTitle>Previously Attended Events:</CardTitle>
-                  <CardText>
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </CardText>
+                  <CardText>Feature not available yet.</CardText>
                 </CardBody>
               </Card>
             </Col>
