@@ -31,8 +31,6 @@ class Profile extends Component {
     let id = null;
     if (this.props.match.params.id) {
       id = this.props.match.params.id;
-    } else {
-      id = this.props.userState.userId;
     }
     getUser(id, this.props.userState.token).then(user => {
       this.setState({
@@ -51,19 +49,14 @@ class Profile extends Component {
   sendFriendRequest = id => {};
 
   render() {
+    let isOnline = false;
+    if (this.props.usersOnline) {
+      isOnline = this.props.usersOnline.some(user => user._id === this.state.id);
+    }
     return (
       <div className="content">
-        {/* User Main Profile */}
         <Jumbotron fluid>
           <Container fluid>
-            {/* <Row>
-              <Col md={1}>
-                <img className="imgclass" src={'https://www.jetphotos.com/assets/img/user.png'} />
-              </Col>
-              <Col md={8}>
-                <h1 className="display-3">User Profile</h1>
-              </Col>
-            </Row> */}
             <Row>
               <Col sm="6" lg="6" className="ml-auto mr-auto">
                 <Card className="card-user">
@@ -75,7 +68,14 @@ class Profile extends Component {
                         <img alt="..." className="avatar" src={this.state.imageUrl} />
                         <h5 className="title">{this.state.name}</h5>
                       </a>
-                      <p>Status: {this.state.status ? 'Online' : 'Offline'}</p>
+                      <p>
+                        Status:{' '}
+                        {isOnline ? (
+                          <span className="text-success">Online</span>
+                        ) : (
+                          <span className="text-danger">Offline</span>
+                        )}
+                      </p>
                       <p>Last Sign In: {this.state.lastSignIn}</p>
                       <p>Member Since: {this.state.createdOn}</p>
                     </div>
@@ -92,23 +92,11 @@ class Profile extends Component {
                 </Card>
               </Col>
             </Row>
-
-            {/* <p className="lead">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-              officia deserunt mollit anim id est laborum.Duis aute irure dolor in reprehenderit in
-              voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-              cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-              laborum.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-              eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum.
-            </p> */}
           </Container>
         </Jumbotron>
         <Container>
           <Row>
             <Col>
-              {/* Interests */}
               <Card>
                 <CardBody>
                   <CardTitle>Friends</CardTitle>
@@ -119,7 +107,6 @@ class Profile extends Component {
               </Card>
             </Col>
             <Col>
-              {/* Events Attended */}
               <Card>
                 <CardBody>
                   <CardTitle>Previously Attended Events:</CardTitle>
@@ -141,7 +128,8 @@ class Profile extends Component {
 
 const mapStateToProps = state => {
   return {
-    userState: state.auth
+    userState: state.auth,
+    usersOnline: state.feed.usersOnline
   };
 };
 

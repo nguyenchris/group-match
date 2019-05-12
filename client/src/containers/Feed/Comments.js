@@ -92,7 +92,7 @@ class Comments extends Component {
       this.toggleEdit(id);
       editComment(value, id, this.props.postId, this.props.token)
         .then(comment => {
-          console.log(comment);
+          return comment;
         })
         .catch(err => console.log(err));
     }

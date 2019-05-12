@@ -4,14 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-// import { createLogger } from 'redux-logger';
 
 import './assets/css/nucleo-icons.css';
-// import './assets/scss/blk-design-system-react.scss?v=1.0.0';
-// import './assets/demo/demo.css';
-// import './assets/scss/black-dashboard-pro-react.scss';
-// import './assets/scss/black-dashboard-pro-react.scss';
-// import './assets/css/black-dashboard-pro-react.css';
 
 import * as serviceWorker from './serviceWorker';
 import App from './App';
@@ -26,7 +20,6 @@ const rootReducer = combineReducers({
   geo: geoReducer,
   feed: feedReducer
 });
-// const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk, logger)));
 
 export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 

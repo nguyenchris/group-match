@@ -1,9 +1,9 @@
 const axios = require('axios');
 const { getSuggestions } = require('../utils/utility');
 const querystring = require('querystring');
-const moment = require('moment-timezone');
+
 const { parseEventData } = require('../utils/utility');
-const fs = require('fs');
+
 const devEvents = require('../data/eventsJSON-dev.json');
 const db = require('../models/index');
 
@@ -53,7 +53,6 @@ exports.postCreateEvent = (req, res, next) => {
   return meetup
     .save()
     .then(result => {
-      console.log(result);
       res.status(201).json(result);
     })
     .catch(err => {

@@ -262,7 +262,7 @@ class Search extends Component {
       const query = queryString.stringify(queryObject, { arrayFormat: 'comma', encode: false });
       getEventSearch(query, this.props.token).then(result => {
         this.toggle('spinner');
-        console.log(result.data);
+
         this.setState({ searchResults: result.data.events });
       });
     } else {

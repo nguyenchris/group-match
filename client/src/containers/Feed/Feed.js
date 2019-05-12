@@ -107,7 +107,6 @@ class Feed extends Component {
     if (e.key === 'Enter' && value.length !== 0) {
       createComment(value, postId, this.props.userState.token)
         .then(({ data }) => {
-          console.log(data);
           return data;
         })
         .catch(err => this.displayError('Oops, there was an error creating your comment!'));

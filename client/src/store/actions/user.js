@@ -34,12 +34,10 @@ export const createProfile = (token, data, type) => {
       axios
         .post('/api/user/profile', data, tokenConfig(token))
         .then(response => {
-          console.log(response);
           const { aboutMe, imageUrl } = response.data;
           dispatch(profileSuccess(aboutMe, imageUrl, type));
         })
         .catch(err => {
-          console.log(err);
           dispatch(profileFail('An error occurred creating your profile!'));
         });
     }

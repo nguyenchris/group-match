@@ -8,11 +8,7 @@ import Signup from './containers/Auth/Signup';
 import Home from './containers/Home/Home';
 import Layout from './containers/Layouts/Index/Layout';
 import AdminLayout from './containers/Layouts/Admin/AdminLayout';
-// import Logout from './containers/Auth/Logout';
-// import './assets/css/blk-design-system-react.css';
 import './assets/scss/black-dashboard-pro-react.scss';
-
-// import './assets/css/black-dashboard-pro-react.css';
 
 class App extends Component {
   componentDidMount() {
@@ -25,13 +21,6 @@ class App extends Component {
     app = (
       <div>
         <Layout>
-          {/* <Switch>
-            <Route path="/login" exact component={Login} />
-            <Route path="/signup" exact component={Signup} />
-            <Route path="/search" component={Search} />
-            <Route path="/" exact component={Home} />
-            <Redirect to="/" />
-          </Switch> */}
           <Switch>
             <Route path="/login" exact render={props => <Login />} />
             <Route path="/signup" exact render={props => <Signup />} />

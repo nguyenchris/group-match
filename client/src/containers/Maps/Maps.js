@@ -293,8 +293,7 @@ class Map extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { eventData } = prevProps;
-    console.log(prevProps);
-    console.log(this.props);
+
     if (this.props.eventData) {
       if (eventData !== this.props.eventData) {
         const centerLat = parseFloat(this.props.eventData[0].venue.latitude);

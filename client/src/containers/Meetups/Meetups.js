@@ -3,8 +3,8 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { Row } from 'reactstrap';
 import MeetupCard from '../../components/MeetupCard/MeetupCard';
-
-class DevContainerEvents extends Component {
+import './Meetups.css';
+class Meetups extends Component {
   state = {
     meetups: [],
     isModalCreateOpen: false,
@@ -66,4 +66,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   null
-)(DevContainerEvents);
+)(Meetups);

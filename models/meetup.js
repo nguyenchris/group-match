@@ -11,4 +11,27 @@ const meetupSchema = new Schema({
   event: { type: Schema.Types.Mixed }
 });
 
+meetupSchema.pre('find', { query: true }, populateFinds);
+
+meetupSchema.pre('findOne', { query: true }, populateFinds);
+
+function populateFinds(next) {
+  this.populate({
+    path: 'creator',
+    model: 'User',
+    select: '_id name imageUrl status aboutMe lastSignIn createdOn friends',
+    populate: {
+      path: 'friends',
+      model: 'User',
+      select: '_id name imageUrl status aboutMe lastSignIn createdOn friends'
+    }
+  });
+  this.populate({
+    path: 'attendees',
+    model: 'User',
+    select: '_id name imageUrl status aboutMe lastSignIn createdOn friends'
+  });
+  next();
+}
+
 module.exports = mongoose.model('Meetup', meetupSchema);

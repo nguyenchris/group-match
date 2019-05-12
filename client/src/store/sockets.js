@@ -9,7 +9,6 @@ export const getSocket = userId => {
   if (!socket) {
     socket = io.connect();
     socket.on('connect', () => {
-      console.log('socket connected!');
       socket.emit('activeUser', { userId: userId, socketId: socket.id, method: 'connect' });
     });
     // socket.on('numTotalOnline', numUsers => {
@@ -23,7 +22,6 @@ export const getSocket = userId => {
     });
     // Get array of all users online
     socket.on('allOnlineUsers', users => {
-      console.log('allOnlineUsers', users);
       store.dispatch(getOnlineUsers(users.length, users));
     });
 

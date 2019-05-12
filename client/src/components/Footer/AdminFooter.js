@@ -14,9 +14,6 @@ class AdminFooter extends React.Component {
             <NavItem>
               <NavLink href="javascript:void(0)">Group Match</NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink href="javascript:void(0)">About Us</NavLink>
-            </NavItem>
           </Nav>
           <div className="copyright">
             © {new Date().getFullYear()} made with <i className="tim-icons icon-heart-2" /> by{' '}

@@ -174,7 +174,6 @@ class SinglePost extends Component {
                         onKeyPress={e => this.props.submitComment(e)}
                       />
                     </Row>
-                    {console.log(this.props.post.comments)}
                     <Comments
                       userId={this.props.userId}
                       token={this.props.token}

@@ -1,0 +1,7 @@
+.meetup-label {
+  font-weight: 700;
+}
+
+.meetup-wrapper .meetup-card .card-body .card-title {
+  margin-bottom: 0;
+}

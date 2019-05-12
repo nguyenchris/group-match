@@ -25,7 +25,6 @@ class SecondStep extends React.Component {
   verifyUrl = value => {
     try {
       new URL(value);
-      console.log(new URL(value));
       return true;
     } catch (_) {
       return false;
@@ -34,9 +33,17 @@ class SecondStep extends React.Component {
 
   handleInput = (e, stateName, type) => {
     if (this.verifyUrl(e.target.value)) {
-      this.setState({ [stateName + 'State']: 'has-success', [type]: e.target.value });
+      this.setState({
+        [stateName + 'State']: 'has-success',
+        [type]: e.target.value,
+        previewClicked: false
+      });
     } else {
-      this.setState({ [stateName + 'State']: 'has-danger', [type]: '' });
+      this.setState({
+        [stateName + 'State']: 'has-danger',
+        [type]: e.target.value,
+        previewClicked: false
+      });
     }
   };
 
@@ -60,17 +67,16 @@ class SecondStep extends React.Component {
   handlePreviewClick = (e, url) => {
     e.preventDefault();
     if (this.state.urlState !== 'has-danger') {
-      this.setState({
-        ...this.state,
+      this.setState(prevState => ({
+        ...prevState,
         previewUrl: this.state.url,
         previewClicked: true
-      });
+      }));
     }
   };
 
   verifyImage = e => {
     if (e) {
-      console.log('updateState error image');
       this.setState({
         urlState: 'has-danger',
         url: '',
@@ -101,10 +107,12 @@ class SecondStep extends React.Component {
                 placeholder="Profile Image URL (required)"
                 type="text"
                 onChange={e => this.handleInput(e, 'url', 'url')}
+                value={this.state.url}
               />
               {this.state.urlState === 'has-danger' ? (
                 <label className="error text-danger">
-                  Please enter a valid Image URL and select preview.
+                  Please enter a valid Image URL and select preview before proceeding to the next
+                  step.
                 </label>
               ) : null}
             </FormGroup>

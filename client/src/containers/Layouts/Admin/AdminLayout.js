@@ -97,7 +97,6 @@ class AdminLayout extends Component {
     }
 
     if (this.state.getWeather && latitude && longitude) {
-      console.log('getting weather');
       getCurrentWeather(latitude, longitude, token)
         .then(result => {
           this.setState({

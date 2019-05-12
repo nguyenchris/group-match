@@ -138,7 +138,7 @@ class AdminNavbar extends React.Component {
                       : null}{' '}
                     <span className="time-nav">{this.state.time}</span>
                   </div>
-                  <p className="online-nav">Online Users: {this.props.numberOnline}</p>
+                  <p className="online-nav text-success">Users Online: {this.props.numberOnline}</p>
                 </div>
                 <InputGroup className="search-bar">
                   {/* <Button

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardBody, CardTitle, CardText, Button } from 'reactstrap';
+import { Card, CardImg, CardBody, CardTitle, Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 import ModalEvent from '../../components/Modal/ModalEvent';
-
-import { Link } from 'react-router-dom';
 import { joinMeetup } from '../../utils/api';
 class MeetupCard extends Component {
   state = {
@@ -72,13 +71,16 @@ class MeetupCard extends Component {
       return;
     });
     return (
-      <div className="event-card-wrapper">
-        <Card className="event-card card-plain">
+      <div className="event-card-wrapper meetup-wrapper">
+        <Card className="event-card card-plain meetup-card">
           <CardImg top src={this.props.meetup.event.lowImage} alt="..." />
           <CardBody>
-            <CardTitle>Meetup Name: {this.props.meetup.name}</CardTitle>
             <CardTitle>
-              Creator:{' '}
+              <strong className="meetup-label">Meetup Name: </strong>
+              {this.props.meetup.name}
+            </CardTitle>
+            <CardTitle>
+              <strong className="meetup-label">Creator: </strong>
               <Link
                 to={{
                   pathname: `/user/profile/${this.props.meetup.creator._id}`
@@ -87,17 +89,32 @@ class MeetupCard extends Component {
                 {this.props.meetup.creator.name}
               </Link>
             </CardTitle>
-            <CardTitle>Meetup Description: {this.props.meetup.description}</CardTitle>
-            <CardTitle>Max allowed attendees: {this.props.meetup.maxAttendees}</CardTitle>
-            <CardTitle>Current amount of attendees: {this.props.meetup.attendees.length}</CardTitle>
-            <CardTitle>Event: {this.props.meetup.event.name}</CardTitle>
-            <CardText>
-              Time: {this.props.meetup.event.start.timeDisplay} -{' '}
+            <CardTitle>
+              <strong className="meetup-label">Event: </strong>
+              {this.props.meetup.event.name}
+            </CardTitle>
+            <CardTitle>
+              <strong className="meetup-label">Meetup Description: </strong>
+              {this.props.meetup.description}
+            </CardTitle>
+            <CardTitle>
+              <strong className="meetup-label">Max Allowed attendees: </strong>
+              {this.props.meetup.maxAttendees}
+            </CardTitle>
+            <CardTitle>
+              <strong className="meetup-label">Current amount of attendees: </strong>
+              {this.props.meetup.attendees.length}
+            </CardTitle>
+
+            <CardTitle>
+              <strong className="meetup-label">Time: </strong>
+              {this.props.meetup.event.start.timeDisplay} -{' '}
               {this.props.meetup.event.end.timeDisplay}
-            </CardText>
-            <CardText>
-              Users joining: {this.state.attendees.length > 0 ? attendees : 'No Attendees yet.'}
-            </CardText>
+            </CardTitle>
+            <CardTitle>
+              <strong className="meetup-label">Users joining: </strong>
+              {this.state.attendees.length > 0 ? attendees : 'No Attendees yet.'}
+            </CardTitle>
             <Button color="secondary" name="info" onClick={this.toggleModalDetails}>
               Details
             </Button>
