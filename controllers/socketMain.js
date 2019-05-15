@@ -41,11 +41,6 @@ function socketMain(io, socket) {
 
 function IOevents(io, event, data) {
   switch (event) {
-    // send to client number of users online
-    // case 'numTotalOnline':
-    //   return io.clients((error, clients) => {
-    //     io.emit('numTotalOnline', clients.length);
-    //   });
     case 'allOnlineUsers':
       return io.emit(event, data);
     default:

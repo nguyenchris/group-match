@@ -16,8 +16,8 @@ const InputField = props => {
         {
           'input-group-focus': props.focus
         },
-        `${invalid ? 'has-danger' : null}`,
-        `${valid ? 'has-success' : null}`
+        `${invalid ? 'has-danger' : ''}`,
+        `${valid ? 'has-success' : ''}`
       )}
     >
       <InputGroupAddon addonType="prepend">
