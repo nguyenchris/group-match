@@ -44,8 +44,8 @@ DARK_SKY_KEY=your-darksky-key
 6. Bootstrap / reactstrap
 
 ### Authors
-[Chris Nguyen](https://github.com/nguyenchris)
-[Dan Lott](https://github.com/DanielLott)
-[Dylan Barton](https://github.com/DylanBarton1856)
+* [Chris Nguyen](https://github.com/nguyenchris)
+* [Dan Lott](https://github.com/DanielLott)
+* [Dylan Barton](https://github.com/DylanBarton1856)
 
 
