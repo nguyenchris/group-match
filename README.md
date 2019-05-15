@@ -6,7 +6,9 @@ Group-Match is a social networking web app where users can interact with each ot
 
 Users can search local events to determine if they would like to create a Meet Up based on their preferences where other users can then join the Meet Up.
 
-<!-- ![](preview-gifs/customer.gif) -->
+[Visit Site](https://group-match-app.herokuapp.com)
+
+![](./group-match-preview.gif)
 
 ## Getting Started
 > Sign up for API keys
@@ -41,39 +43,9 @@ DARK_SKY_KEY=your-darksky-key
 5. Node.js
 6. Bootstrap / reactstrap
 
-<!-- 
-### Commands
-
-1. `node bamazonCustomer.js`
-
-    * Purchase a product by ID
-
-2. `node bamazonManager.js`
-
-    * View Products for Sale
-    * View Low Inventory
-    * Add to Inventory
-    * Add New Product
-
-3. `node bamazonSupervisor.js`
-
-    * View Product Sales by Department
-    * Create New Department
-
-
-### Examples
-
-1. `node bamazonCustomer.js`
-![](preview-gifs/customer.gif)
-
-2. `node bamazonManager.js`
-![](preview-gifs/manager.gif)
-
-3. `node bamazonSupervisor.js`
-![](preview-gifs/supervisor.gif)
- -->
-
-### Author
+### Authors
 [Chris Nguyen](https://github.com/nguyenchris)
+[Dan Lott](https://github.com/DanielLott)
+[Dylan Barton](https://github.com/DylanBarton1856)
 
 
