@@ -18,7 +18,8 @@ class Feed extends Component {
       posts: [],
       postsLoading: true,
       postsPageAmount: null,
-      error: null
+      error: null,
+      commentValue: ''
     };
   }
 
@@ -101,12 +102,23 @@ class Feed extends Component {
       .catch(err => this.displayError('An error occurred creating your post!'));
   }
 
+  handleInput = e => {
+    this.setState({
+      ...this.state,
+      commentValue: e.target.value
+    });
+  };
+
   submitComment = (e, isEdit) => {
     const value = e.target.value.trim();
     const postId = e.target.id;
     if (e.key === 'Enter' && value.length !== 0) {
       createComment(value, postId, this.props.userState.token)
         .then(({ data }) => {
+          this.setState(prevState => ({
+            ...prevState,
+            commentValue: ''
+          }))
           return data;
         })
         .catch(err => this.displayError('Oops, there was an error creating your comment!'));
@@ -168,6 +180,8 @@ class Feed extends Component {
                 .startOf()
                 .fromNow()}
               submitComment={this.submitComment}
+              commentValue={this.state.commentValue}
+              handleCommentInput={this.handleInput}
             />
           ))}
           {/* </Col> */}

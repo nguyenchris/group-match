@@ -169,8 +169,8 @@ class SinglePost extends Component {
                         id={this.props.post._id}
                         placeholder="Write a comment..."
                         color="info"
-                        value={this.state.commentValue}
-                        onChange={this.handleInput}
+                        value={this.props.commentValue}
+                        onChange={this.props.handleCommentInput}
                         onKeyPress={e => this.props.submitComment(e)}
                       />
                     </Row>
