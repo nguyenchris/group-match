@@ -22,6 +22,7 @@ Users can search local events to determine if they would like to create a Meet U
 
 ```shell
 $ git clone https://github.com/nguyenchris/group-match.git
+$ cd group-match
 $ npm install
 $ npm start
 ```
