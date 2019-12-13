@@ -1,6 +1,9 @@
 {
   "name": "group-match",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.16.0"
+  },
   "description": "",
   "main": "server.js",
   "scripts": {
