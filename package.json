@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/nguyenchris/group-match#readme",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bcryptjs": "^2.4.3",
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
