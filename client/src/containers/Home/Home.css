@@ -1,18 +1,29 @@
+.home-background {
+  height: 93vh;
+}
+
 .img-background {
   width: 100%;
   margin: 0;
   padding: 0;
   background-size: cover;
   background-position: center;
-  height: 100vh;
+  height: 100%;
 }
 
 .about {
   width: 100%;
   font-weight: bold;
   text-align: center;
-  background-color: purple;
-  font-size: 150%;
-  position: absolute;
-  bottom: 26px;
+  font-size: 25px;
+  padding-top: 20vh;
+}
+
+.about p {
+  /* background-color: purple; */
+  margin-bottom: 30px;
+}
+
+.about a:first-child {
+  margin-right: 10px;
 }

@@ -5,6 +5,7 @@ import classnames from 'classnames';
 const InputField = props => {
   let invalid = null;
   let valid = null;
+  console.log(props.touched)
   // Determine if the input field needs validation as well as if user has clicked away from it with an invalid input value
   if (props.shouldValidate && props.touched && !props.focus) {
     invalid = !props.invalid;
@@ -30,7 +31,6 @@ const InputField = props => {
         value={props.value}
         placeholder={props.placeholder}
         onChange={e => props.changed(e, props.id)}
-        // invalid={invalid}
         onFocus={e => props.focused(true, props.id)}
         onBlur={e => props.focused(false, props.id)}
       />

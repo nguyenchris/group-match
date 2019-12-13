@@ -61,6 +61,7 @@ exports.postCreateEvent = (req, res, next) => {
     });
 };
 
+// Gets all meetup data from DB
 exports.getMeetups = (req, res, next) => {
   db.Meetup.find()
     .then(meetups => {

@@ -84,15 +84,26 @@ class Login extends Component {
 
   // Determines if user has clicked an input field for the first time in order to prevent invalid red input to trigger at page load.
   focusHandler = (isFocus, key) => {
+    const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
+    if (isMobile) {
+        return;
+    }
     const updatedForm = {
       ...this.state.controls,
       [key]: {
         ...this.state.controls[key],
-        focus: isFocus
+        focus: isFocus,
+        touched: isFocus
       }
     };
     this.setState({ controls: updatedForm });
   };
+
+  loginGuest = (e) => {
+    e.preventDefault();
+    this.props.onAuth({ email: 'guest@groupmatch.com', password: 'groupmatchrocks' }, this.state.isLogin)
+  }
 
   render() {
     // Loop through controls object of this.state to create an array of each input type with their configuration types
@@ -136,6 +147,10 @@ class Login extends Component {
           {form}
           <Button className="btn-round" color="success" disabled={this.props.loading} block>
             {this.props.loading ? <Spinner /> : 'Submit'}
+          </Button>
+          <p style={{textAlign: 'center', margin: '20px 0 10px'}}>In a hurry?</p>
+          <Button onClick={this.loginGuest} className="btn-round" color="success" disabled={this.props.loading} block>
+            {this.props.loading ? <Spinner /> : 'Login as Guest'}
           </Button>
         </Form>
         {loginRedirect}

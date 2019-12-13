@@ -38,9 +38,7 @@ class AdminNavbar extends React.Component {
     const timeInterval = setInterval(this.getTime, 10000);
     this.setState({ timer: timeInterval });
   }
-  // componentWillUnmount() {
-  //   window.removeEventListener('resize', this.updateColor);
-  // }
+
   // function that adds color white/transparent to the navbar on resize (this is for the collapse)
   updateColor = () => {
     if (window.innerWidth < 993 && this.state.collapseOpen) {

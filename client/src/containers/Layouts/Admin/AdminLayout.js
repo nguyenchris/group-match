@@ -53,13 +53,6 @@ class AdminLayout extends Component {
     };
   }
   componentDidMount() {
-    // getUser(this.props.userId, this.props.token)
-    //   .then(result => {
-    //     this.setState({ ...this.state, userName: result.data.name, user: result.data });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
     // Get location for user
     this.props.onGetCurrentLocation();
 
@@ -110,20 +103,6 @@ class AdminLayout extends Component {
           this.getError('Unable to get current weather.');
         });
     }
-
-    // if (!e.latitude && !e.longitude && latitude && longitude) {
-    //   getCurrentWeather(latitude, longitude, token)
-    //     .then(result => {
-    //       this.setState({
-    //         timeZone: result.data.timezone,
-    //         weather: result.data.temperature,
-    //         weatherSummary: result.data.summary
-    //       });
-    //     })
-    //     .catch(err => {
-    //       this.getError('Unable to get current weather.');
-    //     });
-    // }
   }
 
   showNavbarButton = () => {

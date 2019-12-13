@@ -20,10 +20,10 @@ const userSchema = new Schema({
   ]
 });
 
+// Helper static methods to update database for repetitive queries
 userSchema.statics.updateStatus = function(id, status, socketId) {
   return this.findOneAndUpdate({ _id: id }, { status: status, socketId: socketId });
 };
-
 userSchema.statics.disconnectUser = function(socketId) {
   return this.findOneAndUpdate({ socketId: socketId }, { status: false });
 };
